@@ -7,10 +7,10 @@ using URAL.Domain.Enums;
 
 namespace URAL.Domain.Common
 {
-    public class NotifyEntity : BaseEntity
+    public abstract class NotifyEntity : BaseEntity
     {
-        public char FirstUserStatus { get; set; }
-        public char SecondUserStatus { get; set; }
+        public char FirstUserStatus { get; set; } = UserStatus.Yes;
+        public char SecondUserStatus { get; set; } = UserStatus.Unknown;
         public string? FirstUserComment { get; set; }
         public string? SecondUserComment { get; set; }
         public ulong? FirstUserId { get; set; }

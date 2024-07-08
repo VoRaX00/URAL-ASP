@@ -6,4 +6,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Base\" />
+    <Folder Include="RequestModels\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\URAL.Domain\URAL.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
