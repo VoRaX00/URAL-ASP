@@ -1,5 +1,7 @@
-﻿namespace URAL.Application.IRepositories;
+﻿using URAL.Domain.Entities;
 
-public interface IUserRepository 
+namespace URAL.Application.IRepositories;
+
+public interface IUserRepository : IBaseRepository<User>
 {
 }
