@@ -4,6 +4,6 @@ namespace URAL.Application.IRepositories;
 
 public interface ICargoRepository : IBaseRepository<Cargo>
 {
-    public IEnumerable<Cargo> GetByName(string name);
-    public IEnumerable<Cargo> GetByUserId(ulong id);
+    public IQueryable<Cargo> GetByName(string name);
+    public IQueryable<Cargo> GetByUserId(ulong id);
 }

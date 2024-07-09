@@ -2,6 +2,6 @@
 
 namespace URAL.Application.IRepositories;
 
-public interface ILoadingType : IReadRepository<LoadingType>
+public interface ILoadingTypeRepository : IReadRepository<LoadingType>
 {
 }

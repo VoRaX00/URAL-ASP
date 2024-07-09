@@ -2,6 +2,6 @@
 
 namespace URAL.Application.IRepositories;
 
-public interface IBodyType : IReadRepository<BodyType>
+public interface IBodyTypeRepository : IReadRepository<BodyType>
 {
 }

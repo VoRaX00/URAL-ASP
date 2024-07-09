@@ -5,7 +5,7 @@ namespace URAL.Application.IRepositories;
 
 public interface INotificationsRepository<TNotifyEntity> where TNotifyEntity : NotifyEntity
 {
-    public IEnumerable<TNotifyEntity> GetUserMatch(ulong userId);
-    public IEnumerable<TNotifyEntity> GetUserNotifications(ulong userId);
-    public IEnumerable<TNotifyEntity> GetUserResponses(ulong userId);
+    public IQueryable<TNotifyEntity> GetUserMatch(ulong userId);
+    public IQueryable<TNotifyEntity> GetUserNotifications(ulong userId);
+    public IQueryable<TNotifyEntity> GetUserResponses(ulong userId);
 }
