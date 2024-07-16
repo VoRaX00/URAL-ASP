@@ -6,11 +6,8 @@ namespace URAL.Application.IServices;
 public interface IUserService
 {
     Task<ulong> AddAsync(UserToAdd userToAdd);
-    Task AddRangeAsync(IEnumerable<UserToAdd> entities);
-    void Update(UserToUpdate userToUpdate);
-    void UpdateRange(IEnumerable<UserToUpdate> entities);
-    void Delete(UserToDelete userToDelete);
-    void DeleteRange(IEnumerable<UserToDelete> entities);
-    public PaginatedList<UserToGet> GetAll();
+    Task UpdateAsync(UserToUpdate userToUpdate);
+    Task DeleteAsync(UserToDelete userToDelete);
+    public Task<PaginatedList<UserToGet>> GetAllAsync(int pageSize);
     public UserToGet GetByID(ulong id);
 }

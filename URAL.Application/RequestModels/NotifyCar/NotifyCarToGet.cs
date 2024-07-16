@@ -2,6 +2,7 @@
 
 public record NotifyCarToGet
 {
+    public ulong Id { get; set; }
     public char FirstUserStatus { get; init; }
     public char SecondUserStatus { get; init; }
     public string? FirstUserComment { get; init; }
