@@ -35,9 +35,9 @@ public class CargoService(IMapper mapper, ICargoRepository repository) : ICargoS
         return await cargo;
     }
 
-    public CargoToGet GetByID(ulong id)
+    public CargoToGet GetById(ulong id)
     {
-        return mapper.Map<Cargo, CargoToGet>(repository.GetByID(id));
+        return mapper.Map<Cargo, CargoToGet>(repository.GetById(id));
     }
 
     public async Task<PaginatedList<CargoToGet>> GetByNameAsync(string name, int pageNumber)
@@ -58,7 +58,7 @@ public class CargoService(IMapper mapper, ICargoRepository repository) : ICargoS
 
     public async Task UpdateAsync(CargoToUpdate cargoToUpdate)
     {
-        var entity = repository.GetByID(cargoToUpdate.Id);
+        var entity = repository.GetById(cargoToUpdate.Id);
         mapper.Map(cargoToUpdate, entity);
         repository.Update(entity);
         await repository.SaveChangesAsync();

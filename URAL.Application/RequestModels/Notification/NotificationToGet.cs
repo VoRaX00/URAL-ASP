@@ -26,9 +26,9 @@ public class NotificationToGet
 
     private NotifyType GetNotifyType(Notify notify)
     {
-        if (notify is NotifyCarDto)
-            return NotifyType.Car;
-        return NotifyType.Cargo;
+        if (notify is NotifyCargoDto)
+            return NotifyType.Cargo;
+        return NotifyType.Car;
     }
 }
 
@@ -38,7 +38,7 @@ public abstract record Notify
 }
 
 
-public record NotifyCarDto : Notify
+public record NotifyCargoDto : Notify
 {
     public string Name { get; init; }
     public double Length { get; init; }
@@ -64,7 +64,7 @@ public record NotifyCarDto : Notify
     public ulong UserId { get; init; }
 }
 
-public record NotifyCargoDto : Notify
+public record NotifyCarDto : Notify
 {
     public string Name { get; init; }
     public double Capacity { get; init; }

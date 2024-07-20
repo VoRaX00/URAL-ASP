@@ -9,5 +9,5 @@ public interface IUserService
     Task UpdateAsync(UserToUpdate userToUpdate);
     Task DeleteAsync(UserToDelete userToDelete);
     public Task<PaginatedList<UserToGet>> GetAllAsync(int pageSize);
-    public UserToGet GetByID(ulong id);
+    public UserToGet GetById(ulong id);
 }

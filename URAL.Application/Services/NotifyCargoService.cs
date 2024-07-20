@@ -34,9 +34,9 @@ public class NotifyCargoService(IMapper mapper, INotifyCargoRepository repositor
         return await notifyCargoPage;
     }
 
-    public NotifyCargoToGet GetByID(ulong id)
+    public NotifyCargoToGet GetById(ulong id)
     {
-        return mapper.Map<NotifyCargo, NotifyCargoToGet>(repository.GetByID(id));
+        return mapper.Map<NotifyCargo, NotifyCargoToGet>(repository.GetById(id));
     }
 
     public async Task<PaginatedList<NotifyCargoToGet>> GetUserMatchAsync(ulong userId, int pageNumber)
@@ -65,7 +65,7 @@ public class NotifyCargoService(IMapper mapper, INotifyCargoRepository repositor
 
     public async Task UpdateAsync(NotifyCargoToUpdate notifyCargoToUpdate)
     {
-        var entity = repository.GetByID(notifyCargoToUpdate.Id);
+        var entity = repository.GetById(notifyCargoToUpdate.Id);
         mapper.Map(notifyCargoToUpdate, entity);
         repository.Update(entity);
         await repository.SaveChangesAsync();

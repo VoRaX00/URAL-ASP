@@ -6,7 +6,7 @@ namespace URAL.Application.IServices;
 public interface ICarService
 {
     public Task<PaginatedList<CarToGet>> GetAllAsync(int pageNumber);
-    public CarToGet GetByID(ulong id);
+    public CarToGet GetById(ulong id);
     Task<ulong> AddAsync(CarToAdd carToAdd, ulong userId);
     Task UpdateAsync(CarToUpdate carToUpdate);
     Task DeleteAsync(CarToDelete carToDelete);

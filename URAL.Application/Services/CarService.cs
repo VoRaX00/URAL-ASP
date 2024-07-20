@@ -35,9 +35,9 @@ public class CarService(IMapper mapper, ICarRepository repository) : ICarService
         return await cars;
     }
 
-    public CarToGet GetByID(ulong id)
+    public CarToGet GetById(ulong id)
     {
-        return mapper.Map<Car, CarToGet>(repository.GetByID(id));
+        return mapper.Map<Car, CarToGet>(repository.GetById(id));
     }
 
     public async Task<PaginatedList<CarToGet>> GetByNameAsync(string name, int pageNumber)
@@ -58,7 +58,7 @@ public class CarService(IMapper mapper, ICarRepository repository) : ICarService
 
     public async Task UpdateAsync(CarToUpdate carToUpdate)
     {
-        var entity = repository.GetByID(carToUpdate.Id);
+        var entity = repository.GetById(carToUpdate.Id);
         mapper.Map(carToUpdate, entity);
         repository.Update(entity);
         await repository.SaveChangesAsync();

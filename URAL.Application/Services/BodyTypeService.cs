@@ -15,6 +15,6 @@ public class BodyTypeService(IMapper mapper, IBodyTypeRepository repository) : I
 
     public BodyTypeToGet GetById(ulong id)
     {
-        return mapper.Map<BodyType, BodyTypeToGet>(repository.GetByID(id));
+        return mapper.Map<BodyType, BodyTypeToGet>(repository.GetById(id));
     }
 }

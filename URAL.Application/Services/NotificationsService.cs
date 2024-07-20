@@ -45,8 +45,8 @@ public class NotificationsService(
 
     private IQueryable<NotificationToGet> GetNotifications(IQueryable<ulong> cargoNotifyIds, IQueryable<ulong> carNotifyIds)
     {
-        var cargos = cargoNotifyIds.Select(x => cargoRepository.GetByID(x));
-        var cars = carNotifyIds.Select(x => carRepository.GetByID(x));
+        var cargos = cargoNotifyIds.Select(x => cargoRepository.GetById(x));
+        var cars = carNotifyIds.Select(x => carRepository.GetById(x));
 
         var notifyCargos = cargos.Select(x => mapper.Map<Cargo, NotifyCargoDto>(x)).Select(x => new NotificationToGet(x.Id, x));
         var notifyCars = cars.Select(x => mapper.Map<Car, NotifyCarDto>(x)).Select(x => new NotificationToGet(x.Id, x));

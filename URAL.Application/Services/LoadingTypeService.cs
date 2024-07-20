@@ -15,6 +15,6 @@ public class LoadingTypeService(IMapper mapper, ILoadingTypeRepository repositor
 
     public LoadingTypeToGet GetById(ulong id)
     {
-        return mapper.Map<LoadingType, LoadingTypeToGet>(repository.GetByID(id));
+        return mapper.Map<LoadingType, LoadingTypeToGet>(repository.GetById(id));
     }
 }

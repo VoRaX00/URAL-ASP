@@ -38,14 +38,14 @@ public class UserService(IMapper mapper, IUserRepository repository) : IUserServ
         return await cargo;
     }
 
-    public UserToGet GetByID(ulong id)
+    public UserToGet GetById(ulong id)
     {
-        return mapper.Map<User, UserToGet>(repository.GetByID(id));
+        return mapper.Map<User, UserToGet>(repository.GetById(id));
     }
 
     public async Task UpdateAsync(UserToUpdate userToUpdate)
     {
-        var entity = repository.GetByID(userToUpdate.Id);
+        var entity = repository.GetById(userToUpdate.Id);
         mapper.Map(userToUpdate, entity);
         repository.Update(entity);
         await repository.SaveChangesAsync();
