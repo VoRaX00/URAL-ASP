@@ -9,7 +9,7 @@ namespace URAL.Controllers;
 [ApiController]
 public class CarController(ICarService service) : ControllerBase
 {
-    [HttpGet]
+    [HttpGet("{id}")]
     public CarToGet Get([FromRoute] ulong id)
     {
         return service.GetById(id);
@@ -32,22 +32,25 @@ public class CarController(ICarService service) : ControllerBase
     [HttpPost]
     public async Task<ActionResult<ulong>> Add([FromBody] CarToAdd carToAdd)
     {
-        var userId = ulong.Parse(User.GetClaimByType("Id"));
+        var userId = User.GetUserIdFromClaim();
         var entityId = await service.AddAsync(carToAdd, userId);
         return entityId;
     }
 
-    [HttpPut]
-    public async Task<ActionResult> Update([FromBody] CarToUpdate carToUpdate)
+    [HttpPut("{id}")]
+    public async Task<ActionResult> Update([FromRoute] ulong id, [FromBody] CarToUpdate carToUpdate)
     {
+        if (id != carToUpdate.Id)
+            return BadRequest();
+
         await service.UpdateAsync(carToUpdate);
         return Ok();
     }
 
-    [HttpDelete]
-    public async Task<ActionResult> Delete([FromBody] CarToDelete carToDelete)
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> Delete([FromRoute] ulong id)
     {
-        await service.DeleteAsync(carToDelete);
+        await service.DeleteAsync(new(id));
         return Ok();
     }
 }

@@ -13,7 +13,7 @@ public class LoadingTypeController(ILoadingTypeService service) : ControllerBase
         return service.GetAll();
     }
 
-    [HttpGet]
+    [HttpGet("{id}")]
     public LoadingTypeToGet Get([FromRoute] ulong id)
     {
         return service.GetById(id);
