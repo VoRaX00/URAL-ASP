@@ -37,7 +37,7 @@ public class CargoController(ICargoService service) : ControllerBase
         return entityId;
     }
 
-    [HttpPatch]
+    [HttpPut]
     public async Task<ActionResult> Update([FromBody] CargoToUpdate cargoToUpdate)
     {
         await service.UpdateAsync(cargoToUpdate);

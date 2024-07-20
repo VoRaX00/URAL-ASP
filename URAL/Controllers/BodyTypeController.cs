@@ -1,9 +1,6 @@
-﻿using MapsterMapper;
-using Microsoft.AspNetCore.Mvc;
-using URAL.Application.IRepositories;
+﻿using Microsoft.AspNetCore.Mvc;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.BodyType;
-using URAL.Domain.Entities;
 
 namespace URAL.Controllers;
 

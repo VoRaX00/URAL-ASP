@@ -2,7 +2,6 @@
 using URAL.Application.Base;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.Car;
-using URAL.Application.RequestModels.Cargo;
 using URAL.Extensions;
 
 namespace URAL.Controllers;
@@ -38,7 +37,7 @@ public class CarController(ICarService service) : ControllerBase
         return entityId;
     }
 
-    [HttpPatch]
+    [HttpPut]
     public async Task<ActionResult> Update([FromBody] CarToUpdate carToUpdate)
     {
         await service.UpdateAsync(carToUpdate);
