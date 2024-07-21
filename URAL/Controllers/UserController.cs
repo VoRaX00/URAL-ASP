@@ -4,6 +4,7 @@ using URAL.Application.RequestModels.User;
 
 namespace URAL.Controllers;
 
+[Route("api/[controller]")]
 [ApiController]
 public class UserController(IUserService service) : ControllerBase
 {

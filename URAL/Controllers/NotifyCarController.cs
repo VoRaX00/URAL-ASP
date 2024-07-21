@@ -6,6 +6,7 @@ using URAL.Extensions;
 
 namespace URAL.Controllers;
 
+[Route("api/[controller]")]
 [ApiController]
 public class NotifyCarController(INotifyCarService service) : ControllerBase
 {
