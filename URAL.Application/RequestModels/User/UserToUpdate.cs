@@ -2,7 +2,7 @@
 
 public record UserToUpdate
 {
-    public ulong Id { get; init; }
+    public string Id { get; init; }
     public string Password { get; init; }
     public string Name { get; init; }
     public string Email { get; init; }

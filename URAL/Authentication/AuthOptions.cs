@@ -7,9 +7,9 @@ namespace URAL.Authentication
     {
         public const string Auth = "Auth";
 
-        public string ISSUER { get; init; }
-        public string AUDIENCE { get; init; }
-        public string KEY { get; init; }
+        public string ISSUER { get; set; }
+        public string AUDIENCE { get; set; }
+        public string KEY { get; set; }
         public SymmetricSecurityKey GetSymmetricSecurityKey() =>
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
     }

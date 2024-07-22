@@ -1,53 +1,63 @@
 ﻿using MapsterMapper;
+using Microsoft.AspNetCore.Identity;
 using URAL.Application.Base;
 using URAL.Application.Hasher;
-using URAL.Application.IRepositories;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.User;
 using URAL.Domain.Entities;
 
 namespace URAL.Application.Services;
 
-public class UserService(IMapper mapper, IHasher hasher, IUserRepository repository) : IUserService
+public class UserService(IMapper mapper, UserManager<User> userManager) : IUserService
 {
     public int PageSize { get; } = 4;
 
-    public async Task<ulong> AddAsync(UserToAdd userToAdd)
+    public async Task<string> AddAsync(UserToAdd userToAdd)
     {
         var entity = mapper.Map<UserToAdd, User>(userToAdd);
 
-        entity.Password = hasher.Hash(userToAdd.Password);
-        entity = await repository.AddAsync(entity);
-        await repository.SaveChangesAsync();
+        var result = await userManager.CreateAsync(entity, userToAdd.Password);
 
         return entity.Id;
+    }
+
+    public async Task<bool> ConfirmEmailAsync(string id, string code)
+    {
+        var entity = await userManager.FindByIdAsync(id);
+        var result = await userManager.ConfirmEmailAsync(entity, code);
+        return result.Succeeded;
     }
 
     public async Task DeleteAsync(UserToDelete userToDelete)
     {
         var entity = mapper.Map<UserToDelete, User>(userToDelete);
-        repository.Delete(entity);
-        await repository.SaveChangesAsync();
+        await userManager.DeleteAsync(entity);
+    }
+
+    public async Task<string> GenerateEmailConfirmationTokenAsync(string id)
+    {
+        var entity = new User { Id = id };
+        return await userManager.GenerateEmailConfirmationTokenAsync(entity);
     }
 
     public async Task<PaginatedList<UserToGet>> GetAllAsync(int pageNumber)
     {
-        var result = repository.GetAll().Select(x => mapper.Map<User, UserToGet>(x));
+        var result = userManager.Users.Select(x => mapper.Map<User, UserToGet>(x));
 
-        var cargo = PaginatedList<UserToGet>.Create(result, pageNumber, PageSize);
-        return await cargo;
+        var users = PaginatedList<UserToGet>.Create(result, pageNumber, PageSize);
+        return await users;
     }
 
-    public UserToGet GetById(ulong id)
+    public async Task<UserToGet> GetByIdAsync(string id)
     {
-        return mapper.Map<User, UserToGet>(repository.GetById(id));
+        var user = await userManager.FindByIdAsync(id);
+        return mapper.Map<User, UserToGet>(user);
     }
 
     public async Task UpdateAsync(UserToUpdate userToUpdate)
     {
-        var entity = repository.GetById(userToUpdate.Id);
+        var entity = await userManager.FindByIdAsync(userToUpdate.Id);
         mapper.Map(userToUpdate, entity);
-        repository.Update(entity);
-        await repository.SaveChangesAsync();
+        await userManager.UpdateAsync(entity);
     }
 }

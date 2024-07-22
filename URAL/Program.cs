@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using URAL.Application.Services;
 using URAL.Authentication;
 using URAL.Infrastructure.Context;
 
@@ -24,7 +25,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         var authOptions = builder.Configuration.GetSection(AuthOptions.Auth).Get<AuthOptions>();
-        builder.Services.AddSingleton(authOptions);
 
         options.TokenValidationParameters = new TokenValidationParameters
         {
@@ -38,9 +38,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-//builder.Services.AddServices();
+builder.Services.AddSingleton(x => builder.Configuration.GetSection("MessageService").Get<MessageServiceOptions>());
 
-// builder.Services.AddServices();
+var authOptions = builder.Configuration.GetSection(AuthOptions.Auth).Get<AuthOptions>();
+builder.Services.AddSingleton(authOptions);
+
+builder.Services.RegisterMapster();
+builder.Services.AddServices();
+
+
 
 var app = builder.Build();
 
