@@ -10,7 +10,7 @@ public interface INotifyCargoService
     Task<ulong> AddAsync(NotifyCargoToAdd notifyCargoToAdd);
     Task UpdateAsync(NotifyCargoToUpdate notifyCargoToUpdate);
     Task DeleteAsync(NotifyCargoToDelete notifyCargoToDelete);
-    public Task<PaginatedList<NotifyCargoToGet>> GetUserMatchAsync(ulong userId, int pageNumber);
-    public Task<PaginatedList<NotifyCargoToGet>> GetUserNotificationsAsync(ulong userId, int pageNumber);
-    public Task<PaginatedList<NotifyCargoToGet>> GetUserResponsesAsync(ulong userId, int pageNumber);
+    public Task<PaginatedList<NotifyCargoToGet>> GetUserMatchAsync(string userId, int pageNumber);
+    public Task<PaginatedList<NotifyCargoToGet>> GetUserNotificationsAsync(string userId, int pageNumber);
+    public Task<PaginatedList<NotifyCargoToGet>> GetUserResponsesAsync(string userId, int pageNumber);
 }

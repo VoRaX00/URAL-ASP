@@ -26,20 +26,6 @@ public class MessageService(MessageServiceOptions options) : IMessageService
 
             await client.DisconnectAsync(true);
         }
-
-        //SmtpClient client = new SmtpClient(options.SmtpClient, options.Port);
-        
-        //client.DeliveryMethod = SmtpDeliveryMethod.Network;
-        //client.UseDefaultCredentials = false;
-        //client.Credentials = new System.Net.NetworkCredential(options.From, options.Pass);
-        //client.EnableSsl = true;
-
-        //var mail = new MailMessage(options.From, emailMessage.Email);
-        //mail.Subject = emailMessage.Subject;
-        //mail.IsBodyHtml = true;
-        //mail.Body = emailMessage.Body;
-
-        //await client.SendMailAsync(mail);
     }
 }
 

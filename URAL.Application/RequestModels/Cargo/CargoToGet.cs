@@ -24,5 +24,5 @@ public record CargoToGet
     public double? PriceCashWithoutNds { get; init; }
     public bool? RequestPrice { get; init; }
     public string? Comment { get; init; }
-    public ulong UserId { get; init; }
+    public string UserId { get; init; }
 }

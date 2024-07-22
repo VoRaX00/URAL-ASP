@@ -40,7 +40,7 @@ public class NotifyCarService(IMapper mapper, INotifyCarRepository repository) :
         return mapper.Map<NotifyCar, NotifyCarToGet>(repository.GetById(id));
     }
 
-    public async Task<PaginatedList<NotifyCarToGet>> GetUserMatchAsync(ulong userId, int pageNumber)
+    public async Task<PaginatedList<NotifyCarToGet>> GetUserMatchAsync(string userId, int pageNumber)
     {
         var result = repository.GetUserMatch(userId);
 
@@ -48,7 +48,7 @@ public class NotifyCarService(IMapper mapper, INotifyCarRepository repository) :
         return await notifyCargoPage;
     }
 
-    public async Task<PaginatedList<NotifyCarToGet>> GetUserNotificationsAsync(ulong userId, int pageNumber)
+    public async Task<PaginatedList<NotifyCarToGet>> GetUserNotificationsAsync(string userId, int pageNumber)
     {
         var result = repository.GetUserNotifications(userId);
 
@@ -56,7 +56,7 @@ public class NotifyCarService(IMapper mapper, INotifyCarRepository repository) :
         return await notifyCarPage;
     }
 
-    public async Task<PaginatedList<NotifyCarToGet>> GetUserResponsesAsync(ulong userId, int pageNumber)
+    public async Task<PaginatedList<NotifyCarToGet>> GetUserResponsesAsync(string userId, int pageNumber)
     {
         var result = repository.GetUserResponses(userId);
 

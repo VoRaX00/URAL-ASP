@@ -6,7 +6,7 @@ namespace URAL.Application.IServices;
 
 public interface INotificationsService
 {
-    public Task<PaginatedList<NotificationToGet>> GetUserMatchAsync(ulong userId, int pageNumber);
-    public Task<PaginatedList<NotificationToGet>> GetUserNotificationsAsync(ulong userId, int pageNumber);
-    public Task<PaginatedList<NotificationToGet>> GetUserResponsesAsync(ulong userId, int pageNumber);
+    public Task<PaginatedList<NotificationToGet>> GetUserMatchAsync(string userId, int pageNumber);
+    public Task<PaginatedList<NotificationToGet>> GetUserNotificationsAsync(string userId, int pageNumber);
+    public Task<PaginatedList<NotificationToGet>> GetUserResponsesAsync(string userId, int pageNumber);
 }

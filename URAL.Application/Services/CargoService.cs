@@ -11,7 +11,7 @@ public class CargoService(IMapper mapper, ICargoRepository repository) : ICargoS
 {
     public int PageSize { get; } = 4;
 
-    public async Task<ulong> AddAsync(CargoToAdd cargoToAdd, ulong userId)
+    public async Task<ulong> AddAsync(CargoToAdd cargoToAdd, string userId)
     {
         var entity = mapper.Map<CargoToAdd, Cargo>(cargoToAdd);
         entity.UserId = userId;
@@ -48,7 +48,7 @@ public class CargoService(IMapper mapper, ICargoRepository repository) : ICargoS
         return await cargo;
     }
 
-    public async Task<PaginatedList<CargoToGet>> GetByUserIdAsync(ulong id, int pageNumber)
+    public async Task<PaginatedList<CargoToGet>> GetByUserIdAsync(string id, int pageNumber)
     {
         var result = repository.GetByUserId(id).Select(x => mapper.Map<Cargo, CargoToGet>(x));
 

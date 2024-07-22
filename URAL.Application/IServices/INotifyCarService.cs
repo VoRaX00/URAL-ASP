@@ -10,7 +10,7 @@ public interface INotifyCarService
     Task<ulong> AddAsync(NotifyCarToAdd notifyCarToAdd);
     Task UpdateAsync(NotifyCarToUpdate notifyCarToUpdate);
     Task DeleteAsync(NotifyCarToDelete notifyCarToDelete);
-    public Task<PaginatedList<NotifyCarToGet>> GetUserMatchAsync(ulong userId, int pageNumber);
-    public Task<PaginatedList<NotifyCarToGet>> GetUserNotificationsAsync(ulong userId, int pageNumber);
-    public Task<PaginatedList<NotifyCarToGet>> GetUserResponsesAsync(ulong userId, int pageNumber);
+    public Task<PaginatedList<NotifyCarToGet>> GetUserMatchAsync(string userId, int pageNumber);
+    public Task<PaginatedList<NotifyCarToGet>> GetUserNotificationsAsync(string userId, int pageNumber);
+    public Task<PaginatedList<NotifyCarToGet>> GetUserResponsesAsync(string userId, int pageNumber);
 }

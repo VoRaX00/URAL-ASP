@@ -61,7 +61,7 @@ public record NotifyCargoDto : Notify
     public double? PriceCashWithoutNds { get; init; }
     public bool? RequestPrice { get; init; }
     public string? Comment { get; init; }
-    public ulong UserId { get; init; }
+    public string UserId { get; init; }
 }
 
 public record NotifyCarDto : Notify
@@ -78,7 +78,7 @@ public record NotifyCarDto : Notify
     public DateOnly ReadyTo { get; init; }
     public ulong Phone { get; init; }
     public string? Comment { get; init; }
-    public ulong UserId { get; init; }
+    public string UserId { get; init; }
     public List<BodyTypeToGet> BodyTypes { get; init; }
     public List<LoadingTypeToGet> LoadingTypes { get; init; }
 }

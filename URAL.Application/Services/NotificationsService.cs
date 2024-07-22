@@ -16,7 +16,7 @@ public class NotificationsService(
 {
     public int PageSize { get; private set; } = 4;
 
-    public async Task<PaginatedList<NotificationToGet>> GetUserMatchAsync(ulong userId, int pageNumber)
+    public async Task<PaginatedList<NotificationToGet>> GetUserMatchAsync(string userId, int pageNumber)
     {
         var cargoIdUserMatchs = notifyCargoRepository.GetUserMatch(userId).Select(x => x.CargoId);
         var carIdUserMatchs = notifyCarRepository.GetUserMatch(userId).Select(x => x.CarId);
@@ -25,7 +25,7 @@ public class NotificationsService(
         return await PaginatedList<NotificationToGet>.Create(result, pageNumber, PageSize);
     }
 
-    public async Task<PaginatedList<NotificationToGet>> GetUserNotificationsAsync(ulong userId, int pageNumber)
+    public async Task<PaginatedList<NotificationToGet>> GetUserNotificationsAsync(string userId, int pageNumber)
     {
         var cargoIdUserMatchs = notifyCargoRepository.GetUserNotifications(userId).Select(x => x.CargoId);
         var carIdUserMatchs = notifyCarRepository.GetUserNotifications(userId).Select(x => x.CarId);
@@ -34,7 +34,7 @@ public class NotificationsService(
         return await PaginatedList<NotificationToGet>.Create(result, pageNumber, PageSize);
     }
 
-    public async Task<PaginatedList<NotificationToGet>> GetUserResponsesAsync(ulong userId, int pageNumber)
+    public async Task<PaginatedList<NotificationToGet>> GetUserResponsesAsync(string userId, int pageNumber)
     {
         var cargoIdUserMatchs = notifyCargoRepository.GetUserResponses(userId).Select(x => x.CargoId);
         var carIdUserMatchs = notifyCarRepository.GetUserResponses(userId).Select(x => x.CarId);
