@@ -19,7 +19,7 @@ public class UserController(AuthOptions authOptions, IUserService service) : Con
     }
 
     [HttpPost]
-    public async Task<ActionResult> Register([FromBody] UserToAdd userToAdd)
+    public async Task<ActionResult<ulong>> Register([FromBody] UserToAdd userToAdd)
     {
         var entityId = await service.AddAsync(userToAdd);
         return entityId;
