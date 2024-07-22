@@ -10,8 +10,8 @@ public static class UserTokenExtensions
         return principal.Claims.First(x => x.Type == type).Value;
     }
 
-    public static ulong GetUserIdFromClaim(this ClaimsPrincipal principal)
+    public static string GetUserIdFromClaim(this ClaimsPrincipal principal)
     {
-        return ulong.Parse(principal.GetClaimByType("Id"));
+        return principal.GetClaimByType("Id");
     }
 }

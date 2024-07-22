@@ -24,7 +24,7 @@ public class CargoController(ICargoService service) : ControllerBase
     }
 
     [HttpGet("getByUserId")]
-    public async Task<PaginatedList<CargoToGet>> GetByUserId([FromQuery] ulong id, [FromQuery] int pageNumber)
+    public async Task<PaginatedList<CargoToGet>> GetByUserId([FromQuery] string id, [FromQuery] int pageNumber)
     {
         var cargos = await service.GetByUserIdAsync(id, pageNumber);
         return cargos;

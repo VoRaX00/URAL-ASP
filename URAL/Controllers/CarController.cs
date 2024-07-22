@@ -24,7 +24,7 @@ public class CarController(ICarService service) : ControllerBase
     }
 
     [HttpGet("getByUserId")]
-    public async Task<PaginatedList<CarToGet>> GetByUserId([FromQuery] ulong id, [FromQuery] int pageNumber)
+    public async Task<PaginatedList<CarToGet>> GetByUserId([FromQuery] string id, [FromQuery] int pageNumber)
     {
         var cars = await service.GetByUserIdAsync(id, pageNumber);
         return cars;
