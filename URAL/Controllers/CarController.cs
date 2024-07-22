@@ -16,14 +16,14 @@ public class CarController(ICarService service) : ControllerBase
         return service.GetById(id);
     }
 
-    [HttpGet]
+    [HttpGet("getByName")]
     public async Task<PaginatedList<CarToGet>> GetByName([FromQuery] string name, [FromQuery] int pageNumber)
     {
         var cars = await service.GetByNameAsync(name, pageNumber);
         return cars;
     }
 
-    [HttpGet]
+    [HttpGet("getByUserId")]
     public async Task<PaginatedList<CarToGet>> GetByUserId([FromQuery] ulong id, [FromQuery] int pageNumber)
     {
         var cars = await service.GetByUserIdAsync(id, pageNumber);

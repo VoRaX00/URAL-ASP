@@ -17,21 +17,23 @@ public class UserController(AuthOptions authOptions, IUserService userService, I
         return result;
     }
 
-    [HttpPost]
+    [HttpPost("register")]
     public async Task<ActionResult<string>> Register([FromBody] UserToAdd userToAdd)
     {
         var entityId = await userService.AddAsync(userToAdd);
         var code = await userService.GenerateEmailConfirmationTokenAsync(entityId);
         var callbackUrl = Url.Action(
             "ConfirmEmail",
-            "Account",
+            "User",
             new { userId = entityId, code },
             protocol: HttpContext.Request.Scheme);
 
         await messageService.SendAsync(new(userToAdd.Email, "Confirm your account", $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>link</a>"));
+
         return entityId;
     }
 
+    [HttpPost("confirmEmail")]
     public async Task<ActionResult> ConfirmEmail(string userId, string code)
     {
         if (userId == null || code == null)

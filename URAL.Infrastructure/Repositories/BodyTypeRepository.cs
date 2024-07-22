@@ -6,7 +6,7 @@ namespace URAL.Infrastructure.Repositories;
 
 public class BodyTypeRepository : ReadRepository<BodyType>, IBodyTypeRepository
 {
-    BodyTypeRepository(UralDbContext context)
+    public BodyTypeRepository(UralDbContext context)
     {
         _context = context;
     }

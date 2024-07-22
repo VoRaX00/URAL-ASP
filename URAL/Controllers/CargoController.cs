@@ -16,14 +16,14 @@ public class CargoController(ICargoService service) : ControllerBase
         return service.GetById(id);
     }
 
-    [HttpGet]
+    [HttpGet("getByName")]
     public async Task<PaginatedList<CargoToGet>> GetByName([FromQuery] string name, [FromQuery] int pageNumber)
     {
         var cargos = await service.GetByNameAsync(name, pageNumber);
         return cargos;
     }
 
-    [HttpGet]
+    [HttpGet("getByUserId")]
     public async Task<PaginatedList<CargoToGet>> GetByUserId([FromQuery] ulong id, [FromQuery] int pageNumber)
     {
         var cargos = await service.GetByUserIdAsync(id, pageNumber);

@@ -10,7 +10,7 @@ namespace URAL.Controllers;
 [ApiController]
 public class NotificationsController(INotificationsService service) : ControllerBase
 {
-    [HttpGet]
+    [HttpGet("getUserMatch")]
     public async Task<PaginatedList<NotificationToGet>> GetUserMatch([FromQuery] int pageNumber)
     {
         var userId = User.GetUserIdFromClaim();
@@ -18,7 +18,7 @@ public class NotificationsController(INotificationsService service) : Controller
         return result;
     }
 
-    [HttpGet]
+    [HttpGet("getUserNotifications")]
     public async Task<PaginatedList<NotificationToGet>> GetUserNotifications([FromQuery] int pageNumber)
     {
         var userId = User.GetUserIdFromClaim();
@@ -26,7 +26,7 @@ public class NotificationsController(INotificationsService service) : Controller
         return result;
     }
 
-    [HttpGet]
+    [HttpGet("getUserResponses")]
     public async Task<PaginatedList<NotificationToGet>> GetUserResponses([FromQuery] int pageNumber)
     {
         var userId = User.GetUserIdFromClaim();

@@ -31,7 +31,7 @@ public class NotifyCargoController(INotifyCargoService service) : ControllerBase
         return result;
     }
 
-    [HttpGet]
+    [HttpGet("getUserMatch")]
     public async Task<PaginatedList<NotifyCargoToGet>> GetUserMatch([FromQuery] int pageNumber)
     {
         var userId = User.GetUserIdFromClaim();
@@ -39,7 +39,7 @@ public class NotifyCargoController(INotifyCargoService service) : ControllerBase
         return result;
     }
 
-    [HttpGet]
+    [HttpGet("getUserNotifications")]
     public async Task<PaginatedList<NotifyCargoToGet>> GetUserNotifications([FromQuery] int pageNumber)
     {
         var userId = User.GetUserIdFromClaim();
@@ -47,7 +47,7 @@ public class NotifyCargoController(INotifyCargoService service) : ControllerBase
         return result;
     }
 
-    [HttpGet]
+    [HttpGet("getUserResponses")]
     public async Task<PaginatedList<NotifyCargoToGet>> GetUserResponses([FromQuery] int pageNumber)
     {
         var userId = User.GetUserIdFromClaim();

@@ -26,8 +26,8 @@ public class MessageService(MessageServiceOptions options) : IMessageService
 
 public class MessageServiceOptions(string from, string pass, string smtpClient, int port)
 {
-    public readonly string From = from;
-    public readonly string Pass = pass;
-    public readonly string SmtpClient = smtpClient;
-    public readonly int Port = port;
+    public string From { get; init; } = from;
+    public string Pass { get; init; } = pass;
+    public string SmtpClient { get; init; } = smtpClient;
+    public int Port { get; init; } = port;
 }

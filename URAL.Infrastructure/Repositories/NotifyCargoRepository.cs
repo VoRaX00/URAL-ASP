@@ -6,7 +6,7 @@ namespace URAL.Infrastructure.Repositories;
 
 public class NotifyCargoRepository : NotificationsRepository<NotifyCargo>, INotifyCargoRepository
 {
-    NotifyCargoRepository(UralDbContext context)
+    public NotifyCargoRepository(UralDbContext context)
     {
         _context = context;
     }
