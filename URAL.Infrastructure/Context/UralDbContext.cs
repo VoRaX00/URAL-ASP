@@ -1,11 +1,11 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using URAL.Domain.Common;
 using URAL.Domain.Entities;
 using URAL.Infrastructure.Configurations;
 
 namespace URAL.Infrastructure.Context;
 
-public class UralDbContext(DbContextOptions<UralDbContext> options) : DbContext(options)
+public class UralDbContext(DbContextOptions<UralDbContext> options) : IdentityDbContext<User>(options)
 {
     public DbSet<BodyType> BodyTypes { get; set; }
     public DbSet<Car> Cars { get; set; }
@@ -13,7 +13,6 @@ public class UralDbContext(DbContextOptions<UralDbContext> options) : DbContext(
     public DbSet<LoadingType> LoadingTypes { get; set; }
     public DbSet<NotifyCar> NotifyCars { get; set; }
     public DbSet<NotifyCargo> NotifyCargo { get; set; }
-    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

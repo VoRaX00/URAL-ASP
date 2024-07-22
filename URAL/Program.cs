@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using URAL.Authentication;
+using URAL.Infrastructure.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
