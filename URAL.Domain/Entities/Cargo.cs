@@ -26,4 +26,7 @@ public class Cargo : BaseEntity
     public bool? RequestPrice { get; set; }
     public string? Comment { get; set; }
     public ulong UserId { get; set; }
+    public User? User { get; set; }
+
+    public List<NotifyCargo> NotifyCargo { get; set; } = [];
 }

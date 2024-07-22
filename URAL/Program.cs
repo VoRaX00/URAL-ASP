@@ -1,12 +1,20 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using URAL.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
+builder.Services.AddDbContext<UralDbContext>(
+    options =>
+    {
+        var connectionString = configuration.GetConnectionString("UralDbContext");
+        var serverVersion = ServerVersion.AutoDetect(connectionString);
+        options.UseMySql(connectionString, serverVersion);
+    }
+);
 
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -29,8 +37,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 //builder.Services.AddServices();
 
-var app = builder.Build();
+// builder.Services.AddServices();
 
+var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
@@ -38,6 +47,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapControllers();
+// app.MapControllers();
 
 app.Run();
