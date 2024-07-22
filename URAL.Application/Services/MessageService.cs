@@ -1,26 +1,45 @@
-﻿using System.Net.Mail;
-using URAL.Application.Base;
+﻿using MailKit.Net.Smtp;
+using MimeKit;
 using URAL.Application.IServices;
 
 namespace URAL.Application.Services;
 
 public class MessageService(MessageServiceOptions options) : IMessageService
 {
-    public Task SendAsync(EmailMessage emailMessage)
+    public async Task SendAsync(EmailMessage emailMessage)
     {
-        SmtpClient client = new SmtpClient(options.SmtpClient, options.Port);
+        var message = new MimeMessage();
 
-        client.DeliveryMethod = SmtpDeliveryMethod.Network;
-        client.UseDefaultCredentials = false;
-        client.Credentials = new System.Net.NetworkCredential(options.From, options.Pass);
-        client.EnableSsl = true;
+        message.From.Add(new MailboxAddress("Администрация сайта", options.From));
+        message.To.Add(new MailboxAddress("", emailMessage.Email));
+        message.Subject = emailMessage.Subject;
+        message.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+        {
+            Text = emailMessage.Body
+        };
 
-        var mail = new MailMessage(options.From, emailMessage.Email);
-        mail.Subject = emailMessage.Subject;
-        mail.Body = emailMessage.Body;
-        mail.IsBodyHtml = true;
+        using (var client = new SmtpClient())
+        {
+            await client.ConnectAsync(options.SmtpClient, options.Port, true);
+            await client.AuthenticateAsync(options.From, options.Pass);
+            await client.SendAsync(message);
 
-        return client.SendMailAsync(mail);
+            await client.DisconnectAsync(true);
+        }
+
+        //SmtpClient client = new SmtpClient(options.SmtpClient, options.Port);
+        
+        //client.DeliveryMethod = SmtpDeliveryMethod.Network;
+        //client.UseDefaultCredentials = false;
+        //client.Credentials = new System.Net.NetworkCredential(options.From, options.Pass);
+        //client.EnableSsl = true;
+
+        //var mail = new MailMessage(options.From, emailMessage.Email);
+        //mail.Subject = emailMessage.Subject;
+        //mail.IsBodyHtml = true;
+        //mail.Body = emailMessage.Body;
+
+        //await client.SendMailAsync(mail);
     }
 }
 
