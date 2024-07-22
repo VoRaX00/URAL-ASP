@@ -4,6 +4,7 @@ using URAL.Application.RequestModels.LoadingType;
 
 namespace URAL.Controllers;
 
+[Route("api/[controller]")]
 [ApiController]
 public class LoadingTypeController(ILoadingTypeService service) : ControllerBase
 {

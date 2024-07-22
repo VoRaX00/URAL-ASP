@@ -1,25 +1,25 @@
 ﻿using MapsterMapper;
 using URAL.Application.Base;
+using URAL.Application.Hasher;
 using URAL.Application.IRepositories;
 using URAL.Application.IServices;
-using URAL.Application.RequestModels.Car;
-using URAL.Application.RequestModels.Cargo;
-using URAL.Application.RequestModels.NotifyCar;
-using URAL.Application.RequestModels.NotifyCargo;
 using URAL.Application.RequestModels.User;
 using URAL.Domain.Entities;
 
 namespace URAL.Application.Services;
 
-public class UserService(IMapper mapper, IUserRepository repository) : IUserService
+public class UserService(IMapper mapper, IHasher hasher, IUserRepository repository) : IUserService
 {
     public int PageSize { get; } = 4;
 
     public async Task<ulong> AddAsync(UserToAdd userToAdd)
     {
         var entity = mapper.Map<UserToAdd, User>(userToAdd);
+
+        entity.Password = hasher.Hash(userToAdd.Password);
         entity = await repository.AddAsync(entity);
         await repository.SaveChangesAsync();
+
         return entity.Id;
     }
 

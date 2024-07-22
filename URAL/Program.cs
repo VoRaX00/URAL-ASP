@@ -1,11 +1,5 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.OAuth;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using URAL.Application.Extensions;
-using URAL.Domain.Entities;
-using URAL.Infrastructure;
-using URAL.Infrastructure.Context;
+using URAL.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -21,6 +15,27 @@ builder.Services.AddDbContext<UralDbContext>(
         options.UseMySql(connectionString, serverVersion);
     }
 );
+
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        var authOptions = builder.Configuration.GetSection(AuthOptions.Auth).Get<AuthOptions>();
+        builder.Services.AddSingleton(authOptions);
+
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = authOptions.ISSUER,
+            ValidateAudience = true,
+            ValidAudience = authOptions.AUDIENCE,
+            ValidateLifetime = true,
+            IssuerSigningKey = authOptions.GetSymmetricSecurityKey(),
+            ValidateIssuerSigningKey = true
+        };
+    });
+
+//builder.Services.AddServices();
 
 // builder.Services.AddServices();
 
