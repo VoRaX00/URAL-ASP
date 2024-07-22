@@ -10,4 +10,8 @@
     <ProjectReference Include="..\URAL.Application\URAL.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
 </Project>
