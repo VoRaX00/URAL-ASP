@@ -51,9 +51,13 @@ public class UserService(IMapper mapper, UserManager<User> userManager) : IUserS
         return await users;
     }
 
-    public async Task<UserToGet> GetByIdAsync(string id)
+    public async Task<UserToGet?> GetByIdAsync(string id)
     {
         var user = await userManager.FindByIdAsync(id);
+
+        if (user == null)
+            return null;
+
         return mapper.Map<User, UserToGet>(user);
     }
 

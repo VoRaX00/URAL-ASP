@@ -13,8 +13,13 @@ public class BodyTypeService(IMapper mapper, IBodyTypeRepository repository) : I
         return repository.GetAll().Select(x => mapper.Map<BodyType, BodyTypeToGet>(x));
     }
 
-    public BodyTypeToGet GetById(ulong id)
+    public BodyTypeToGet? GetById(ulong id)
     {
-        return mapper.Map<BodyType, BodyTypeToGet>(repository.GetById(id));
+        var entity = repository.GetById(id);
+
+        if (entity is null)
+            return null;
+
+        return mapper.Map<BodyType, BodyTypeToGet>(entity);
     }
 }

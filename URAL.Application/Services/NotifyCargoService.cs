@@ -34,9 +34,14 @@ public class NotifyCargoService(IMapper mapper, INotifyCargoRepository repositor
         return await notifyCargoPage;
     }
 
-    public NotifyCargoToGet GetById(ulong id)
+    public NotifyCargoToGet? GetById(ulong id)
     {
-        return mapper.Map<NotifyCargo, NotifyCargoToGet>(repository.GetById(id));
+        var result = repository.GetById(id);
+
+        if (result == null)
+            return null;
+
+        return mapper.Map<NotifyCargo, NotifyCargoToGet>(result);
     }
 
     public async Task<PaginatedList<NotifyCargoToGet>> GetUserMatchAsync(string userId, int pageNumber)

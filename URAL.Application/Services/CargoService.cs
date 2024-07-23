@@ -35,9 +35,14 @@ public class CargoService(IMapper mapper, ICargoRepository repository) : ICargoS
         return await cargo;
     }
 
-    public CargoToGet GetById(ulong id)
+    public CargoToGet? GetById(ulong id)
     {
-        return mapper.Map<Cargo, CargoToGet>(repository.GetById(id));
+        var entity = repository.GetById(id);
+
+        if (entity is null)
+            return null;
+
+        return mapper.Map<Cargo, CargoToGet>(entity);
     }
 
     public async Task<PaginatedList<CargoToGet>> GetByNameAsync(string name, int pageNumber)

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.User;
 using URAL.Authentication;
@@ -14,7 +13,11 @@ public class UserController(AuthOptions authOptions, IUserService userService, I
     public async Task<ActionResult<UserToGet>> Get([FromRoute] string id)
     {
         var result = await userService.GetByIdAsync(id);
-        return result;
+
+        if (result == null)
+            return NotFound();
+
+        return Ok(result);
     }
 
     [HttpPost("register")]
@@ -34,7 +37,7 @@ public class UserController(AuthOptions authOptions, IUserService userService, I
     }
 
     [HttpPost("confirmEmail")]
-    public async Task<ActionResult> ConfirmEmail(string userId, string code)
+    public async Task<ActionResult> ConfirmEmail([FromQuery] string userId, [FromQuery] string code)
     {
         if (userId == null || code == null)
             return BadRequest();

@@ -6,7 +6,7 @@ namespace URAL.Application.IServices;
 public interface ICargoService
 {
     public Task<PaginatedList<CargoToGet>> GetAllAsync(int pageNumber);
-    public CargoToGet GetById(ulong id);
+    public CargoToGet? GetById(ulong id);
     Task<ulong> AddAsync(CargoToAdd cargoToAdd, string userId);
     Task UpdateAsync(CargoToUpdate cargoToUpdate);
     Task DeleteAsync(CargoToDelete cargoToDelete);

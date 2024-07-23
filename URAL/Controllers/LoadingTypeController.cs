@@ -15,8 +15,13 @@ public class LoadingTypeController(ILoadingTypeService service) : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public LoadingTypeToGet Get([FromRoute] ulong id)
+    public ActionResult<LoadingTypeToGet> Get([FromRoute] ulong id)
     {
-        return service.GetById(id);
+        var result = service.GetById(id);
+
+        if (result == null)
+            return NotFound();
+
+        return Ok(result);
     }
 }

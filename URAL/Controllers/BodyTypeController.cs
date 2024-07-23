@@ -15,8 +15,13 @@ public class BodyTypeController(IBodyTypeService service) : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public BodyTypeToGet Get([FromRoute] ulong id)
+    public ActionResult<BodyTypeToGet> Get([FromRoute] ulong id)
     {
-        return service.GetById(id);
+        var result = service.GetById(id);
+
+        if (result is null)
+            NotFound();
+
+        return Ok(result);
     }
 }

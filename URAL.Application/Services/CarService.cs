@@ -35,9 +35,14 @@ public class CarService(IMapper mapper, ICarRepository repository) : ICarService
         return await cars;
     }
 
-    public CarToGet GetById(ulong id)
+    public CarToGet? GetById(ulong id)
     {
-        return mapper.Map<Car, CarToGet>(repository.GetById(id));
+        var entity = repository.GetById(id);
+
+        if (entity is null)
+            return null;
+
+        return mapper.Map<Car, CarToGet>(entity);
     }
 
     public async Task<PaginatedList<CarToGet>> GetByNameAsync(string name, int pageNumber)

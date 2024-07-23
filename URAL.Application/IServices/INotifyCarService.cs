@@ -6,7 +6,7 @@ namespace URAL.Application.IServices;
 public interface INotifyCarService
 {
     public Task<PaginatedList<NotifyCarToGet>> GetAllAsync(int pageNumber);
-    public NotifyCarToGet GetById(ulong id);
+    public NotifyCarToGet? GetById(ulong id);
     Task<ulong> AddAsync(NotifyCarToAdd notifyCarToAdd);
     Task UpdateAsync(NotifyCarToUpdate notifyCarToUpdate);
     Task DeleteAsync(NotifyCarToDelete notifyCarToDelete);

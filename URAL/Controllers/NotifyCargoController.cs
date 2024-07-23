@@ -28,7 +28,11 @@ public class NotifyCargoController(INotifyCargoService service) : ControllerBase
     public ActionResult<NotifyCargoToGet> Get([FromRoute] ulong id)
     {
         var result = service.GetById(id);
-        return result;
+
+        if (result == null)
+            return NotFound();
+
+        return Ok(result);
     }
 
     [HttpGet("getUserMatch")]

@@ -9,7 +9,7 @@ public interface IUserService
     Task UpdateAsync(UserToUpdate userToUpdate);
     Task DeleteAsync(UserToDelete userToDelete);
     public Task<PaginatedList<UserToGet>> GetAllAsync(int pageSize);
-    public Task<UserToGet> GetByIdAsync(string id);
+    public Task<UserToGet?> GetByIdAsync(string id);
     public Task<string> GenerateEmailConfirmationTokenAsync(string id);
     public Task<bool> ConfirmEmailAsync(string id, string code);
 }

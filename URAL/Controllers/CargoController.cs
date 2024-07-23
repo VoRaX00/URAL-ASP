@@ -11,9 +11,14 @@ namespace URAL.Controllers;
 public class CargoController(ICargoService service) : ControllerBase
 {
     [HttpGet("{id}")]
-    public CargoToGet Get([FromRoute] ulong id)
+    public ActionResult<CargoToGet> Get([FromRoute] ulong id)
     {
-        return service.GetById(id);
+        var result = service.GetById(id);
+
+        if (result is null)
+            return NotFound();
+
+        return Ok(result);
     }
 
     [HttpGet("getByName")]

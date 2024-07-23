@@ -28,7 +28,11 @@ public class NotifyCarController(INotifyCarService service) : ControllerBase
     public ActionResult<NotifyCarToGet> Get([FromRoute] ulong id)
     {
         var result = service.GetById(id);
-        return result;
+
+        if (result == null)
+            return NotFound();
+
+        return Ok(result);
     }
 
     [HttpGet("getUserMatch")]
