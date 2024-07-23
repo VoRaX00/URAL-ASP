@@ -15,7 +15,13 @@ public class UserService(IMapper mapper, UserManager<User> userManager) : IUserS
     public async Task<string> AddAsync(UserToAdd userToAdd)
     {
         var entity = mapper.Map<UserToAdd, User>(userToAdd);
+        entity.DateJoined = DateTime.Now;
         var result = await userManager.CreateAsync(entity, userToAdd.Password);
+
+        if (!result.Succeeded)
+            foreach (IdentityError error in result.Errors)
+                Console.WriteLine($"Oops! {error.Description} {error.Code}");
+
         return entity.Id;
     }
 

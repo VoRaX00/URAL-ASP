@@ -8,6 +8,7 @@ using URAL.Authentication;
 using URAL.Domain.Entities;
 using URAL.Infrastructure.Context;
 using URAL.Infrastructure.Extension;
+using URAL.UserValidators;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -22,7 +23,19 @@ builder.Services.AddDbContext<UralDbContext>(
         options.UseMySql(connectionString, serverVersion);
     }
 );
-builder.Services.AddIdentity<User, IdentityRole>()
+
+builder.Services.AddScoped<IUserValidator<User>, CustomUserNameValidator>();
+builder.Services.AddIdentity<User, IdentityRole>(
+    options =>
+    {
+        options.SignIn.RequireConfirmedAccount = true;
+        options.Password.RequireDigit = false;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequiredLength = 4;
+        options.Password.RequiredUniqueChars = 1;
+    })
     .AddEntityFrameworkStores<UralDbContext>()
     .AddDefaultTokenProviders();
 
