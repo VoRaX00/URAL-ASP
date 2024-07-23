@@ -23,7 +23,6 @@ public class UralDbContext(DbContextOptions<UralDbContext> options) : IdentityDb
         modelBuilder.ApplyConfiguration(new NotifyCarConfiguration());
         modelBuilder.ApplyConfiguration(new NotifyCargoConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
-        
         base.OnModelCreating(modelBuilder);
     }
 }

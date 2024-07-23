@@ -6,7 +6,6 @@ namespace URAL.Infrastructure.Repositories;
 
 public class CarRepository : BaseRepository<Car>, ICarRepository
 {
-
     public CarRepository(UralDbContext context)
     {
         _context = context;

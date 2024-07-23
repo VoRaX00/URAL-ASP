@@ -15,9 +15,7 @@ public class UserService(IMapper mapper, UserManager<User> userManager) : IUserS
     public async Task<string> AddAsync(UserToAdd userToAdd)
     {
         var entity = mapper.Map<UserToAdd, User>(userToAdd);
-
         var result = await userManager.CreateAsync(entity, userToAdd.Password);
-
         return entity.Id;
     }
 
@@ -43,8 +41,7 @@ public class UserService(IMapper mapper, UserManager<User> userManager) : IUserS
     public async Task<PaginatedList<UserToGet>> GetAllAsync(int pageNumber)
     {
         var result = userManager.Users.Select(x => mapper.Map<User, UserToGet>(x));
-
-        var users = PaginatedList<UserToGet>.Create(result, pageNumber, PageSize);
+        var users = PaginatedList<UserToGet>.Create(result, pageNumber, PageSize);  
         return await users;
     }
 
