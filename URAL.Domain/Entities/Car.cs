@@ -16,7 +16,7 @@ public class Car : BaseEntity
     public DateOnly ReadyTo { get; set; }
     public ulong Phone { get; set; }
     public string? Comment { get; set; }
-    public ulong UserId { get; set; }
+    public string UserId { get; set; }
     public User? User { get; set; }
     public List<BodyType> BodyTypes { get; set; } = [];
     public List<LoadingType> LoadingTypes { get; set; } = [];

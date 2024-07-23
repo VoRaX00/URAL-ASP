@@ -9,19 +9,19 @@ public class NotificationsRepository<TNotifyEntity> : BaseRepository<TNotifyEnti
 {
     protected UralDbContext _context;
     
-    public IQueryable<TNotifyEntity> GetUserMatch(ulong userId)
+    public IQueryable<TNotifyEntity> GetUserMatch(string userId)
     {
         return _context.Set<TNotifyEntity>().Where(notify => 
             (notify.FirstUserId == userId || notify.SecondUserId == userId) 
             && notify.FirstUserStatus == UserStatus.Yes && notify.SecondUserStatus == UserStatus.Yes);
     }
 
-    public IQueryable<TNotifyEntity> GetUserNotifications(ulong userId)
+    public IQueryable<TNotifyEntity> GetUserNotifications(string userId)
     {
         return _context.Set<TNotifyEntity>().Where(notify => notify.SecondUserId == userId);
     }
 
-    public IQueryable<TNotifyEntity> GetUserResponses(ulong userId)
+    public IQueryable<TNotifyEntity> GetUserResponses(string userId)
     {
         return _context.Set<TNotifyEntity>().Where(notify => notify.FirstUserId == userId);
     }

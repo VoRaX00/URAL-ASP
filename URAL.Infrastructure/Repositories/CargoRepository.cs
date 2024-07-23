@@ -17,8 +17,8 @@ public class CargoRepository : BaseRepository<Cargo>, ICargoRepository
         return _context.Cargo.Where(cargo => cargo.Name == name);
     }
 
-    public IQueryable<Cargo> GetByUserId(ulong id)
+    public IQueryable<Cargo> GetByUserId(string id)
     {
-        return _context.Cargo.Where(cargo => cargo.Id == id);
+        return _context.Cargo.Where(cargo => cargo.UserId == id);
     }
 }

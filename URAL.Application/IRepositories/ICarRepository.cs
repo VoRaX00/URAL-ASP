@@ -5,5 +5,5 @@ namespace URAL.Application.IRepositories;
 public interface ICarRepository : IBaseRepository<Car>
 {
     public IQueryable<Car> GetByName(string name);
-    public IQueryable<Car> GetByUserId(ulong id);
+    public IQueryable<Car> GetByUserId(string id);
 }
