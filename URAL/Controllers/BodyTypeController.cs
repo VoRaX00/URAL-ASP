@@ -20,7 +20,7 @@ public class BodyTypeController(IBodyTypeService service) : ControllerBase
         var result = service.GetById(id);
 
         if (result is null)
-            NotFound();
+            return NotFound();
 
         return Ok(result);
     }

@@ -6,9 +6,7 @@ using URAL.Infrastructure.Context;
 namespace URAL.Infrastructure.Repositories;
 
 public class BaseRepository<TEntity> : ReadRepository<TEntity>, IBaseRepository<TEntity> where TEntity : BaseEntity
-{
-    protected UralDbContext _context;
-    
+{    
     public async Task<TEntity> AddAsync(TEntity entity)
     {
         await _context.Set<TEntity>().AddAsync(entity);

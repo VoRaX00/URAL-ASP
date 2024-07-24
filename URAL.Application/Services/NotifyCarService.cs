@@ -20,11 +20,17 @@ public class NotifyCarService(IMapper mapper, INotifyCarRepository repository) :
         return entity.Id;
     }
 
-    public async Task DeleteAsync(NotifyCarToDelete notifyCarToDelete)
+    public async Task<bool> DeleteAsync(NotifyCarToDelete notifyCarToDelete)
     {
-        var entity = mapper.Map<NotifyCarToDelete, NotifyCar>(notifyCarToDelete);
+        var entity = repository.GetById(notifyCarToDelete.Id);
+
+        if (entity is null)
+            return false;
+
         repository.Delete(entity);
         await repository.SaveChangesAsync();
+
+        return true;
     }
 
     public async Task<PaginatedList<NotifyCarToGet>> GetAllAsync(int pageNumber)
@@ -69,12 +75,18 @@ public class NotifyCarService(IMapper mapper, INotifyCarRepository repository) :
         return await notifyCarPage;
     }
 
-    public async Task UpdateAsync(NotifyCarToUpdate notifyCarToUpdate)
+    public async Task<bool> UpdateAsync(NotifyCarToUpdate notifyCarToUpdate)
     {
         var entity = repository.GetById(notifyCarToUpdate.Id);
+
+        if (entity is null) 
+            return false;
+
         mapper.Map(notifyCarToUpdate, entity);
         repository.Update(entity);
         await repository.SaveChangesAsync();
+
+        return true;
     }
 
     private async Task<PaginatedList<NotifyCarToGet>> MapToPaginatedList(IQueryable<NotifyCar> cargo, int pageNumber)

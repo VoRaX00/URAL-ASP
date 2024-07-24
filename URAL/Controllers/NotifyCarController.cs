@@ -20,8 +20,9 @@ public class NotifyCarController(INotifyCarService service) : ControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete([FromRoute] ulong id)
     {
-        await service.DeleteAsync(new(id));
-        return Ok();
+        var isSuccess = await service.DeleteAsync(new(id));
+
+        return isSuccess ? Ok() : NotFound();
     }
 
     [HttpGet("{id}")]
@@ -65,7 +66,8 @@ public class NotifyCarController(INotifyCarService service) : ControllerBase
         if (id != notifyCarToUpdate.Id)
             return BadRequest();
 
-        await service.UpdateAsync(notifyCarToUpdate);
-        return Ok();
+        var isSuccess = await service.UpdateAsync(notifyCarToUpdate);
+
+        return isSuccess ? Ok() : NotFound();
     }
 }

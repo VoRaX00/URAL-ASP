@@ -20,11 +20,17 @@ public class CargoService(IMapper mapper, ICargoRepository repository) : ICargoS
         return entity.Id;
     }
 
-    public async Task DeleteAsync(CargoToDelete cargoToDelete)
+    public async Task<bool> DeleteAsync(CargoToDelete cargoToDelete)
     {
-        var entity = mapper.Map<CargoToDelete, Cargo>(cargoToDelete);
+        var entity = repository.GetById(cargoToDelete.Id);
+
+        if (entity is null)
+            return false;
+
         repository.Delete(entity);
         await repository.SaveChangesAsync();
+
+        return true;
     }
 
     public async Task<PaginatedList<CargoToGet>> GetAllAsync(int pageNumber)
@@ -61,11 +67,17 @@ public class CargoService(IMapper mapper, ICargoRepository repository) : ICargoS
         return await cargo;
     }
 
-    public async Task UpdateAsync(CargoToUpdate cargoToUpdate)
+    public async Task<bool> UpdateAsync(CargoToUpdate cargoToUpdate)
     {
         var entity = repository.GetById(cargoToUpdate.Id);
+
+        if (entity is null) 
+            return false;
+
         mapper.Map(cargoToUpdate, entity);
         repository.Update(entity);
         await repository.SaveChangesAsync();
+
+        return true;
     }
 }

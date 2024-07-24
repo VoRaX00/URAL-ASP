@@ -49,14 +49,16 @@ public class CarController(ICarService service) : ControllerBase
         if (id != carToUpdate.Id)
             return BadRequest();
 
-        await service.UpdateAsync(carToUpdate);
-        return Ok();
+        var isSuccess = await service.UpdateAsync(carToUpdate);
+
+        return isSuccess ? Ok() : NotFound();
     }
 
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete([FromRoute] ulong id)
     {
-        await service.DeleteAsync(new(id));
-        return Ok();
+        var isSuccess = await service.DeleteAsync(new(id));
+
+        return isSuccess ? Ok() : NotFound();
     }
 }

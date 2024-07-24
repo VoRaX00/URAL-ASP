@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using URAL.Application.Converters;
 using URAL.Application.Extensions;
 using URAL.Application.Services;
 using URAL.Authentication;
@@ -9,11 +10,19 @@ using URAL.Domain.Entities;
 using URAL.Infrastructure.Context;
 using URAL.Infrastructure.Extension;
 using URAL.UserValidators;
+using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi.Any;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+    options.MapType<DateOnly>(() => new OpenApiSchema
+    {
+        Type = "string",
+        Format = "date",
+        Example = new OpenApiString("2000-01-01")
+    }));
 
 builder.Services.AddDbContext<UralDbContext>(
     options =>

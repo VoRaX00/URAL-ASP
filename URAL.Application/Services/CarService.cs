@@ -20,11 +20,17 @@ public class CarService(IMapper mapper, ICarRepository repository) : ICarService
         return entity.Id;
     }
 
-    public async Task DeleteAsync(CarToDelete carToDelete)
+    public async Task<bool> DeleteAsync(CarToDelete carToDelete)
     {
-        var entity = mapper.Map<CarToDelete, Car>(carToDelete);
+        var entity = repository.GetById(carToDelete.Id);
+
+        if (entity is null)
+            return false;
+
         repository.Delete(entity);
         await repository.SaveChangesAsync();
+
+        return true;
     }
 
     public async Task<PaginatedList<CarToGet>> GetAllAsync(int pageNumber)
@@ -61,11 +67,17 @@ public class CarService(IMapper mapper, ICarRepository repository) : ICarService
         return await cars;
     }
 
-    public async Task UpdateAsync(CarToUpdate carToUpdate)
+    public async Task<bool> UpdateAsync(CarToUpdate carToUpdate)
     {
         var entity = repository.GetById(carToUpdate.Id);
+
+        if (entity is null) 
+            return false;
+
         mapper.Map(carToUpdate, entity);
         repository.Update(entity);
         await repository.SaveChangesAsync();
+
+        return true;
     }
 }

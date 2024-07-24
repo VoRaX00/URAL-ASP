@@ -49,14 +49,16 @@ public class CargoController(ICargoService service) : ControllerBase
         if (id != cargoToUpdate.Id)
             return BadRequest();
 
-        await service.UpdateAsync(cargoToUpdate);
-        return Ok();
+        var isSuccess = await service.UpdateAsync(cargoToUpdate);
+
+        return isSuccess ? Ok() : NotFound();
     }
 
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete([FromRoute] ulong id)
     {
-        await service.DeleteAsync(new(id));
-        return Ok();
+        var isSuccess = await service.DeleteAsync(new(id));
+
+        return isSuccess ? Ok() : NotFound();
     }
 }

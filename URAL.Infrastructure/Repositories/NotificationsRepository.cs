@@ -6,9 +6,7 @@ using URAL.Infrastructure.Context;
 namespace URAL.Infrastructure.Repositories;
 
 public class NotificationsRepository<TNotifyEntity> : BaseRepository<TNotifyEntity>, INotificationsRepository<TNotifyEntity> where TNotifyEntity : NotifyEntity
-{
-    protected UralDbContext _context;
-    
+{    
     public IQueryable<TNotifyEntity> GetUserMatch(string userId)
     {
         return _context.Set<TNotifyEntity>().Where(notify => 

@@ -53,8 +53,9 @@ public class UserController(AuthOptions authOptions, IUserService userService, I
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete([FromRoute] string id)
     {
-        await userService.DeleteAsync(new(id));
-        return Ok();
+        var isSuccess = await userService.DeleteAsync(new(id));
+
+        return isSuccess ? Ok() : NotFound();
     }
 
     [HttpPut("{id}")]
@@ -63,7 +64,8 @@ public class UserController(AuthOptions authOptions, IUserService userService, I
         if (id != userToUpdate.Id)
             return BadRequest();
 
-        await userService.UpdateAsync(userToUpdate);
-        return Ok();
+        var isSuccess = await userService.UpdateAsync(userToUpdate);
+
+        return isSuccess ? Ok() : NotFound();
     }
 }

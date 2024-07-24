@@ -5,6 +5,7 @@ using URAL.Application.Hasher;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.User;
 using URAL.Domain.Entities;
+using URAL.Domain.Exceptions;
 
 namespace URAL.Application.Services;
 
@@ -19,8 +20,7 @@ public class UserService(IMapper mapper, UserManager<User> userManager) : IUserS
         var result = await userManager.CreateAsync(entity, userToAdd.Password);
 
         if (!result.Succeeded)
-            foreach (IdentityError error in result.Errors)
-                Console.WriteLine($"Oops! {error.Description} {error.Code}");
+            throw new NotValidUserException(entity, result.Errors);
 
         return entity.Id;
     }
@@ -32,10 +32,15 @@ public class UserService(IMapper mapper, UserManager<User> userManager) : IUserS
         return result.Succeeded;
     }
 
-    public async Task DeleteAsync(UserToDelete userToDelete)
+    public async Task<bool> DeleteAsync(UserToDelete userToDelete)
     {
-        var entity = mapper.Map<UserToDelete, User>(userToDelete);
-        await userManager.DeleteAsync(entity);
+        var entity = await userManager.FindByIdAsync(userToDelete.Id);
+
+        if (entity == null)
+            return false;
+
+        var result = await userManager.DeleteAsync(entity);
+        return result.Succeeded;
     }
 
     public async Task<string> GenerateEmailConfirmationTokenAsync(string id)
@@ -61,10 +66,16 @@ public class UserService(IMapper mapper, UserManager<User> userManager) : IUserS
         return mapper.Map<User, UserToGet>(user);
     }
 
-    public async Task UpdateAsync(UserToUpdate userToUpdate)
+    public async Task<bool> UpdateAsync(UserToUpdate userToUpdate)
     {
         var entity = await userManager.FindByIdAsync(userToUpdate.Id);
+
+        if (entity == null)
+            return false;
+
         mapper.Map(userToUpdate, entity);
-        await userManager.UpdateAsync(entity);
+        var result = await userManager.UpdateAsync(entity);
+
+        return result.Succeeded;
     }
 }
