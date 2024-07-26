@@ -6,7 +6,7 @@ using URAL.Extensions;
 
 namespace URAL.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/[controller]/[action]")]
 [ApiController]
 public class NotifyCarController(INotifyCarService service) : ControllerBase
 {
@@ -36,7 +36,7 @@ public class NotifyCarController(INotifyCarService service) : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("getUserMatch")]
+    [HttpGet]
     public async Task<PaginatedList<NotifyCarToGet>> GetUserMatch([FromQuery] int pageNumber)
     {
         var userId = User.GetUserIdFromClaim();
@@ -44,7 +44,7 @@ public class NotifyCarController(INotifyCarService service) : ControllerBase
         return result;
     }
 
-    [HttpGet("getUserNotifications")]
+    [HttpGet]
     public async Task<PaginatedList<NotifyCarToGet>> GetUserNotifications([FromQuery] int pageNumber)
     {
         var userId = User.GetUserIdFromClaim();
@@ -52,7 +52,7 @@ public class NotifyCarController(INotifyCarService service) : ControllerBase
         return result;
     }
 
-    [HttpGet("getUserResponses")]
+    [HttpGet]
     public async Task<PaginatedList<NotifyCarToGet>> GetUserResponses([FromQuery] int pageNumber)
     {
         var userId = User.GetUserIdFromClaim();

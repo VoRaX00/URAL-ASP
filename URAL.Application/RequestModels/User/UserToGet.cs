@@ -10,7 +10,7 @@ public record UserToGet
     public string Image { get; init; }
     public bool IsActive { get; init; }
     public bool IsStaff { get; init; }
-    public bool IsSuperuser { get; init; }
+    public bool EmailConfirmed { get; init; }
     public DateTime DateJoined { get; init; }
     public DateTime? LastLogin { get; init; }
 }

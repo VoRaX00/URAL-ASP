@@ -6,11 +6,11 @@ using URAL.Extensions;
 
 namespace URAL.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/[controller]/[action]")]
 [ApiController]
 public class NotificationsController(INotificationsService service) : ControllerBase
 {
-    [HttpGet("getUserMatch")]
+    [HttpGet]
     public async Task<PaginatedList<NotificationToGet>> GetUserMatch([FromQuery] int pageNumber)
     {
         var userId = User.GetUserIdFromClaim();
@@ -18,7 +18,7 @@ public class NotificationsController(INotificationsService service) : Controller
         return result;
     }
 
-    [HttpGet("getUserNotifications")]
+    [HttpGet]
     public async Task<PaginatedList<NotificationToGet>> GetUserNotifications([FromQuery] int pageNumber)
     {
         var userId = User.GetUserIdFromClaim();
@@ -26,7 +26,7 @@ public class NotificationsController(INotificationsService service) : Controller
         return result;
     }
 
-    [HttpGet("getUserResponses")]
+    [HttpGet]
     public async Task<PaginatedList<NotificationToGet>> GetUserResponses([FromQuery] int pageNumber)
     {
         var userId = User.GetUserIdFromClaim();

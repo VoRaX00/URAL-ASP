@@ -11,5 +11,4 @@ public record UserToUpdate
     public string Image { get; init; }
     public bool IsActive { get; init; }
     public bool IsStaff { get; init; }
-    public bool IsSuperuser { get; init; }
 }

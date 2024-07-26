@@ -4,7 +4,7 @@ using URAL.Application.RequestModels.BodyType;
 
 namespace URAL.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/[controller]/[action]")]
 [ApiController]
 public class BodyTypeController(IBodyTypeService service) : ControllerBase
 {

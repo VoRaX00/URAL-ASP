@@ -25,6 +25,16 @@ public class UserService(IMapper mapper, UserManager<User> userManager) : IUserS
         return entity.Id;
     }
 
+    public async Task<bool> CheckLoginAsync(UserLogin userLogin)
+    {
+        var entity = await userManager.FindByEmailAsync(userLogin.Email);
+
+        if (entity == null)
+            throw new NullReferenceException();
+
+        return await userManager.CheckPasswordAsync(entity, userLogin.Password);
+    }
+
     public async Task<bool> ConfirmEmailAsync(string id, string code)
     {
         var entity = await userManager.FindByIdAsync(id);
@@ -54,6 +64,16 @@ public class UserService(IMapper mapper, UserManager<User> userManager) : IUserS
         var result = userManager.Users.Select(x => mapper.Map<User, UserToGet>(x));
         var users = PaginatedList<UserToGet>.Create(result, pageNumber, PageSize);  
         return await users;
+    }
+
+    public async Task<UserToGet?> GetByEmail(string email)
+    {
+        var entity = await userManager.FindByEmailAsync(email);
+
+        if (entity is null)
+            return null;
+
+        return mapper.Map<User, UserToGet>(entity);
     }
 
     public async Task<UserToGet?> GetByIdAsync(string id)

@@ -12,4 +12,6 @@ public interface IUserService
     public Task<UserToGet?> GetByIdAsync(string id);
     public Task<string> GenerateEmailConfirmationTokenAsync(string id);
     public Task<bool> ConfirmEmailAsync(string id, string code);
+    public Task<bool> CheckLoginAsync(UserLogin userLogin);
+    public Task<UserToGet?> GetByEmail(string email);
 }

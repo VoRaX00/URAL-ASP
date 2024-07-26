@@ -6,7 +6,7 @@ using URAL.Extensions;
 
 namespace URAL.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/[controller]/[action]")]
 [ApiController]
 public class CarController(ICarService service) : ControllerBase
 {
@@ -21,14 +21,14 @@ public class CarController(ICarService service) : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("getByName")]
+    [HttpGet]
     public async Task<PaginatedList<CarToGet>> GetByName([FromQuery] string name, [FromQuery] int pageNumber)
     {
         var cars = await service.GetByNameAsync(name, pageNumber);
         return cars;
     }
 
-    [HttpGet("getByUserId")]
+    [HttpGet]
     public async Task<PaginatedList<CarToGet>> GetByUserId([FromQuery] string id, [FromQuery] int pageNumber)
     {
         var cars = await service.GetByUserIdAsync(id, pageNumber);

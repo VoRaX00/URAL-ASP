@@ -1,13 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.User;
 using URAL.Authentication;
 
 namespace URAL.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/[controller]/[action]")]
 [ApiController]
-public class UserController(AuthOptions authOptions, IUserService userService, IMessageService messageService) : ControllerBase
+public class UserController(
+    AuthOptions authOptions, 
+    IUserService userService, 
+    IMessageService messageService, 
+    IJwtTokenWriter jwtTokenWriter) : ControllerBase
 {
     [HttpGet("{id}")]
     public async Task<ActionResult<UserToGet>> Get([FromRoute] string id)
@@ -20,7 +25,7 @@ public class UserController(AuthOptions authOptions, IUserService userService, I
         return Ok(result);
     }
 
-    [HttpPost("register")]
+    [HttpPost]
     public async Task<ActionResult<string>> Register([FromBody] UserToAdd userToAdd)
     {
         var entityId = await userService.AddAsync(userToAdd);
@@ -36,7 +41,23 @@ public class UserController(AuthOptions authOptions, IUserService userService, I
         return entityId;
     }
 
-    [HttpPost("confirmEmail")]
+    [HttpPost]
+    public async Task<ActionResult<string>> Login([FromBody] UserLogin userLogin)
+    {
+        var isCorrect = await userService.CheckLoginAsync(userLogin);
+
+        if (!isCorrect)
+            return BadRequest("неправильный пароль");
+
+        var user = await userService.GetByEmail(userLogin.Email);
+
+        if (!user.EmailConfirmed)
+            return BadRequest("подтвердите почту");
+
+        return Ok(jwtTokenWriter.WriteToken(user));
+    }
+
+    [HttpPost]
     public async Task<ActionResult> ConfirmEmail([FromQuery] string userId, [FromQuery] string code)
     {
         if (userId == null || code == null)
@@ -46,6 +67,8 @@ public class UserController(AuthOptions authOptions, IUserService userService, I
 
         if (!isSuccess)
             return BadRequest();
+
+        var user = userService.GetByIdAsync(userId);
 
         return Ok();
     }
