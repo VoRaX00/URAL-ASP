@@ -34,6 +34,7 @@ builder.Services.AddDbContext<UralDbContext>(
 );
 
 builder.Services.AddScoped<IUserValidator<User>, CustomUserNameValidator>();
+
 builder.Services.AddIdentity<User, IdentityRole>(
     options =>
     {

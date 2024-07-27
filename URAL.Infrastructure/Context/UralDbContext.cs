@@ -16,6 +16,7 @@ public class UralDbContext(DbContextOptions<UralDbContext> options) : IdentityDb
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfiguration(new BodyTypeConfiguration());
         modelBuilder.ApplyConfiguration(new CarConfiguration());
         modelBuilder.ApplyConfiguration(new CargoConfiguration());
@@ -23,6 +24,5 @@ public class UralDbContext(DbContextOptions<UralDbContext> options) : IdentityDb
         modelBuilder.ApplyConfiguration(new NotifyCarConfiguration());
         modelBuilder.ApplyConfiguration(new NotifyCargoConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
-        base.OnModelCreating(modelBuilder);
     }
 }

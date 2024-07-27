@@ -7,7 +7,6 @@ public class User : IdentityUser
 {
     public string AboutMe { get; set; }
     public string Image { get; set; }
-    public bool IsActive { get; set; }
     public bool IsStaff { get; set; }
     public bool IsSuperuser { get; set; }
     public DateTime DateJoined { get; set; }
