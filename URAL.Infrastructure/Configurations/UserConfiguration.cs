@@ -14,6 +14,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasIndex(user => user.NormalizedEmail).IsUnique();
         builder.HasIndex(user => user.UserName).IsUnique(false);
         builder.HasIndex(user => user.NormalizedUserName).IsUnique(false);
+        builder.HasIndex(user => user.PhoneNumber).IsUnique();
         
         builder.HasMany(user => user.Cars)
             .WithOne(cars => cars.User)

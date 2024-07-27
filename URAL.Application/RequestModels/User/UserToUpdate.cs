@@ -9,6 +9,4 @@ public record UserToUpdate
     public ulong? PhoneNumber { get; init; }
     public string AboutMe { get; init; }
     public string Image { get; init; }
-    public bool IsActive { get; init; }
-    public bool IsStaff { get; init; }
 }
