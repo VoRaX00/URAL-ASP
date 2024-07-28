@@ -17,7 +17,7 @@ public class UserService(IMapper mapper, UserManager<User> userManager) : IUserS
     {
         var entity = mapper.Map<UserToAdd, User>(userToAdd);
         entity.DateJoined = DateTime.Now;
-        var isHaveEmail = userManager.FindByEmailAsync(entity.Email) != null;
+        var isHaveEmail = await userManager.FindByEmailAsync(entity.Email) != null;
 
         if (isHaveEmail)
             throw new NotValidUserException(
