@@ -17,6 +17,15 @@ public class UserService(IMapper mapper, UserManager<User> userManager) : IUserS
     {
         var entity = mapper.Map<UserToAdd, User>(userToAdd);
         entity.DateJoined = DateTime.Now;
+        var isHaveEmail = userManager.FindByEmailAsync(entity.Email) != null;
+
+        if (isHaveEmail)
+            throw new NotValidUserException(
+                entity,
+                new List<IdentityError>() { new IdentityError() {
+                    Description="Пользователь с такой почтой уже существует",
+                    Code="Email Duplicate"} });
+
         var result = await userManager.CreateAsync(entity, userToAdd.Password);
 
         if (!result.Succeeded)

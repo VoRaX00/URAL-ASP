@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.User;
 using URAL.Authentication;
+using URAL.Filters.ExceptionFilters;
 
 namespace URAL.Controllers;
 
@@ -25,6 +26,7 @@ public class UserController(
         return Ok(result);
     }
 
+    [UserExceptionFilter]
     [HttpPost]
     public async Task<ActionResult<string>> Register([FromBody] UserToAdd userToAdd)
     {
@@ -41,6 +43,7 @@ public class UserController(
         return entityId;
     }
 
+    [UserExceptionFilter]
     [HttpPost]
     public async Task<ActionResult<string>> Login([FromBody] UserLogin userLogin)
     {
@@ -67,8 +70,6 @@ public class UserController(
 
         if (!isSuccess)
             return BadRequest();
-
-        var user = userService.GetByIdAsync(userId);
 
         return Ok();
     }
