@@ -79,7 +79,11 @@ builder.Services.AddServices();
 
 builder.Services.AddControllers();
 
+builder.Services.AddCors();
+
 var app = builder.Build();
+
+app.UseCors(builder => builder.AllowAnyOrigin());
 
 if (app.Environment.IsDevelopment())
 {
