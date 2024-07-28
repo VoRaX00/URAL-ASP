@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using URAL.Application.Base;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.Cargo;
@@ -6,10 +7,12 @@ using URAL.Extensions;
 
 namespace URAL.Controllers;
 
+[Authorize]
 [Route("api/[controller]/[action]")]
 [ApiController]
 public class CargoController(ICargoService service) : ControllerBase
 {
+    [AllowAnonymous]
     [HttpGet("{id}")]
     public ActionResult<CargoToGet> Get([FromRoute] ulong id)
     {
@@ -21,6 +24,7 @@ public class CargoController(ICargoService service) : ControllerBase
         return Ok(result);
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<PaginatedList<CargoToGet>> GetByName([FromQuery] string name, [FromQuery] int pageNumber)
     {
@@ -28,6 +32,7 @@ public class CargoController(ICargoService service) : ControllerBase
         return cargos;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<PaginatedList<CargoToGet>> GetByUserId([FromQuery] string id, [FromQuery] int pageNumber)
     {

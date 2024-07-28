@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using URAL.Application.Base;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.Car;
@@ -7,9 +8,11 @@ using URAL.Extensions;
 namespace URAL.Controllers;
 
 [Route("api/[controller]/[action]")]
+[Authorize()]
 [ApiController]
 public class CarController(ICarService service) : ControllerBase
 {
+    [AllowAnonymous]
     [HttpGet("{id}")]
     public ActionResult<CarToGet> Get([FromRoute] ulong id)
     {
@@ -21,6 +24,7 @@ public class CarController(ICarService service) : ControllerBase
         return Ok(result);
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<PaginatedList<CarToGet>> GetByName([FromQuery] string name, [FromQuery] int pageNumber)
     {
@@ -28,6 +32,7 @@ public class CarController(ICarService service) : ControllerBase
         return cars;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<PaginatedList<CarToGet>> GetByUserId([FromQuery] string id, [FromQuery] int pageNumber)
     {

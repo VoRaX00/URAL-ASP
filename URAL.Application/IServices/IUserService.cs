@@ -14,4 +14,5 @@ public interface IUserService
     public Task<bool> ConfirmEmailAsync(string id, string code);
     public Task<bool> CheckLoginAsync(UserLogin userLogin);
     public Task<UserToGet?> GetByEmail(string email);
+    public Task<UserFullInfo?> GetByEmailFullInfo(string email);
 }

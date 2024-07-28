@@ -83,6 +83,9 @@ builder.Services.AddCors();
 
 var app = builder.Build();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseCors(builder => builder.AllowAnyOrigin());
 
 if (app.Environment.IsDevelopment())

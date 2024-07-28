@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.IdentityModel.Tokens.Jwt;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.User;
 using URAL.Authentication;
+using URAL.Extensions;
 using URAL.Filters.ExceptionFilters;
 
 namespace URAL.Controllers;
 
+[Authorize]
 [Route("api/[controller]/[action]")]
 [ApiController]
 public class UserController(
@@ -26,6 +28,7 @@ public class UserController(
         return Ok(result);
     }
 
+    [AllowAnonymous]
     [UserExceptionFilter]
     [HttpPost]
     public async Task<ActionResult<string>> Register([FromBody] UserToAdd userToAdd)
@@ -43,6 +46,7 @@ public class UserController(
         return entityId;
     }
 
+    [AllowAnonymous]
     [UserExceptionFilter]
     [HttpPost]
     public async Task<ActionResult<string>> Login([FromBody] UserLogin userLogin)
@@ -52,7 +56,7 @@ public class UserController(
         if (!isCorrect)
             return BadRequest("неправильный пароль");
 
-        var user = await userService.GetByEmail(userLogin.Email);
+        var user = await userService.GetByEmailFullInfo(userLogin.Email);
 
         if (!user.EmailConfirmed)
             return BadRequest("подтвердите почту");
@@ -60,6 +64,7 @@ public class UserController(
         return Ok(jwtTokenWriter.WriteToken(user));
     }
 
+    [AllowAnonymous]
     [HttpPost]
     public async Task<ActionResult> ConfirmEmail([FromQuery] string userId, [FromQuery] string code)
     {
@@ -74,6 +79,7 @@ public class UserController(
         return Ok();
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete([FromRoute] string id)
     {
@@ -82,6 +88,15 @@ public class UserController(
         return isSuccess ? Ok() : NotFound();
     }
 
+    [HttpDelete]
+    public async Task<ActionResult> Delete()
+    {
+        var userId = User.GetUserIdFromClaim();
+
+        return await Delete(userId);
+    }
+
+    [Authorize(Roles = "Admin")]
     [HttpPut("{id}")]
     public async Task<ActionResult> Update([FromRoute] string id, [FromBody] UserToUpdate userToUpdate)
     {
@@ -91,5 +106,13 @@ public class UserController(
         var isSuccess = await userService.UpdateAsync(userToUpdate);
 
         return isSuccess ? Ok() : NotFound();
+    }
+
+    [HttpPut]
+    public async Task<ActionResult> Update([FromBody] UserToUpdate userToUpdate)
+    {
+        var userId = User.GetUserIdFromClaim();
+
+        return await Update(userId, userToUpdate);
     }
 }

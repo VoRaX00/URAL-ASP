@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using URAL.Application.RequestModels.User;
 using Microsoft.IdentityModel.Tokens;
+using URAL.Domain.Enums;
 
 namespace URAL.Authentication;
 
@@ -9,9 +10,9 @@ public class JwtTokenWriter(AuthOptions authOptions) : IJwtTokenWriter
 {
     private readonly JwtSecurityTokenHandler handler = new();
 
-    public string WriteToken(UserToGet userToGet)
+    public string WriteToken(UserFullInfo userFullInfo)
     {
-        var claims = GetClaims(userToGet);
+        var claims = GetClaims(userFullInfo);
 
         var jwt = new JwtSecurityToken(
             issuer: authOptions.ISSUER,
@@ -23,14 +24,17 @@ public class JwtTokenWriter(AuthOptions authOptions) : IJwtTokenWriter
         return handler.WriteToken(jwt);
     }
 
-    private List<Claim> GetClaims(UserToGet userToGet)
+    private List<Claim> GetClaims(UserFullInfo userFullInfo)
     {
+        var userRole = userFullInfo.IsSuperuser ? UserRole.Admin : (userFullInfo.IsStaff ? UserRole.Staff : UserRole.Default);
+
         return new List<Claim>
         {
-            new(nameof(userToGet.Id), userToGet.Id),
-            new(nameof(userToGet.Image), userToGet.Image),
-            new(nameof(userToGet.Email), userToGet.Email),
-            new(nameof(userToGet.UserName), userToGet.UserName)
+            new(nameof(userFullInfo.Id), userFullInfo.Id),
+            new(nameof(userFullInfo.Image), userFullInfo.Image),
+            new(nameof(userFullInfo.Email), userFullInfo.Email),
+            new(nameof(userFullInfo.UserName), userFullInfo.UserName),
+            new(ClaimsIdentity.DefaultRoleClaimType, userRole.ToString())
         };
     }
 }

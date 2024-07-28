@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using URAL.Application.Base;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.Notification;
@@ -6,6 +7,7 @@ using URAL.Extensions;
 
 namespace URAL.Controllers;
 
+[Authorize]
 [Route("api/[controller]/[action]")]
 [ApiController]
 public class NotificationsController(INotificationsService service) : ControllerBase

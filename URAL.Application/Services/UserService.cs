@@ -85,6 +85,16 @@ public class UserService(IMapper mapper, UserManager<User> userManager) : IUserS
         return mapper.Map<User, UserToGet>(entity);
     }
 
+    public async Task<UserFullInfo?> GetByEmailFullInfo(string email)
+    {
+        var entity = await userManager.FindByEmailAsync(email);
+
+        if (entity is null)
+            return null;
+
+        return mapper.Map<User, UserFullInfo>(entity);
+    }
+
     public async Task<UserToGet?> GetByIdAsync(string id)
     {
         var user = await userManager.FindByIdAsync(id);
