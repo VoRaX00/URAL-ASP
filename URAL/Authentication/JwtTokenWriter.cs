@@ -26,15 +26,14 @@ public class JwtTokenWriter(AuthOptions authOptions) : IJwtTokenWriter
 
     private List<Claim> GetClaims(UserFullInfo userFullInfo)
     {
-        var userRole = userFullInfo.IsSuperuser ? UserRole.Admin : (userFullInfo.IsStaff ? UserRole.Staff : UserRole.Default);
-
         return new List<Claim>
         {
             new(nameof(userFullInfo.Id), userFullInfo.Id),
             new(nameof(userFullInfo.Image), userFullInfo.Image),
             new(nameof(userFullInfo.Email), userFullInfo.Email),
             new(nameof(userFullInfo.UserName), userFullInfo.UserName),
-            new(ClaimsIdentity.DefaultRoleClaimType, userRole.ToString())
+            new(IdentityData.StaffUserClaimName, userFullInfo.IsStaff.ToString()),
+            new(IdentityData.AdminUserClaimName, userFullInfo.IsSuperuser.ToString())
         };
     }
 }

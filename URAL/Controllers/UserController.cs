@@ -79,7 +79,7 @@ public class UserController(
         return Ok();
     }
 
-    [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "Admin")]
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete([FromRoute] string id)
     {
@@ -96,7 +96,7 @@ public class UserController(
         return await Delete(userId);
     }
 
-    [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "Admin")]
     [HttpPut("{id}")]
     public async Task<ActionResult> Update([FromRoute] string id, [FromBody] UserToUpdate userToUpdate)
     {

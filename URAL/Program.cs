@@ -49,23 +49,32 @@ builder.Services.AddIdentity<User, IdentityRole>(
     .AddEntityFrameworkStores<UralDbContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddAuthorization();
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        var authOptions = builder.Configuration.GetSection(AuthOptions.Auth).Get<AuthOptions>();
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    var authOptions = builder.Configuration.GetSection(AuthOptions.Auth).Get<AuthOptions>();
 
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidIssuer = authOptions.ISSUER,
-            ValidateAudience = true,
-            ValidAudience = authOptions.AUDIENCE,
-            ValidateLifetime = true,
-            IssuerSigningKey = authOptions.GetSymmetricSecurityKey(),
-            ValidateIssuerSigningKey = true
-        };
-    });
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidIssuer = authOptions.ISSUER,
+        ValidateAudience = true,
+        ValidAudience = authOptions.AUDIENCE,
+        ValidateLifetime = true,
+        IssuerSigningKey = authOptions.GetSymmetricSecurityKey(),
+        ValidateIssuerSigningKey = true
+    };
+});
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy(IdentityData.StaffUserPolicyName, p => p.RequireClaim(IdentityData.StaffUserClaimName, "true"));
+    options.AddPolicy(IdentityData.AdminUserPolicyName, p => p.RequireClaim(IdentityData.AdminUserClaimName, "true"));
+});
+
 builder.Services.AddSingleton<IJwtTokenWriter, JwtTokenWriter>();
 
 builder.Services.AddSingleton(x => builder.Configuration.GetSection("MessageService").Get<MessageServiceOptions>());
@@ -91,9 +100,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-app.UseAuthentication();
-app.UseAuthorization();
-
 app.UseCors();
 
 if (app.Environment.IsDevelopment())
@@ -101,6 +107,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

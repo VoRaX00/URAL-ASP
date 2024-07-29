@@ -64,7 +64,7 @@ public class UserService(IMapper mapper, UserManager<User> userManager) : IUserS
 
     public async Task<string> GenerateEmailConfirmationTokenAsync(string id)
     {
-        var entity = new User { Id = id };
+        var entity = await userManager.FindByIdAsync(id);
         return await userManager.GenerateEmailConfirmationTokenAsync(entity);
     }
 
