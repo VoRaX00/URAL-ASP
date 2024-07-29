@@ -15,6 +15,6 @@ public record CarToUpdate
     public DateOnly ReadyTo { get; init; }
     public ulong Phone { get; init; }
     public string? Comment { get; init; }
-    public List<ulong> BodyTypes { get; init; }
-    public List<ulong> LoadingTypes { get; init; }
+    public List<BodyTypeDto> BodyTypes { get; init; }
+    public List<LoadingTypeDto> LoadingTypes { get; init; }
 }

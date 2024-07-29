@@ -16,41 +16,41 @@ public class NotificationsService(
 {
     public int PageSize { get; private set; } = 4;
 
-    public async Task<PaginatedList<NotificationToGet>> GetUserMatchAsync(string userId, int pageNumber)
+    public PaginatedList<NotificationToGet> GetUserMatchAsync(string userId, int pageNumber)
     {
         var cargoIdUserMatchs = notifyCargoRepository.GetUserMatch(userId).Select(x => x.CargoId);
         var carIdUserMatchs = notifyCarRepository.GetUserMatch(userId).Select(x => x.CarId);
 
         var result = GetNotifications(cargoIdUserMatchs, carIdUserMatchs);
-        return await PaginatedList<NotificationToGet>.Create(result, pageNumber, PageSize);
+        return PaginatedList<NotificationToGet>.Create(result, pageNumber, PageSize);
     }
 
-    public async Task<PaginatedList<NotificationToGet>> GetUserNotificationsAsync(string userId, int pageNumber)
+    public PaginatedList<NotificationToGet> GetUserNotificationsAsync(string userId, int pageNumber)
     {
         var cargoIdUserMatchs = notifyCargoRepository.GetUserNotifications(userId).Select(x => x.CargoId);
         var carIdUserMatchs = notifyCarRepository.GetUserNotifications(userId).Select(x => x.CarId);
 
         var result = GetNotifications(cargoIdUserMatchs, carIdUserMatchs);
-        return await PaginatedList<NotificationToGet>.Create(result, pageNumber, PageSize);
+        return PaginatedList<NotificationToGet>.Create(result, pageNumber, PageSize);
     }
 
-    public async Task<PaginatedList<NotificationToGet>> GetUserResponsesAsync(string userId, int pageNumber)
+    public PaginatedList<NotificationToGet> GetUserResponsesAsync(string userId, int pageNumber)
     {
         var cargoIdUserMatchs = notifyCargoRepository.GetUserResponses(userId).Select(x => x.CargoId);
         var carIdUserMatchs = notifyCarRepository.GetUserResponses(userId).Select(x => x.CarId);
 
         var result = GetNotifications(cargoIdUserMatchs, carIdUserMatchs);
-        return await PaginatedList<NotificationToGet>.Create(result, pageNumber, PageSize);
+        return PaginatedList<NotificationToGet>.Create(result, pageNumber, PageSize);
     }
 
-    private IQueryable<NotificationToGet> GetNotifications(IQueryable<ulong> cargoNotifyIds, IQueryable<ulong> carNotifyIds)
+    private NotificationToGet[] GetNotifications(IQueryable<ulong> cargoNotifyIds, IQueryable<ulong> carNotifyIds)
     {
         var cargos = cargoNotifyIds.Select(x => cargoRepository.GetById(x));
         var cars = carNotifyIds.Select(x => carRepository.GetById(x));
 
-        var notifyCargos = cargos.Select(x => mapper.Map<Cargo, NotifyCargoDto>(x)).Select(x => new NotificationToGet(x.Id, x));
-        var notifyCars = cars.Select(x => mapper.Map<Car, NotifyCarDto>(x)).Select(x => new NotificationToGet(x.Id, x));
+        IEnumerable<Notify> notifyCargos = cargos.Select(x => mapper.Map<Cargo, NotifyCargoDto>(x)).AsEnumerable();
+        var notifyCars = cars.Select(x => mapper.Map<Car, NotifyCarDto>(x)).AsEnumerable();
 
-        return notifyCargos.Concat(notifyCars).OrderBy(x => x.Id);
+        return notifyCargos.Concat(notifyCars).Select(x => new NotificationToGet(x.Id, x)).OrderBy(x => x.Id).ToArray();
     }
 }

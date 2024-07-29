@@ -12,7 +12,8 @@ namespace URAL.Filters.ActionFilters
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            var pageNumberObject = context.ActionArguments["pageNumber"];
+            if (!context.ActionArguments.TryGetValue("pageNumber", out var pageNumberObject))
+                context.Result = new ContentResult() { StatusCode = 400, Content = "не указан pageNumber" };
 
             if (pageNumberObject is int pageNumber)
             {

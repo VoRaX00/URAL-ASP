@@ -15,28 +15,28 @@ public class NotificationsController(INotificationsService service) : Controller
 {
     [PageNumberFilter]
     [HttpGet]
-    public async Task<PaginatedList<NotificationToGet>> GetUserMatch([FromQuery] int pageNumber)
+    public PaginatedList<NotificationToGet> GetUserMatch([FromQuery] int pageNumber)
     {
         var userId = User.GetUserIdFromClaim();
-        var result = await service.GetUserMatchAsync(userId, pageNumber);
+        var result = service.GetUserMatchAsync(userId, pageNumber);
         return result;
     }
 
     [PageNumberFilter]
     [HttpGet]
-    public async Task<PaginatedList<NotificationToGet>> GetUserNotifications([FromQuery] int pageNumber)
+    public PaginatedList<NotificationToGet> GetUserNotifications([FromQuery] int pageNumber)
     {
         var userId = User.GetUserIdFromClaim();
-        var result = await service.GetUserNotificationsAsync(userId, pageNumber);
+        var result = service.GetUserNotificationsAsync(userId, pageNumber);
         return result;
     }
 
     [PageNumberFilter]
     [HttpGet]
-    public async Task<PaginatedList<NotificationToGet>> GetUserResponses([FromQuery] int pageNumber)
+    public PaginatedList<NotificationToGet> GetUserResponses([FromQuery] int pageNumber)
     {
         var userId = User.GetUserIdFromClaim();
-        var result = await service.GetUserResponsesAsync(userId, pageNumber);
+        var result = service.GetUserResponsesAsync(userId, pageNumber);
         return result;
     }
 }

@@ -18,5 +18,3 @@ public record CarToAdd
     public List<LoadingTypeDto> LoadingTypes { get; init; }
 }
 
-public record BodyTypeDto(ulong Id);
-public record LoadingTypeDto(ulong Id);
