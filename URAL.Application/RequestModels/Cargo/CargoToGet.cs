@@ -17,8 +17,8 @@ public record CargoToGet
     public string UnloadingPlace { get; init; }
     public bool? Cash { get; init; }
     public bool? Cashless { get; init; }
-    public bool? CashLessNds { get; init; }
-    public bool? CashLessWithoutNds { get; init; }
+    public bool? CashlessNds { get; init; }
+    public bool? CashlessWithoutNds { get; init; }
     public double? PriceCash { get; init; }
     public double? PriceCashNds { get; init; }
     public double? PriceCashWithoutNds { get; init; }
