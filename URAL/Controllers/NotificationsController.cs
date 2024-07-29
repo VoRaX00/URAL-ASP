@@ -4,6 +4,7 @@ using URAL.Application.Base;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.Notification;
 using URAL.Extensions;
+using URAL.Filters.ActionFilters;
 
 namespace URAL.Controllers;
 
@@ -12,6 +13,7 @@ namespace URAL.Controllers;
 [ApiController]
 public class NotificationsController(INotificationsService service) : ControllerBase
 {
+    [PageNumberFilter]
     [HttpGet]
     public async Task<PaginatedList<NotificationToGet>> GetUserMatch([FromQuery] int pageNumber)
     {
@@ -20,6 +22,7 @@ public class NotificationsController(INotificationsService service) : Controller
         return result;
     }
 
+    [PageNumberFilter]
     [HttpGet]
     public async Task<PaginatedList<NotificationToGet>> GetUserNotifications([FromQuery] int pageNumber)
     {
@@ -28,6 +31,7 @@ public class NotificationsController(INotificationsService service) : Controller
         return result;
     }
 
+    [PageNumberFilter]
     [HttpGet]
     public async Task<PaginatedList<NotificationToGet>> GetUserResponses([FromQuery] int pageNumber)
     {

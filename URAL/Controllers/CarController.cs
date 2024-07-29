@@ -4,6 +4,7 @@ using URAL.Application.Base;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.Car;
 using URAL.Extensions;
+using URAL.Filters.ActionFilters;
 
 namespace URAL.Controllers;
 
@@ -24,6 +25,15 @@ public class CarController(ICarService service) : ControllerBase
         return Ok(result);
     }
 
+    [PageNumberFilter]
+    [AllowAnonymous]
+    [HttpGet]
+    public async Task<ActionResult<PaginatedList<CarToGet>>> Get([FromQuery] int pageNumber)
+    {
+        return await service.GetAllAsync(pageNumber);
+    }
+
+    [PageNumberFilter]
     [AllowAnonymous]
     [HttpGet]
     public async Task<PaginatedList<CarToGet>> GetByName([FromQuery] string name, [FromQuery] int pageNumber)
@@ -32,6 +42,7 @@ public class CarController(ICarService service) : ControllerBase
         return cars;
     }
 
+    [PageNumberFilter]
     [AllowAnonymous]
     [HttpGet]
     public async Task<PaginatedList<CarToGet>> GetByUserId([FromQuery] string id, [FromQuery] int pageNumber)

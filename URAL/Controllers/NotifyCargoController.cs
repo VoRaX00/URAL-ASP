@@ -4,6 +4,7 @@ using URAL.Application.Base;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.NotifyCargo;
 using URAL.Extensions;
+using URAL.Filters.ActionFilters;
 
 namespace URAL.Controllers;
 
@@ -38,6 +39,7 @@ public class NotifyCargoController(INotifyCargoService service) : ControllerBase
         return Ok(result);
     }
 
+    [PageNumberFilter]
     [HttpGet]
     public async Task<PaginatedList<NotifyCargoToGet>> GetUserMatch([FromQuery] int pageNumber)
     {
@@ -46,6 +48,7 @@ public class NotifyCargoController(INotifyCargoService service) : ControllerBase
         return result;
     }
 
+    [PageNumberFilter]
     [HttpGet]
     public async Task<PaginatedList<NotifyCargoToGet>> GetUserNotifications([FromQuery] int pageNumber)
     {
@@ -54,6 +57,7 @@ public class NotifyCargoController(INotifyCargoService service) : ControllerBase
         return result;
     }
 
+    [PageNumberFilter]
     [HttpGet]
     public async Task<PaginatedList<NotifyCargoToGet>> GetUserResponses([FromQuery] int pageNumber)
     {
