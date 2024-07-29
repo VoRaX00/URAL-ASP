@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.User;
 using URAL.Authentication;
@@ -31,15 +32,16 @@ public class UserController(
     [AllowAnonymous]
     [UserExceptionFilter]
     [HttpPost]
-    public async Task<ActionResult<string>> Register([FromBody] UserToAdd userToAdd)
+    public async Task<ActionResult<string>> Register([FromBody] UserToAdd userToAdd, [FromHeader] string clientUri)
     {
         var entityId = await userService.AddAsync(userToAdd);
         var code = await userService.GenerateEmailConfirmationTokenAsync(entityId);
-        var callbackUrl = Url.Action(
-            "ConfirmEmail",
-            "User",
-            new { userId = entityId, code },
-            protocol: HttpContext.Request.Scheme);
+        var param = new Dictionary<string, string?>() 
+        {
+            { "userId", "entityId" },
+            { "code", code },
+        };
+        var callbackUrl = QueryHelpers.AddQueryString(clientUri, param);
 
         await messageService.SendAsync(new(userToAdd.Email, "Confirm your account", $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>link</a>"));
 
