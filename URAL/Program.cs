@@ -1,28 +1,19 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using URAL.Application.Converters;
 using URAL.Application.Extensions;
 using URAL.Application.Services;
 using URAL.Authentication;
-using URAL.Domain.Entities;
 using URAL.Infrastructure.Context;
 using URAL.Infrastructure.Extension;
-using URAL.UserValidators;
-using Microsoft.OpenApi.Models;
-using Microsoft.OpenApi.Any;
+using URAL.Extensions;
+using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using URAL.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
-builder.Services.AddSwaggerGen(options =>
-    options.MapType<DateOnly>(() => new OpenApiSchema
-    {
-        Type = "string",
-        Format = "date",
-        Example = new OpenApiString("2000-01-01")
-    }));
+builder.Services.AddSwaggerGen();
+builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
 builder.Services.AddDbContext<UralDbContext>(
     options =>
@@ -33,47 +24,11 @@ builder.Services.AddDbContext<UralDbContext>(
     }
 );
 
-builder.Services.AddScoped<IUserValidator<User>, CustomUserNameValidator>();
+builder.Services.AddIdentitySettings(configuration);
 
-builder.Services.AddIdentity<User, IdentityRole>(
-    options =>
-    {
-        options.SignIn.RequireConfirmedAccount = true;
-        options.Password.RequireDigit = false;
-        options.Password.RequireNonAlphanumeric = false;
-        options.Password.RequireUppercase = false;
-        options.Password.RequireLowercase = false;
-        options.Password.RequiredLength = 4;
-        options.Password.RequiredUniqueChars = 1;
-    })
-    .AddEntityFrameworkStores<UralDbContext>()
-    .AddDefaultTokenProviders();
+builder.Services.AddAuthenticationSettings(configuration);
 
-builder.Services.AddAuthentication(x =>
-{
-    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
-{
-    var authOptions = builder.Configuration.GetSection(AuthOptions.Auth).Get<AuthOptions>();
-
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidIssuer = authOptions.ISSUER,
-        ValidateAudience = true,
-        ValidAudience = authOptions.AUDIENCE,
-        ValidateLifetime = true,
-        IssuerSigningKey = authOptions.GetSymmetricSecurityKey(),
-        ValidateIssuerSigningKey = true
-    };
-});
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy(IdentityData.StaffUserPolicyName, p => p.RequireClaim(IdentityData.StaffUserClaimName, "true"));
-    options.AddPolicy(IdentityData.AdminUserPolicyName, p => p.RequireClaim(IdentityData.AdminUserClaimName, "true"));
-});
+builder.Services.AddAuthorizationSettings();
 
 builder.Services.AddSingleton<IJwtTokenWriter, JwtTokenWriter>();
 
