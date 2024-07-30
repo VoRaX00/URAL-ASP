@@ -26,7 +26,7 @@ public class JwtTokenWriter(AuthOptions authOptions) : IJwtTokenWriter
 
     private List<Claim> GetClaims(UserFullInfo userFullInfo)
     {
-        return new List<Claim>
+        var claims = new List<Claim>
         {
             new(nameof(userFullInfo.Id), userFullInfo.Id),
             new(nameof(userFullInfo.Image), userFullInfo.Image),
@@ -35,5 +35,10 @@ public class JwtTokenWriter(AuthOptions authOptions) : IJwtTokenWriter
             new(IdentityData.StaffUserClaimName, userFullInfo.IsStaff.ToString()),
             new(IdentityData.AdminUserClaimName, userFullInfo.IsSuperuser.ToString())
         };
+
+        if (userFullInfo.PhoneNumber != null)
+            claims.Add(new(nameof(userFullInfo.PhoneNumber), userFullInfo.PhoneNumber.ToString()));
+
+        return claims;
     }
 }
