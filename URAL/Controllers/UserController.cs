@@ -66,6 +66,13 @@ public class UserController(
         return Ok(jwtTokenWriter.WriteToken(user));
     }
 
+    [UserExceptionFilter]
+    [HttpPut]
+    public async Task ChangePassword([FromBody] UserToChangePassword userToChangePassword)
+    {
+        await userService.ChangePassword(userToChangePassword);
+    }
+
     [AllowAnonymous]
     [HttpPost]
     public async Task<ActionResult> ConfirmEmail([FromQuery] string userId, [FromQuery] string code)

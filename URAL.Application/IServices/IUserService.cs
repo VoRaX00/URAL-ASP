@@ -7,6 +7,7 @@ public interface IUserService
 {
     Task<string> AddAsync(UserToAdd userToAdd);
     Task<bool> UpdateAsync(UserToUpdate userToUpdate);
+    Task ChangePassword(UserToChangePassword userToChangePassword);
     Task<bool> DeleteAsync(UserToDelete userToDelete);
     public Task<PaginatedList<UserToGet>> GetAllAsync(int pageSize);
     public Task<UserToGet?> GetByIdAsync(string id);

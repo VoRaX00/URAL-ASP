@@ -34,12 +34,25 @@ public class UserService(IMapper mapper, UserManager<User> userManager) : IUserS
         return entity.Id;
     }
 
+    public async Task ChangePassword(UserToChangePassword userToChangePassword)
+    {
+        var entity = await userManager.FindByEmailAsync(userToChangePassword.Email);
+
+        if (entity is null)
+            throw new NotFoundUserEmailException(userToChangePassword.Email);
+
+        var result = await userManager.ChangePasswordAsync(entity, userToChangePassword.CurrentPassword, userToChangePassword.NewPassword);
+
+        if (!result.Succeeded)
+            throw new NotValidChangePasswordException(userToChangePassword.Email, result.Errors);
+    }
+
     public async Task<bool> CheckLoginAsync(UserLogin userLogin)
     {
         var entity = await userManager.FindByEmailAsync(userLogin.Email);
 
         if (entity == null)
-            throw new NullReferenceException();
+            throw new NotFoundUserEmailException(userLogin.Email);
 
         return await userManager.CheckPasswordAsync(entity, userLogin.Password);
     }

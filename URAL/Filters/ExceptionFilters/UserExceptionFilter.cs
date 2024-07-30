@@ -16,6 +16,15 @@ public class UserExceptionFilter : Attribute, IAsyncExceptionFilter
         {
             context.Result = new ContentResult() { StatusCode = 400, Content = $"пользователя с почтой {notFoundUserEmailEx.Email} не существует" };
         }
+        else if (context.Exception is NotValidChangePasswordException notValidChangePasswordEx)
+        {
+            context.Result = new JsonResult(new
+            {
+                message = $"При изменении пароля у аккаунта с почтой {notValidChangePasswordEx.Message}",
+                errors = notValidChangePasswordEx.Errors
+            })
+            { StatusCode = 400 };
+        }
 
         return Task.CompletedTask;
     }
