@@ -38,7 +38,7 @@ public class UserController(
         var code = await userService.GenerateEmailConfirmationTokenAsync(entityId);
         var param = new Dictionary<string, string?>() 
         {
-            { "userId", "entityId" },
+            { "userId", entityId },
             { "code", code },
         };
         var callbackUrl = QueryHelpers.AddQueryString(clientUri, param);
