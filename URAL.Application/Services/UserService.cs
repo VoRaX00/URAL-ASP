@@ -1,11 +1,15 @@
 ﻿using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
+using MimeKit.Encodings;
+using System.Text;
 using URAL.Application.Base;
 using URAL.Application.Hasher;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.User;
 using URAL.Domain.Entities;
 using URAL.Domain.Exceptions;
+using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace URAL.Application.Services;
 
@@ -57,8 +61,9 @@ public class UserService(IMapper mapper, UserManager<User> userManager) : IUserS
         return await userManager.CheckPasswordAsync(entity, userLogin.Password);
     }
 
-    public async Task<bool> ConfirmEmailAsync(string id, string code)
-    {
+    public async Task<bool> ConfirmEmailAsync(string id, string token)
+    { 
+        var code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
         var entity = await userManager.FindByIdAsync(id);
         var result = await userManager.ConfirmEmailAsync(entity, code);
         return result.Succeeded;
@@ -78,7 +83,9 @@ public class UserService(IMapper mapper, UserManager<User> userManager) : IUserS
     public async Task<string> GenerateEmailConfirmationTokenAsync(string id)
     {
         var entity = await userManager.FindByIdAsync(id);
-        return await userManager.GenerateEmailConfirmationTokenAsync(entity);
+        var code = await userManager.GenerateEmailConfirmationTokenAsync(entity);
+        var token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+        return token;
     }
 
     public async Task<PaginatedList<UserToGet>> GetAllAsync(int pageNumber)

@@ -43,7 +43,7 @@ public class UserController(
         };
         var callbackUrl = QueryHelpers.AddQueryString(clientUri, param);
 
-        await messageService.SendAsync(new(userToAdd.Email, "Confirm your account", $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>link</a>"));
+        await messageService.SendConfirmEmail(userToAdd.Email, callbackUrl);
 
         return entityId;
     }

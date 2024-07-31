@@ -1,6 +1,7 @@
 ﻿using MailKit.Net.Smtp;
 using MimeKit;
 using URAL.Application.IServices;
+using URAL.Application.RequestModels.User;
 
 namespace URAL.Application.Services;
 
@@ -26,6 +27,17 @@ public class MessageService(MessageServiceOptions options) : IMessageService
 
             await client.DisconnectAsync(true);
         }
+    }
+
+    public async Task SendConfirmEmail(string email, string callbackUrl)
+    {
+        await SendAsync(
+            new(
+                email, 
+                "Confirm your account", 
+                $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>link</a>"
+                )
+            );
     }
 }
 
