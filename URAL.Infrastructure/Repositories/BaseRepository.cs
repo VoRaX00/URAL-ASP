@@ -7,7 +7,7 @@ namespace URAL.Infrastructure.Repositories;
 
 public class BaseRepository<TEntity> : ReadRepository<TEntity>, IBaseRepository<TEntity> where TEntity : BaseEntity
 {    
-    public async Task<TEntity> AddAsync(TEntity entity)
+    public virtual async Task<TEntity> AddAsync(TEntity entity)
     {
         await _context.Set<TEntity>().AddAsync(entity);
         return entity;
