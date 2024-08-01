@@ -2,6 +2,8 @@
 using URAL.Application.Base;
 using URAL.Application.IRepositories;
 using URAL.Application.IServices;
+using URAL.Application.RequestModels.Car;
+using URAL.Application.RequestModels.Cargo;
 using URAL.Application.RequestModels.Notification;
 using URAL.Domain.Entities;
 
@@ -18,8 +20,8 @@ public class NotificationsService(
 
     public PaginatedList<NotificationToGet> GetUserMatchAsync(string userId, int pageNumber)
     {
-        var cargoIdUserMatchs = notifyCargoRepository.GetUserMatch(userId).Select(x => x.CargoId);
-        var carIdUserMatchs = notifyCarRepository.GetUserMatch(userId).Select(x => x.CarId);
+        var cargoIdUserMatchs = notifyCargoRepository.GetUserMatch(userId).Select(x => x.CargoId).ToArray();
+        var carIdUserMatchs = notifyCarRepository.GetUserMatch(userId).Select(x => x.CarId).ToArray();
 
         var result = GetNotifications(cargoIdUserMatchs, carIdUserMatchs);
         return PaginatedList<NotificationToGet>.Create(result, pageNumber, PageSize);
@@ -27,8 +29,8 @@ public class NotificationsService(
 
     public PaginatedList<NotificationToGet> GetUserNotificationsAsync(string userId, int pageNumber)
     {
-        var cargoIdUserMatchs = notifyCargoRepository.GetUserNotifications(userId).Select(x => x.CargoId);
-        var carIdUserMatchs = notifyCarRepository.GetUserNotifications(userId).Select(x => x.CarId);
+        var cargoIdUserMatchs = notifyCargoRepository.GetUserNotifications(userId).Select(x => x.CargoId).ToArray();
+        var carIdUserMatchs = notifyCarRepository.GetUserNotifications(userId).Select(x => x.CarId).ToArray();
 
         var result = GetNotifications(cargoIdUserMatchs, carIdUserMatchs);
         return PaginatedList<NotificationToGet>.Create(result, pageNumber, PageSize);
@@ -36,21 +38,25 @@ public class NotificationsService(
 
     public PaginatedList<NotificationToGet> GetUserResponsesAsync(string userId, int pageNumber)
     {
-        var cargoIdUserMatchs = notifyCargoRepository.GetUserResponses(userId).Select(x => x.CargoId);
-        var carIdUserMatchs = notifyCarRepository.GetUserResponses(userId).Select(x => x.CarId);
+        var cargoIdUserMatchs = notifyCargoRepository.GetUserResponses(userId).Select(x => x.CargoId).ToArray();
+        var carIdUserMatchs = notifyCarRepository.GetUserResponses(userId).Select(x => x.CarId).ToArray();
 
         var result = GetNotifications(cargoIdUserMatchs, carIdUserMatchs);
         return PaginatedList<NotificationToGet>.Create(result, pageNumber, PageSize);
     }
 
-    private NotificationToGet[] GetNotifications(IQueryable<ulong> cargoNotifyIds, IQueryable<ulong> carNotifyIds)
+    private NotificationToGet[] GetNotifications(IEnumerable<ulong> cargoNotifyIds, IEnumerable<ulong> carNotifyIds)
     {
-        var cargos = cargoNotifyIds.Select(x => cargoRepository.GetById(x));
-        var cars = carNotifyIds.Select(x => carRepository.GetById(x));
+        var cargos = cargoNotifyIds.Select(cargoRepository.GetById);
+        var cars = carNotifyIds.Select(carRepository.GetById);
 
-        IEnumerable<Notify> notifyCargos = cargos.Select(x => mapper.Map<Cargo, NotifyCargoDto>(x)).AsEnumerable();
-        var notifyCars = cars.Select(x => mapper.Map<Car, NotifyCarDto>(x)).AsEnumerable();
+        var notifyCargos = cargos
+            .Select(mapper.Map<Cargo, CargoToGet>)
+            .Select(x => new NotificationToGet { Id=x.Id, Cargo=x});
+        var notifyCars = cars
+            .Select(mapper.Map<Car, CarToGet>)
+            .Select(x => new NotificationToGet { Id=x.Id, Car=x});
 
-        return notifyCargos.Concat(notifyCars).Select(x => new NotificationToGet(x.Id, x)).OrderBy(x => x.Id).ToArray();
+        return notifyCargos.Concat(notifyCars).OrderBy(x => x.Id).ToArray();
     }
 }

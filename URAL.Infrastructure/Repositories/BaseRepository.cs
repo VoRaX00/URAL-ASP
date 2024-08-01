@@ -13,17 +13,17 @@ public class BaseRepository<TEntity> : ReadRepository<TEntity>, IBaseRepository<
         return entity;
     }
 
-    public void Update(TEntity entity)
+    public virtual void Update(TEntity entity)
     {
         _context.Set<TEntity>().Update(entity);
     }
 
-    public void Delete(TEntity entity)
+    public virtual void Delete(TEntity entity)
     {
         _context.Set<TEntity>().Remove(entity);
     }
 
-    public async Task SaveChangesAsync()
+    public virtual async Task SaveChangesAsync()
     {
         await _context.SaveChangesAsync();
     }

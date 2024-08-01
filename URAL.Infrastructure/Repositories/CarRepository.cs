@@ -27,11 +27,16 @@ public class CarRepository : BaseRepository<Car>, ICarRepository
 
     public IQueryable<Car> GetByName(string name)
     {
-        return _context.Cars.Where(car => car.Name == name);
+        return _context.Cars.Where(car => car.Name == name).Include(x => x.BodyTypes).Include(x => x.LoadingTypes);
     }
 
     public IQueryable<Car> GetByUserId(string id)
     {
-        return _context.Cars.Where(car => car.UserId == id);
+        return _context.Cars.Where(car => car.UserId == id).Include(x => x.BodyTypes).Include(x => x.LoadingTypes);
+    }
+
+    public override Car GetById(ulong id)
+    {
+        return _context.Cars.Where(car => car.Id == id).Include(x => x.BodyTypes).Include(x => x.LoadingTypes).FirstOrDefault();
     }
 }
