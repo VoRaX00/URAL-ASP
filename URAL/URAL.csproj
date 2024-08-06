@@ -4,6 +4,8 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>62593092-4ef7-403b-9389-f81b55bd8566</UserSecretsId>
+    		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -23,6 +25,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\URAL.Infrastructure\URAL.Infrastructure.csproj" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
 	</ItemGroup>
 
 </Project>

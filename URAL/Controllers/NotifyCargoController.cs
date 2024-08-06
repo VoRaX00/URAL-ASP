@@ -24,7 +24,6 @@ public class NotifyCargoController(INotifyCargoService service) : ControllerBase
     public async Task<ActionResult> Delete([FromRoute] ulong id)
     {
         var isSuccess = await service.DeleteAsync(new(id));
-
         return isSuccess ? Ok() : NotFound();
     }
 

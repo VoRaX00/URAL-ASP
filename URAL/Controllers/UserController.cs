@@ -33,7 +33,7 @@ public class UserController(
     [UserExceptionFilter]
     [HttpPost]
     public async Task<ActionResult<string>> Register([FromBody] UserToAdd userToAdd, [FromHeader] string clientUri)
-    {
+    { 
         var entityId = await userService.AddAsync(userToAdd);
         var code = await userService.GenerateEmailConfirmationTokenAsync(entityId);
         var param = new Dictionary<string, string?>() 
@@ -41,7 +41,7 @@ public class UserController(
             { "userId", entityId },
             { "code", code },
         };
-        var callbackUrl = QueryHelpers.AddQueryString(clientUri, param);
+        var callbackUrl= QueryHelpers.AddQueryString(clientUri, param);
 
         await messageService.SendConfirmEmail(userToAdd.Email, callbackUrl);
 
