@@ -39,4 +39,9 @@ public class CarRepository : BaseRepository<Car>, ICarRepository
     {
         return _context.Cars.Where(car => car.Id == id).Include(x => x.BodyTypes).Include(x => x.LoadingTypes).FirstOrDefault();
     }
+    
+    public override IQueryable<Car> GetAll()
+    {
+        return _context.Set<Car>().Include(x => x.BodyTypes).Include(x => x.LoadingTypes);
+    }
 }

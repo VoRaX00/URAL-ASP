@@ -30,7 +30,8 @@ public class CarController(ICarService service) : ControllerBase
     [HttpGet]
     public async Task<ActionResult<PaginatedList<CarToGet>>> Get([FromQuery] int pageNumber)
     {
-        return await service.GetAllAsync(pageNumber);
+        var cars = await service.GetAllAsync(pageNumber);
+        return cars;
     }
 
     [PageNumberFilter]
