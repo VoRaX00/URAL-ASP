@@ -5,7 +5,7 @@ namespace URAL.UserValidators;
 
 public class CustomUserNameValidator : IUserValidator<User>
 {
-    public string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";
+    public string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
 
     public Task<IdentityResult> ValidateAsync(UserManager<User> manager, User user)
     {
