@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using URAL.Application.Base;
+using URAL.Application.Filter;
 using URAL.Application.IServices;
-using URAL.Application.RequestModels.Car;
 using URAL.Application.RequestModels.Cargo;
 using URAL.Extensions;
 using URAL.Filters.ActionFilters;
@@ -34,14 +34,14 @@ public class CargoController(ICargoService service) : ControllerBase
         return await service.GetAllAsync(pageNumber);
     }
 
-    [PageNumberFilter]
-    [AllowAnonymous]
-    [HttpGet]
-    public async Task<PaginatedList<CargoToGet>> GetByName([FromQuery] string name, [FromQuery] int pageNumber)
-    {
-        var cargos = await service.GetByNameAsync(name, pageNumber);
-        return cargos;
-    }
+    // [PageNumberFilter]
+    // [AllowAnonymous]
+    // [HttpGet]
+    // public async Task<PaginatedList<CargoToGet>> GetByName([FromQuery] string name, [FromQuery] int pageNumber)
+    // {
+    //     var cargos = await service.GetByNameAsync(name, pageNumber);
+    //     return cargos;
+    // }
 
     [PageNumberFilter]
     [AllowAnonymous]
@@ -49,6 +49,15 @@ public class CargoController(ICargoService service) : ControllerBase
     public async Task<PaginatedList<CargoToGet>> GetByUserId([FromQuery] string id, [FromQuery] int pageNumber)
     {
         var cargos = await service.GetByUserIdAsync(id, pageNumber);
+        return cargos;
+    }
+    
+    [PageNumberFilter]
+    [AllowAnonymous]
+    [HttpGet]
+    public async Task<PaginatedList<CargoToGet>> GetByFilters([FromQuery] CargoFilter filters, [FromQuery] int pageNumber)
+    {
+        var cargos = await service.GetByFiltersAsync(filters, pageNumber);
         return cargos;
     }
 

@@ -1,4 +1,5 @@
 ﻿using URAL.Application.Base;
+using URAL.Application.Filter;
 using URAL.Application.RequestModels.Cargo;
 
 namespace URAL.Application.IServices;
@@ -10,6 +11,7 @@ public interface ICargoService
     Task<ulong> AddAsync(CargoToAdd cargoToAdd, string userId);
     Task<bool> UpdateAsync(CargoToUpdate cargoToUpdate);
     Task<bool> DeleteAsync(CargoToDelete cargoToDelete);
-    public Task<PaginatedList<CargoToGet>> GetByNameAsync(string name, int pageNumber);
+    // public Task<PaginatedList<CargoToGet>> GetByNameAsync(string name, int pageNumber);
+    public Task<PaginatedList<CargoToGet>> GetByFiltersAsync(CargoFilter filter, int pageNumber);
     public Task<PaginatedList<CargoToGet>> GetByUserIdAsync(string id, int pageNumber);
 }

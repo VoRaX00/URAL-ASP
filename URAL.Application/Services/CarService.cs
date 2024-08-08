@@ -1,5 +1,6 @@
 ﻿using MapsterMapper;
 using URAL.Application.Base;
+using URAL.Application.Filter;
 using URAL.Application.IRepositories;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.Car;
@@ -51,18 +52,24 @@ public class CarService(IMapper mapper, ICarRepository repository) : ICarService
         return mapper.Map<Car, CarToGet>(entity);
     }
 
-    public async Task<PaginatedList<CarToGet>> GetByNameAsync(string name, int pageNumber)
-    {
-        var result = repository.GetByName(name).Select(x => mapper.Map<Car, CarToGet>(x));
-
-        var cars = PaginatedList<CarToGet>.Create(result, pageNumber, PageSize);
-        return await cars;
-    }
+    // public async Task<PaginatedList<CarToGet>> GetByNameAsync(string name, int pageNumber)
+    // {
+    //     var result = repository.GetByName(name).Select(x => mapper.Map<Car, CarToGet>(x));
+    //
+    //     var cars = PaginatedList<CarToGet>.Create(result, pageNumber, PageSize);
+    //     return await cars;
+    // }
 
     public async Task<PaginatedList<CarToGet>> GetByUserIdAsync(string id, int pageNumber)
     {
         var result = repository.GetByUserId(id).Select(x => mapper.Map<Car, CarToGet>(x));
+        var cars = PaginatedList<CarToGet>.Create(result, pageNumber, PageSize);
+        return await cars;
+    }
 
+    public async Task<PaginatedList<CarToGet>> GetByFiltersAsync(CarFilter filters, int pageNumber)
+    {
+        var result = repository.GetByFilters(filters).Select(x => mapper.Map<Car, CarToGet>(x));
         var cars = PaginatedList<CarToGet>.Create(result, pageNumber, PageSize);
         return await cars;
     }
