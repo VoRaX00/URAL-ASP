@@ -35,15 +35,9 @@ public class CarController(ICarService service) : ControllerBase
         return cars;
     }
 
-    // [PageNumberFilter]
-    // [AllowAnonymous]
-    // [HttpGet]
-    // public async Task<PaginatedList<CarToGet>> GetByName([FromQuery] string name, [FromQuery] int pageNumber)
-    // {
-    //     var cars = await service.GetByNameAsync(name, pageNumber);
-    //     return cars;
-    // }
-
+    [PageNumberFilter]
+    [AllowAnonymous]
+    [HttpGet]
     public async Task<PaginatedList<CarToGet>> GetByFilters([FromQuery] CarFilter filters, [FromQuery] int pageNumber)
     {
         var cars = await service.GetByFiltersAsync(filters, pageNumber);

@@ -52,17 +52,9 @@ public class CargoService(IMapper mapper, ICargoRepository repository) : ICargoS
         return mapper.Map<Cargo, CargoToGet>(entity);
     }
 
-    // public async Task<PaginatedList<CargoToGet>> GetByNameAsync(string name, int pageNumber)
-    // {
-    //     var result = repository.GetByName(name).Select(x => mapper.Map<Cargo, CargoToGet>(x));
-    //
-    //     var cargo = PaginatedList<CargoToGet>.Create(result, pageNumber, PageSize);
-    //     return await cargo;
-    // }
-
-    public async Task<PaginatedList<CargoToGet>> GetByFiltersAsync(CargoFilter filter, int pageNumber)
+    public async Task<PaginatedList<CargoToGet>> GetByFiltersAsync(CargoFilter filters, int pageNumber)
     {
-        var result = repository.GetByFilters(filter).Select(x => mapper.Map<Cargo, CargoToGet>(x));
+        var result = repository.GetByFilters(filters).Select(x => mapper.Map<Cargo, CargoToGet>(x));
         var cargo = PaginatedList<CargoToGet>.Create(result, pageNumber, PageSize);
         return await cargo;
     }

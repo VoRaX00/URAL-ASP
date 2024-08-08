@@ -9,6 +9,6 @@ public abstract class CarFilter : Filter
     public string? WhereTo { get; set; }
     public DateOnly? ReadyFrom { get; set; }
     public DateOnly? ReadyTo { get; set; } 
-    public List<BodyType>? BodyTypes { get; set; }
-    public List<LoadingType>? LoadingTypes { get; set; }
+    public List<string>? BodyTypes { get; set; }
+    public List<string>? LoadingTypes { get; set; }
 }

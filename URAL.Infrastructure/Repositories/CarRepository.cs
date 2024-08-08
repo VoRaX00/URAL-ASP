@@ -36,7 +36,7 @@ public class CarRepository : BaseRepository<Car>, ICarRepository
         return _context.Cars.Where(car => car.UserId == id).Include(x => x.BodyTypes).Include(x => x.LoadingTypes);
     }
 
-    public override Car GetById(ulong id)
+    public override Car? GetById(ulong id)
     {
         return _context.Cars.Where(car => car.Id == id).Include(x => x.BodyTypes).Include(x => x.LoadingTypes).FirstOrDefault();
     }
@@ -48,8 +48,10 @@ public class CarRepository : BaseRepository<Car>, ICarRepository
             && (filters.Width == null || car.Width == filters.Width) && (filters.Capacity == null || car.Capacity == filters.Capacity) 
             && (filters.Height == null || car.Height == filters.Height) && (filters.WhereFrom == null || car.WhereFrom == filters.WhereFrom) 
             && (filters.WhereTo == null || car.WhereTo == filters.WhereTo) && (filters.ReadyFrom == null || car.ReadyFrom == filters.ReadyFrom)
-            && (filters.ReadyTo == null || car.ReadyTo == filters.ReadyTo) && (filters.BodyTypes == null || car.BodyTypes == filters.BodyTypes) 
-            && (filters.LoadingTypes == null || car.LoadingTypes == filters.LoadingTypes)
+            && (filters.ReadyTo == null || car.ReadyTo == filters.ReadyTo) && (filters.BodyTypes == null || car.BodyTypes.Count(type => 
+                filters.BodyTypes.Count(name => type.Name == name) != 0) == filters.BodyTypes.Count) 
+            && (filters.LoadingTypes == null || car.LoadingTypes.Count(type => 
+                filters.LoadingTypes.Count(name => type.Name == name) != 0) == filters.LoadingTypes.Count)
         ).Include(x => x.BodyTypes).Include(x => x.LoadingTypes);
     }
     

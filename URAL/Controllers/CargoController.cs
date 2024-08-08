@@ -34,15 +34,6 @@ public class CargoController(ICargoService service) : ControllerBase
         return await service.GetAllAsync(pageNumber);
     }
 
-    // [PageNumberFilter]
-    // [AllowAnonymous]
-    // [HttpGet]
-    // public async Task<PaginatedList<CargoToGet>> GetByName([FromQuery] string name, [FromQuery] int pageNumber)
-    // {
-    //     var cargos = await service.GetByNameAsync(name, pageNumber);
-    //     return cargos;
-    // }
-
     [PageNumberFilter]
     [AllowAnonymous]
     [HttpGet]
