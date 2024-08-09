@@ -26,15 +26,15 @@ public class CargoRepository : BaseRepository<Cargo>, ICargoRepository
     public IQueryable<Cargo> GetByFilters(CargoFilter filters)
     {
         return _context.Cargo.Where(cargo =>
-            (filters.Name == null || cargo.Name == filters.Name) && (filters.Volume == null || filters.Volume == cargo.Volume) 
-            && (filters.RequestPrice == null || cargo.RequestPrice == filters.RequestPrice) && (filters.Length == null
-                || cargo.Length == filters.Length) && (filters.Weight == null || cargo.Weight == filters.Weight) && (filters.Weight == null || 
-            cargo.Weight == filters.Weight) && (filters.Width == null || cargo.Width == filters.Width) && (filters.CountPlace == null || cargo.CountPlace == filters.CountPlace) 
-            && (filters.LoadingDate == null || cargo.LoadingDate == filters.LoadingDate) && (filters.UnloadingDate == null ||
-                cargo.UnloadingDate == filters.UnloadingDate) && (filters.LoadingPlace == null || cargo.LoadingPlace == filters.LoadingPlace) &&
-            (filters.UnloadingPlace == null || cargo.UnloadingPlace == filters.UnloadingPlace) && (filters.PriceCash == null ||
-                cargo.PriceCash == filters.PriceCash) && (filters.PriceCashNds == null || cargo.PriceCashNds == filters.PriceCashNds)
-                && (filters.PriceCashWithoutNds == null || cargo.PriceCashWithoutNds == filters.PriceCashWithoutNds)
+            (filters.name == null || cargo.Name == filters.name) && (filters.volume == null || filters.volume == cargo.Volume) 
+            && (filters.requestPrice == null || cargo.RequestPrice == filters.requestPrice) && (filters.length == null
+                || cargo.Length <= filters.length) && (filters.weight == null || cargo.Weight == filters.weight) && (filters.weight == null || 
+            cargo.Weight == filters.weight) && (filters.width == null || cargo.Width == filters.width) && (filters.countPlace == null || cargo.CountPlace == filters.countPlace) 
+            && (filters.loadingDate == null || cargo.LoadingDate == filters.loadingDate) && (filters.unloadingDate == null ||
+                cargo.UnloadingDate == filters.unloadingDate) && (filters.loadingPlace == null || cargo.LoadingPlace == filters.loadingPlace) &&
+            (filters.unloadingPlace == null || cargo.UnloadingPlace == filters.unloadingPlace) && (filters.priceCash == null ||
+                cargo.PriceCash == filters.priceCash) && (filters.priceCashNds == null || cargo.PriceCashNds == filters.priceCashNds)
+                && (filters.priceCashWithoutNds == null || cargo.PriceCashWithoutNds == filters.priceCashWithoutNds)
         );
     }
 }

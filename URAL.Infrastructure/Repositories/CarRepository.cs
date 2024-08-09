@@ -43,15 +43,15 @@ public class CarRepository : BaseRepository<Car>, ICarRepository
 
     public IQueryable<Car> GetByFilters(CarFilter filters)
     {
-        return _context.Cars.Where(car => (filters.Name == null || car.Name == filters.Name) &&
-            (filters.Volume == null || filters.Volume == car.Volume) && (filters.Length == null || car.Length == filters.Length) 
-            && (filters.Width == null || car.Width == filters.Width) && (filters.Capacity == null || car.Capacity == filters.Capacity) 
-            && (filters.Height == null || car.Height == filters.Height) && (filters.WhereFrom == null || car.WhereFrom == filters.WhereFrom) 
-            && (filters.WhereTo == null || car.WhereTo == filters.WhereTo) && (filters.ReadyFrom == null || car.ReadyFrom == filters.ReadyFrom)
-            && (filters.ReadyTo == null || car.ReadyTo == filters.ReadyTo) && (filters.BodyTypes == null || car.BodyTypes.Count(type => 
-                filters.BodyTypes.Count(name => type.Name == name) != 0) == filters.BodyTypes.Count) 
-            && (filters.LoadingTypes == null || car.LoadingTypes.Count(type => 
-                filters.LoadingTypes.Count(name => type.Name == name) != 0) == filters.LoadingTypes.Count)
+        return _context.Cars.Where(car => (filters.name == null || car.Name == filters.name) &&
+            (filters.volume == null || filters.volume == car.Volume) && (filters.length == null || car.Length == filters.length) 
+            && (filters.width == null || car.Width == filters.width) && (filters.capacity == null || car.Capacity == filters.capacity) 
+            && (filters.height == null || car.Height == filters.height) && (filters.whereFrom == null || car.WhereFrom == filters.whereFrom) 
+            && (filters.whereTo == null || car.WhereTo == filters.whereTo) && (filters.readyFrom == null || car.ReadyFrom == filters.readyFrom)
+            && (filters.readyTo == null || car.ReadyTo == filters.readyTo) && (filters.bodyTypes == null || car.BodyTypes.Count(type => 
+                filters.bodyTypes.Count(name => type.Name == name) != 0) == filters.bodyTypes.Count) 
+            && (filters.loadingTypes == null || car.LoadingTypes.Count(type => 
+                filters.loadingTypes.Count(name => type.Name == name) != 0) == filters.loadingTypes.Count)
         ).Include(x => x.BodyTypes).Include(x => x.LoadingTypes);
     }
     

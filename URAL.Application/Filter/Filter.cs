@@ -2,9 +2,9 @@ namespace URAL.Application.Filter;
 
 public abstract class Filter
 {
-    public string? Name { get; set; }
-    public double? Length { get; set; } 
-    public double? Height { get; set; } 
-    public double? Volume { get; set; }
-    public double? Width { get; set; } 
+    public string? name { get; set; }
+    public double? length { get; set; } 
+    public double? height { get; set; } 
+    public double? volume { get; set; }
+    public double? width { get; set; } 
 }
