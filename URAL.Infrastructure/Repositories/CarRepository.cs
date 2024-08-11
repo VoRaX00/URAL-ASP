@@ -48,10 +48,9 @@ public class CarRepository : BaseRepository<Car>, ICarRepository
             && (filters.width == null || car.Width == filters.width) && (filters.capacity == null || car.Capacity == filters.capacity) 
             && (filters.height == null || car.Height == filters.height) && (filters.whereFrom == null || car.WhereFrom == filters.whereFrom) 
             && (filters.whereTo == null || car.WhereTo == filters.whereTo) && (filters.readyFrom == null || car.ReadyFrom == filters.readyFrom)
-            && (filters.readyTo == null || car.ReadyTo == filters.readyTo) && (filters.bodyTypes == null || car.BodyTypes.Count(type => 
-                filters.bodyTypes.Count(name => type.Name == name) != 0) == filters.bodyTypes.Count) 
-            && (filters.loadingTypes == null || car.LoadingTypes.Count(type => 
-                filters.loadingTypes.Count(name => type.Name == name) != 0) == filters.loadingTypes.Count)
+            && (filters.readyTo == null || car.ReadyTo == filters.readyTo) && (filters.bodyTypes == null || filters.bodyTypes == null || 
+                        car.BodyTypes.All(type => filters.bodyTypes.Contains(type.Name))) 
+            && (filters.loadingTypes == null || filters.bodyTypes == null || car.BodyTypes.All(type => filters.bodyTypes.Contains(type.Name)))
         ).Include(x => x.BodyTypes).Include(x => x.LoadingTypes);
     }
     
