@@ -13,7 +13,7 @@ public class ReadRepository<TEntity> : IReadRepository<TEntity> where TEntity : 
         return _context.Set<TEntity>();
     }
 
-    public virtual TEntity? GetById(ulong id)
+    public virtual TEntity? GetById(long id)
     {
         return _context.Set<TEntity>().FirstOrDefault(entity => entity.Id == id);
     }

@@ -1,3 +1,3 @@
 ﻿namespace URAL.Application.RequestModels.LoadingType;
 
-public record LoadingTypeToGet(ulong Id, string Name);
+public record LoadingTypeToGet(long Id, string Name);

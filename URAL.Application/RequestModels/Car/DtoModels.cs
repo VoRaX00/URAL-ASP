@@ -1,5 +1,5 @@
 ﻿namespace URAL.Application.RequestModels.Car;
 
 
-public record BodyTypeDto(ulong Id);
-public record LoadingTypeDto(ulong Id);
+public record BodyTypeDto(long Id);
+public record LoadingTypeDto(long Id);

@@ -20,7 +20,7 @@ public class UserService(IMapper mapper, UserManager<User> userManager) : IUserS
     public async Task<string> AddAsync(UserToAdd userToAdd)
     {
         var entity = mapper.Map<UserToAdd, User>(userToAdd);
-        entity.DateJoined = DateTime.Now;
+        entity.DateJoined = DateTime.UtcNow;
         var isHaveEmail = await userManager.FindByEmailAsync(entity.Email) != null;
 
         if (isHaveEmail)

@@ -1,3 +1,3 @@
 ﻿namespace URAL.Application.RequestModels.NotifyCar;
 
-public record NotifyCarToDelete(ulong Id);
+public record NotifyCarToDelete(long Id);

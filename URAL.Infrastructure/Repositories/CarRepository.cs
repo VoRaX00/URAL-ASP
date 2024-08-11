@@ -36,7 +36,7 @@ public class CarRepository : BaseRepository<Car>, ICarRepository
         return _context.Cars.Where(car => car.UserId == id).Include(x => x.BodyTypes).Include(x => x.LoadingTypes);
     }
 
-    public override Car? GetById(ulong id)
+    public override Car? GetById(long id)
     {
         return _context.Cars.Where(car => car.Id == id).Include(x => x.BodyTypes).Include(x => x.LoadingTypes).FirstOrDefault();
     }

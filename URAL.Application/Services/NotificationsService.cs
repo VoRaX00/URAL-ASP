@@ -45,7 +45,7 @@ public class NotificationsService(
         return PaginatedList<NotificationToGet>.Create(result, pageNumber, PageSize);
     }
 
-    private NotificationToGet[] GetNotifications(IEnumerable<ulong> cargoNotifyIds, IEnumerable<ulong> carNotifyIds)
+    private NotificationToGet[] GetNotifications(IEnumerable<long> cargoNotifyIds, IEnumerable<long> carNotifyIds)
     {
         var cargos = cargoNotifyIds.Select(cargoRepository.GetById);
         var cars = carNotifyIds.Select(carRepository.GetById);

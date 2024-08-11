@@ -12,7 +12,7 @@ public class CarService(IMapper mapper, ICarRepository repository) : ICarService
 {
     public int PageSize { get; } = 4;
 
-    public async Task<ulong> AddAsync(CarToAdd carToAdd, string userId)
+    public async Task<long> AddAsync(CarToAdd carToAdd, string userId)
     {
         var entity = mapper.Map<CarToAdd, Car>(carToAdd);
         entity.UserId = userId;
@@ -42,7 +42,7 @@ public class CarService(IMapper mapper, ICarRepository repository) : ICarService
         return await cars;
     }
 
-    public CarToGet? GetById(ulong id)
+    public CarToGet? GetById(long id)
     {
         var entity = repository.GetById(id);
 

@@ -5,5 +5,5 @@ namespace URAL.Application.IRepositories;
 public interface IReadRepository<TEntity> where TEntity : BaseEntity
 {
     public IQueryable<TEntity> GetAll();
-    public TEntity? GetById(ulong id);
+    public TEntity? GetById(long id);
 }

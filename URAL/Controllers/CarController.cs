@@ -16,7 +16,7 @@ public class CarController(ICarService service) : ControllerBase
 {
     [AllowAnonymous]
     [HttpGet("{id}")]
-    public ActionResult<CarToGet> Get([FromRoute] ulong id)
+    public ActionResult<CarToGet> Get([FromRoute] long id)
     {
         var result = service.GetById(id);
 
@@ -54,7 +54,7 @@ public class CarController(ICarService service) : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<ulong>> Add([FromBody] CarToAdd carToAdd)
+    public async Task<ActionResult<long>> Add([FromBody] CarToAdd carToAdd)
     {
         var userId = User.GetUserIdFromClaim();
         var entityId = await service.AddAsync(carToAdd, userId);
@@ -62,7 +62,7 @@ public class CarController(ICarService service) : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> Update([FromRoute] ulong id, [FromBody] CarToUpdate carToUpdate)
+    public async Task<ActionResult> Update([FromRoute] long id, [FromBody] CarToUpdate carToUpdate)
     {
         if (id != carToUpdate.Id)
             return BadRequest();
@@ -73,7 +73,7 @@ public class CarController(ICarService service) : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult> Delete([FromRoute] ulong id)
+    public async Task<ActionResult> Delete([FromRoute] long id)
     {
         var isSuccess = await service.DeleteAsync(new(id));
 

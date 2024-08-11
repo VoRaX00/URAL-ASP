@@ -12,7 +12,7 @@ public class CargoService(IMapper mapper, ICargoRepository repository) : ICargoS
 {
     public int PageSize { get; } = 4;
 
-    public async Task<ulong> AddAsync(CargoToAdd cargoToAdd, string userId)
+    public async Task<long> AddAsync(CargoToAdd cargoToAdd, string userId)
     {
         var entity = mapper.Map<CargoToAdd, Cargo>(cargoToAdd);
         entity.UserId = userId;
@@ -42,7 +42,7 @@ public class CargoService(IMapper mapper, ICargoRepository repository) : ICargoS
         return await cargo;
     }
 
-    public CargoToGet? GetById(ulong id)
+    public CargoToGet? GetById(long id)
     {
         var entity = repository.GetById(id);
 

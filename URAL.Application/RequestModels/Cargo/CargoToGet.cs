@@ -2,7 +2,7 @@
 
 public record CargoToGet
 {
-    public ulong Id { get; init; }
+    public long Id { get; init; }
     public string Name { get; init; }
     public double Length { get; init; }
     public double Width { get; init; }

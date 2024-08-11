@@ -12,7 +12,7 @@ public class NotifyCarService(IMapper mapper, INotifyCarRepository repository) :
 {
     public int PageSize { get; } = 4;
 
-    public async Task<ulong> AddAsync(NotifyCarToAdd notifyCarToAdd)
+    public async Task<long> AddAsync(NotifyCarToAdd notifyCarToAdd)
     {
         var entity = mapper.Map<NotifyCarToAdd, NotifyCar>(notifyCarToAdd);
         entity = await repository.AddAsync(entity);
@@ -41,7 +41,7 @@ public class NotifyCarService(IMapper mapper, INotifyCarRepository repository) :
         return await notifyCargoPage;
     }
 
-    public NotifyCarToGet? GetById(ulong id)
+    public NotifyCarToGet? GetById(long id)
     {
         var entity = repository.GetById(id);
 

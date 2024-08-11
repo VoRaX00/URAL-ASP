@@ -5,7 +5,7 @@ namespace URAL.Application.RequestModels.Notification;
 
 public record NotificationToGet
 {
-    public ulong Id { get; init; }
+    public long Id { get; init; }
     
     public CarToGet? Car {  get; init; }
 

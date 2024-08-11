@@ -1,3 +1,3 @@
 ﻿namespace URAL.Application.RequestModels.Cargo;
 
-public record CargoToDelete(ulong Id);
+public record CargoToDelete(long Id);

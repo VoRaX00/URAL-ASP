@@ -2,7 +2,7 @@
 
 public record NotifyCargoToGet
 {
-    public ulong Id { get; init; }
+    public long Id { get; init; }
     public char FirstUserStatus { get; init; }
     public char SecondUserStatus { get; init; }
     public string? FirstUserComment { get; init; }

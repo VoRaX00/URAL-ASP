@@ -16,7 +16,7 @@ public class CargoController(ICargoService service) : ControllerBase
 {
     [AllowAnonymous]
     [HttpGet("{id}")]
-    public ActionResult<CargoToGet> Get([FromRoute] ulong id)
+    public ActionResult<CargoToGet> Get([FromRoute] long id)
     {
         var result = service.GetById(id);
 
@@ -53,7 +53,7 @@ public class CargoController(ICargoService service) : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<ulong>> Add([FromBody] CargoToAdd cargoToAdd) 
+    public async Task<ActionResult<long>> Add([FromBody] CargoToAdd cargoToAdd) 
     {
         var userId = User.GetUserIdFromClaim();
         var entityId = await service.AddAsync(cargoToAdd, userId);
@@ -61,7 +61,7 @@ public class CargoController(ICargoService service) : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> Update([FromRoute] ulong id, [FromBody] CargoToUpdate cargoToUpdate)
+    public async Task<ActionResult> Update([FromRoute] long id, [FromBody] CargoToUpdate cargoToUpdate)
     {
         if (id != cargoToUpdate.Id)
             return BadRequest();
@@ -72,7 +72,7 @@ public class CargoController(ICargoService service) : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult> Delete([FromRoute] ulong id)
+    public async Task<ActionResult> Delete([FromRoute] long id)
     {
         var isSuccess = await service.DeleteAsync(new(id));
 

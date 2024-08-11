@@ -13,7 +13,7 @@ public class LoadingTypeService(IMapper mapper, ILoadingTypeRepository repositor
         return repository.GetAll().Select(x => mapper.Map<LoadingType, LoadingTypeToGet>(x));
     }
 
-    public LoadingTypeToGet? GetById(ulong id)
+    public LoadingTypeToGet? GetById(long id)
     {
         var entity = repository.GetById(id);
 

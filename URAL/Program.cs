@@ -16,12 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
 builder.Services.AddDbContext<UralDbContext>(
-    options =>
-    {
-        var connectionString = configuration.GetConnectionString("UralDbContext");
-        var serverVersion = ServerVersion.AutoDetect(connectionString);
-        options.UseMySql(connectionString, serverVersion);
-    }
+    options => { options.UseNpgsql(configuration.GetConnectionString(nameof(UralDbContext))); }
 );
 
 builder.Services.AddIdentitySettings(configuration);

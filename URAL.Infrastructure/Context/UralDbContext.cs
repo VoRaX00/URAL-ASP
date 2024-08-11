@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using URAL.Domain.Common;
 using URAL.Domain.Entities;
 using URAL.Infrastructure.Configurations;
 
@@ -17,6 +18,12 @@ public class UralDbContext(DbContextOptions<UralDbContext> options) : IdentityDb
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<Cargo>().Property(e => e.Id).UseIdentityColumn();
+        modelBuilder.Entity<Car>().Property(e => e.Id).UseIdentityColumn();
+        modelBuilder.Entity<NotifyCargo>().Property(e => e.Id).UseIdentityColumn();
+        modelBuilder.Entity<NotifyCar>().Property(e => e.Id).UseIdentityColumn();
+        modelBuilder.Entity<BodyType>().Property(e => e.Id).UseIdentityColumn();
+        modelBuilder.Entity<LoadingType>().Property(e => e.Id).UseIdentityColumn();
         modelBuilder.ApplyConfiguration(new BodyTypeConfiguration());
         modelBuilder.ApplyConfiguration(new CarConfiguration());
         modelBuilder.ApplyConfiguration(new CargoConfiguration());

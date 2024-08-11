@@ -1,3 +1,3 @@
 ﻿namespace URAL.Application.RequestModels.Car;
 
-public record CarToDelete(ulong Id);
+public record CarToDelete(long Id);

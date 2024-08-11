@@ -2,7 +2,7 @@
 
 public record CarToUpdate
 {
-    public ulong Id { get; init; }
+    public long Id { get; init; }
     public string Name { get; init; }
     public double Capacity { get; init; }
     public double Volume { get; init; }

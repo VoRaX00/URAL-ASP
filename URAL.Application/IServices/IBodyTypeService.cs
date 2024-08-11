@@ -5,5 +5,5 @@ namespace URAL.Application.IServices;
 public interface IBodyTypeService
 {
     public IEnumerable<BodyTypeToGet> GetAll();
-    public BodyTypeToGet? GetById(ulong id);
+    public BodyTypeToGet? GetById(long id);
 }

@@ -14,21 +14,21 @@ namespace URAL.Controllers;
 public class NotifyCargoController(INotifyCargoService service) : ControllerBase
 {
     [HttpPost]
-    public async Task<ActionResult<ulong>> Add([FromBody] NotifyCargoToAdd notifyCargoToAdd)
+    public async Task<ActionResult<long>> Add([FromBody] NotifyCargoToAdd notifyCargoToAdd)
     {
         var entityId = await service.AddAsync(notifyCargoToAdd);
         return entityId;
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult> Delete([FromRoute] ulong id)
+    public async Task<ActionResult> Delete([FromRoute] long id)
     {
         var isSuccess = await service.DeleteAsync(new(id));
         return isSuccess ? Ok() : NotFound();
     }
 
     [HttpGet("{id}")]
-    public ActionResult<NotifyCargoToGet> Get([FromRoute] ulong id)
+    public ActionResult<NotifyCargoToGet> Get([FromRoute] long id)
     {
         var result = service.GetById(id);
 
@@ -66,7 +66,7 @@ public class NotifyCargoController(INotifyCargoService service) : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> Update([FromRoute] ulong id, [FromBody] NotifyCargoToUpdate notifyCargoToUpdate)
+    public async Task<ActionResult> Update([FromRoute] long id, [FromBody] NotifyCargoToUpdate notifyCargoToUpdate)
     {
         if (id != notifyCargoToUpdate.Id)
             return BadRequest();
