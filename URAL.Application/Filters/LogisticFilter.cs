@@ -1,21 +1,26 @@
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Linq.Expressions;
+using System.Reflection;
 using URAL.Domain.Common;
 
 namespace URAL.Application.Filters;
 
-public abstract class LogisticFilter<T> : IFilter<T> where T : LogisticEntity
+public abstract class LogisticFilter<T> : BaseFilter<T> where T : LogisticEntity
 {
-    public string? name { get; set; }
-    public double? length { get; set; } 
-    public double? height { get; set; } 
-    public double? volume { get; set; }
-    public double? width { get; set; }
+    public string? Name { get; set; }
+    public double? Length { get; set; }
+    public double? Height { get; set; }
+    public double? Volume { get; set; }
+    public double? Width { get; set; }
 
-    public virtual bool Apply(T obj) 
+    private readonly static PropertyInfo[] properties =  typeof(LogisticFilter<T>).GetProperties();
+
+    public override Expression<Func<T, bool>> GetFilteringExpression()
     {
-        return (name?.Equals(obj.Name) ?? true) &&
-            (length?.Equals(obj.Length) ?? true) &&
-            (height?.Equals(obj.Height) ?? true) &&
-            (volume?.Equals(obj.Volume) ?? true) &&
-            (width?.Equals(obj.Width) ?? true);
+        var properties = LogisticFilter<T>.properties;
+
+        return ApplyAllFiltering(properties);
     }
+
+
 }

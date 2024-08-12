@@ -41,9 +41,9 @@ public class CarRepository : BaseRepository<Car>, ICarRepository
         return _context.Cars.Where(car => car.Id == id).Include(x => x.BodyTypes).Include(x => x.LoadingTypes).FirstOrDefault();
     }
 
-    public IQueryable<Car> GetByFilters(IFilter<Car> filter)
+    public IQueryable<Car> GetByFilters(IExpressionFilter<Car> filter)
     {
-        return _context.Cars.Where(car => filter.Apply(car)).Include(x => x.BodyTypes).Include(x => x.LoadingTypes);
+        return _context.Cars.Where(filter.GetFilteringExpression()).Include(x => x.BodyTypes).Include(x => x.LoadingTypes);
     }
     
     public override IQueryable<Car> GetAll()
