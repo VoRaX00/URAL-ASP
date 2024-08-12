@@ -19,4 +19,6 @@ public class User : IdentityUser
     
     public List<NotifyCargo> FirstNotifyCargo { get; set; } = [];
     public List<NotifyCargo> SecondNotifyCargo { get; set; } = [];
+    public List<Message> Messages { get; set; } = [];
+    public List<Chat> Chats { get; set; } = [];
 }

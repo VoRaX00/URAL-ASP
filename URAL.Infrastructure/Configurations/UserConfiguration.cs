@@ -39,5 +39,17 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasMany(user => user.SecondNotifyCargo)
             .WithOne(notify => notify.SecondUser)
             .HasForeignKey(notify => notify.SecondUserId);
+
+        builder.HasMany(user => user.Chats)
+            .WithOne(chat => chat.FirstUser)
+            .HasForeignKey(chat => chat.FirstUserId);
+        
+        builder.HasMany(user => user.Chats)
+            .WithOne(chat => chat.SecondUser)
+            .HasForeignKey(chat => chat.SecondUserId);
+
+        builder.HasMany(user => user.Messages)
+            .WithOne(m => m.User)
+            .HasForeignKey(m => m.UserId);
     }
 }

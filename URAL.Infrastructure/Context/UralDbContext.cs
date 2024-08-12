@@ -14,6 +14,8 @@ public class UralDbContext(DbContextOptions<UralDbContext> options) : IdentityDb
     public DbSet<LoadingType> LoadingTypes { get; set; }
     public DbSet<NotifyCar> NotifyCars { get; set; }
     public DbSet<NotifyCargo> NotifyCargo { get; set; }
+    public DbSet<Chat>Chats { get; set; }
+    public DbSet<Message>Messages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -31,5 +33,6 @@ public class UralDbContext(DbContextOptions<UralDbContext> options) : IdentityDb
         modelBuilder.ApplyConfiguration(new NotifyCarConfiguration());
         modelBuilder.ApplyConfiguration(new NotifyCargoConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
+        modelBuilder.ApplyConfiguration(new ChatConfiguration());
     }
 }
