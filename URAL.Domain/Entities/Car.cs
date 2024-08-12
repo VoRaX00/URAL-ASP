@@ -2,14 +2,9 @@
 
 namespace URAL.Domain.Entities;
 
-public class Car : BaseEntity
+public class Car : LogisticEntity
 {
-    public string Name { get; set; }
     public double Capacity { get; set; }
-    public double Volume { get; set; }
-    public double Length { get; set; }
-    public double Width { get; set; }
-    public double Height { get; set; }
     public string WhereFrom { get; set; }
     public string WhereTo { get; set; }
     public DateOnly ReadyFrom { get; set; }

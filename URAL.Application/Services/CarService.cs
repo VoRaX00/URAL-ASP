@@ -1,6 +1,6 @@
 ﻿using MapsterMapper;
 using URAL.Application.Base;
-using URAL.Application.Filter;
+using URAL.Application.Filters;
 using URAL.Application.IRepositories;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.Car;

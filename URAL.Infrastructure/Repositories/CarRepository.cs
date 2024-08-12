@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using URAL.Application.Filter;
+using URAL.Application.Filters;
 using URAL.Application.IRepositories;
 using URAL.Domain.Entities;
 using URAL.Infrastructure.Context;
@@ -41,17 +41,9 @@ public class CarRepository : BaseRepository<Car>, ICarRepository
         return _context.Cars.Where(car => car.Id == id).Include(x => x.BodyTypes).Include(x => x.LoadingTypes).FirstOrDefault();
     }
 
-    public IQueryable<Car> GetByFilters(CarFilter filters)
+    public IQueryable<Car> GetByFilters(IFilter<Car> filter)
     {
-        return _context.Cars.Where(car => (filters.name == null || car.Name == filters.name) &&
-            (filters.volume == null || filters.volume == car.Volume) && (filters.length == null || car.Length == filters.length) 
-            && (filters.width == null || car.Width == filters.width) && (filters.capacity == null || car.Capacity == filters.capacity) 
-            && (filters.height == null || car.Height == filters.height) && (filters.whereFrom == null || car.WhereFrom == filters.whereFrom) 
-            && (filters.whereTo == null || car.WhereTo == filters.whereTo) && (filters.readyFrom == null || car.ReadyFrom == filters.readyFrom)
-            && (filters.readyTo == null || car.ReadyTo == filters.readyTo) && (filters.bodyTypes == null || filters.bodyTypes == null || 
-                        car.BodyTypes.All(type => filters.bodyTypes.Contains(type.Name))) 
-            && (filters.loadingTypes == null || filters.bodyTypes == null || car.BodyTypes.All(type => filters.bodyTypes.Contains(type.Name)))
-        ).Include(x => x.BodyTypes).Include(x => x.LoadingTypes);
+        return _context.Cars.Where(car => filter.Apply(car)).Include(x => x.BodyTypes).Include(x => x.LoadingTypes);
     }
     
     public override IQueryable<Car> GetAll()
