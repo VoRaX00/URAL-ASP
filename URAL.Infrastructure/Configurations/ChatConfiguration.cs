@@ -11,11 +11,11 @@ public class ChatConfiguration : IEntityTypeConfiguration<Chat>
         builder.HasKey(chat => chat.Id);
 
         builder.HasOne(chat => chat.FirstUser)
-            .WithMany(user => user.Chats)
+            .WithMany(user => user.FirstChats)
             .HasForeignKey(chat => chat.FirstUserId);
 
         builder.HasOne(chat => chat.SecondUser)
-            .WithMany(user => user.Chats)
+            .WithMany(user => user.SecondChats)
             .HasForeignKey(chat => chat.SecondUserId);
 
         builder.HasMany(chat => chat.Messages)

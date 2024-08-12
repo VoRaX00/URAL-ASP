@@ -6,4 +6,8 @@ namespace URAL.Hubs;
 public class ChatHub : Hub
 {
     
-}
+    // public Task JoinChat(UserConnection connection)
+    // {
+    //     
+    // }
+} 

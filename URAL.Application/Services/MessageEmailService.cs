@@ -5,7 +5,7 @@ using URAL.Application.RequestModels.User;
 
 namespace URAL.Application.Services;
 
-public class MessageService(MessageServiceOptions options) : IMessageService
+public class MessageEmailService(MessageServiceOptions options) : IMessageEmailService
 {
     public async Task SendAsync(EmailMessage emailMessage)
     {

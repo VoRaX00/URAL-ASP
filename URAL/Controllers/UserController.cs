@@ -15,7 +15,7 @@ namespace URAL.Controllers;
 public class UserController(
     AuthOptions authOptions, 
     IUserService userService, 
-    IMessageService messageService, 
+    IMessageEmailService messageEmailService, 
     IJwtTokenWriter jwtTokenWriter) : ControllerBase
 {
     [HttpGet("{id}")]
@@ -43,7 +43,7 @@ public class UserController(
         };
         var callbackUrl= QueryHelpers.AddQueryString(clientUri, param);
 
-        await messageService.SendConfirmEmail(userToAdd.Email, callbackUrl);
+        await messageEmailService.SendConfirmEmail(userToAdd.Email, callbackUrl);
 
         return entityId;
     }

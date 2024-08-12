@@ -15,4 +15,8 @@
     <ProjectReference Include="..\URAL.Domain\URAL.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="RequestModels\Chat\" />
+  </ItemGroup>
+
 </Project>

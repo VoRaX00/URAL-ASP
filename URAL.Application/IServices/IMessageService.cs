@@ -1,12 +1,10 @@
-﻿using URAL.Application.Services;
+using URAL.Application.RequestModels.Message;
+using URAL.Domain.Entities;
 
 namespace URAL.Application.IServices;
 
 public interface IMessageService
 {
-    public Task SendAsync(EmailMessage emailMessage);
-
-    public Task SendConfirmEmail(string email, string callbackUrl);
+    public Task<bool> SendAsync(Message message);
+    public Task<bool> DeleteAsync(MessageToDelete message);
 }
-
-public record EmailMessage(string Email, string Subject, string Body);

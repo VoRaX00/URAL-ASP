@@ -40,11 +40,11 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .WithOne(notify => notify.SecondUser)
             .HasForeignKey(notify => notify.SecondUserId);
 
-        builder.HasMany(user => user.Chats)
+        builder.HasMany(user => user.FirstChats)
             .WithOne(chat => chat.FirstUser)
             .HasForeignKey(chat => chat.FirstUserId);
         
-        builder.HasMany(user => user.Chats)
+        builder.HasMany(user => user.SecondChats)
             .WithOne(chat => chat.SecondUser)
             .HasForeignKey(chat => chat.SecondUserId);
 
