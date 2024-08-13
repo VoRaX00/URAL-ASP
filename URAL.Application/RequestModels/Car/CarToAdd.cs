@@ -17,4 +17,3 @@ public record CarToAdd
     public List<BodyTypeDto> BodyTypes { get; init; }
     public List<LoadingTypeDto> LoadingTypes { get; init; }
 }
-
