@@ -1,15 +1,19 @@
 using Microsoft.AspNetCore.SignalR;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.Chat;
-using URAL.Application.RequestModels.User;
-using URAL.Application.Services;
+using URAL.Application.RequestModels.Message;
 
 namespace URAL.Hubs;
 
-public class ChatHub(IChatService service) : Hub
+public class ChatHub(IMessageService service) : Hub<IChatClient>
 {
-    public async Task JoinChat(ChatToAdd newChat)
+    public async Task JoinChat()
     {
-        await service.AddAsync(newChat);
+        
+    }
+
+    public async Task SendMessage(MessageToAdd message)
+    {
+        
     }
 } 

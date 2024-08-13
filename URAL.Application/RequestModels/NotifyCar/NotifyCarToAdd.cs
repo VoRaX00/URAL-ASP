@@ -1,6 +1,4 @@
-﻿using URAL.Domain.Enums;
-
-namespace URAL.Application.RequestModels.NotifyCar;
+﻿namespace URAL.Application.RequestModels.NotifyCar;
 
 public record NotifyCarToAdd
 {

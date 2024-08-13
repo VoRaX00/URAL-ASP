@@ -7,6 +7,7 @@ using URAL.Infrastructure.Extension;
 using URAL.Extensions;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using URAL.Hubs;
 using URAL.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -48,15 +49,20 @@ builder.Services.AddCors(options =>
     });
 } );
 
+builder.Services.AddSignalR();
+
 var app = builder.Build();
+
+app.MapHub<ChatHub>("/chat");
 
 app.UseCors();
 
-// if (app.Environment.IsDevelopment())
-// {
+
+if (app.Environment.IsDevelopment())
+{
     app.UseSwagger();
     app.UseSwaggerUI();
-//}
+}
 
 app.UseAuthentication();
 app.UseAuthorization();

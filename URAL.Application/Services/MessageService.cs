@@ -41,9 +41,11 @@ public class MessageService(IMapper mapper, IMessageRepository repository) : IMe
         return mapper.Map<Message, MessageToGet>(entity);
     }
 
-    public async Task<long> AddAsync(MessageToAdd message)
+    public async Task<long> AddAsync(MessageToAdd message, string userId)
     {
         var entity = mapper.Map<MessageToAdd, Message>(message);
+        entity.UserId = userId;
+        entity.SentAt = DateTime.UtcNow;
         entity = await repository.AddAsync(entity);
         await repository.SaveChangesAsync();
         return entity.Id;

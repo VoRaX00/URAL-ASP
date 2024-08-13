@@ -1,6 +1,5 @@
 using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
-using URAL.Application.Base;
 using URAL.Application.IRepositories;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.Chat;
@@ -31,6 +30,13 @@ public class ChatService(IMapper mapper, IChatRepository repository) : IChatServ
         return await chats;
     }
 
+    public async Task<List<ChatToGet>> GetByUserIdAsync(string userId)
+    {
+        var result = repository.GetByUserId(userId).Select(x => mapper.Map<Chat, ChatToGet>(x));
+        var chats = result.ToListAsync();
+        return await chats;
+    }
+
     public ChatToGet? GetById(long id)
     {
         var entity = repository.GetById(id);
@@ -41,9 +47,10 @@ public class ChatService(IMapper mapper, IChatRepository repository) : IChatServ
         return mapper.Map<Chat, ChatToGet>(entity);
     }
 
-    public async Task<long> AddAsync(ChatToAdd chat)
+    public async Task<long> AddAsync(ChatToAdd chat, string userId)
     {
         var entity = mapper.Map<ChatToAdd, Chat>(chat);
+        entity.SecondUserId = userId;
         entity = await repository.AddAsync(entity);
         await repository.SaveChangesAsync();
         return entity.Id;

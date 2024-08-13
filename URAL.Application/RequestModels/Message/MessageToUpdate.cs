@@ -1,6 +1,8 @@
 namespace URAL.Application.RequestModels.Message;
 
-public class MessageToUpdate
+public record MessageToUpdate
 {
     public long Id { get; init; }
+    public string Content { get; init; }
+    
 }

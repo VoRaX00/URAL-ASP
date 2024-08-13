@@ -17,7 +17,8 @@ public static class ServiceExtension
         services.AddScoped<INotifyCarService, NotifyCarService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IMessageEmailService, MessageEmailService>();
-
+        services.AddScoped<IChatService, ChatService>();
+        services.AddScoped<IMessageService, MessageService>();
         return services;
     }
 }

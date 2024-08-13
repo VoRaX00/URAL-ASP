@@ -1,6 +1,7 @@
 using URAL.Application.IRepositories;
 using URAL.Domain.Entities;
 using URAL.Infrastructure.Context;
+using URAL.Infrastructure.Migrations;
 
 namespace URAL.Infrastructure.Repositories;
 
@@ -19,5 +20,10 @@ public class ChatRepository : BaseRepository<Chat>, IChatRepository
     public IQueryable<Chat> GetBySecondUserId(string userId)
     {
         return _context.Chats.Where(chat => chat.SecondUserId == userId);
+    }
+
+    public IQueryable<Chat> GetByUserId(string userId)
+    {
+        return _context.Chats.Where(chat => chat.FirstUserId == userId || chat.SecondUserId == userId);
     }
 }
