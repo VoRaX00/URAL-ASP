@@ -12,6 +12,6 @@ public interface ICarService
     Task<long> AddAsync(CarToAdd carToAdd, string userId);
     Task<bool> UpdateAsync(CarToUpdate carToUpdate);
     Task<bool> DeleteAsync(CarToDelete carToDelete);
-    public Task<PaginatedList<CarToGet>> GetByFiltersAsync(CarFilter filters, int pageNumber);
+    public Task<PaginatedList<CarToGet>> GetByFiltersAsync(IExpressionFilter<Car> filters, int pageNumber);
     public Task<PaginatedList<CarToGet>> GetByUserIdAsync(string id, int pageNumber);
 }

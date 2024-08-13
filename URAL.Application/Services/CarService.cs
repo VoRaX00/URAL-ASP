@@ -59,7 +59,7 @@ public class CarService(IMapper mapper, ICarRepository repository) : ICarService
         return await cars;
     }
 
-    public async Task<PaginatedList<CarToGet>> GetByFiltersAsync(CarFilter filters, int pageNumber)
+    public async Task<PaginatedList<CarToGet>> GetByFiltersAsync(IExpressionFilter<Car> filters, int pageNumber)
     {
         var result = repository.GetByFilters(filters).Select(x => mapper.Map<Car, CarToGet>(x));
         var cars = PaginatedList<CarToGet>.Create(result, pageNumber, PageSize);

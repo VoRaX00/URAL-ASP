@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using URAL.Application.Filters;
 using URAL.Application.IRepositories;
 using URAL.Domain.Entities;
@@ -22,8 +23,9 @@ public class CargoRepository : BaseRepository<Cargo>, ICargoRepository
         return _context.Cargo.Where(cargo => cargo.UserId == id);
     }
 
-    public IQueryable<Cargo> GetByFilters(IFilter<Cargo> filter)
+    public IQueryable<Cargo> GetByFilters(IExpressionFilter<Cargo> filter)
     {
-        return _context.Cargo.Where(x => filter.Apply(x));
+        var a = filter.GetFilteringExpression();
+        return _context.Cargo.Where(a);
     }
 }

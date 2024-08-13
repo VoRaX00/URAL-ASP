@@ -8,5 +8,5 @@ public interface ICargoRepository : IBaseRepository<Cargo>
     public IQueryable<Cargo> GetByName(string name);
     public IQueryable<Cargo> GetByUserId(string id);
 
-    public IQueryable<Cargo> GetByFilters(IFilter<Cargo> filter);
+    public IQueryable<Cargo> GetByFilters(IExpressionFilter<Cargo> filter);
 }

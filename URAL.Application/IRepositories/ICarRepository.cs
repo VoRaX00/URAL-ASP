@@ -7,5 +7,5 @@ public interface ICarRepository : IBaseRepository<Car>
 {
     public IQueryable<Car> GetByName(string name);
     public IQueryable<Car> GetByUserId(string id);
-    public IQueryable<Car> GetByFilters(IFilter<Car> filter);
+    public IQueryable<Car> GetByFilters(IExpressionFilter<Car> filter);
 }
