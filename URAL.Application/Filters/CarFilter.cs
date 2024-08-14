@@ -1,6 +1,6 @@
-using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Reflection.Metadata;
 using URAL.Domain.Entities;
 
 namespace URAL.Application.Filters;
@@ -14,35 +14,48 @@ public class CarFilter : LogisticFilter<Car>
     public DateOnly? ReadyTo { get; set; }
     public List<string>? BodyTypes { get; set; } = new();
     public List<string>? LoadingTypes { get; set; } = new();
+
     private readonly static PropertyInfo[] properties = typeof(CarFilter).GetProperties();
+    private readonly static MethodInfo selectInfo = typeof(Enumerable).GetMethods().FirstOrDefault(x => x.Name == "Select");
+    private readonly static MethodInfo exceptInfo = typeof(Enumerable).GetMethods().FirstOrDefault(x => x.Name == "Except").MakeGenericMethod(typeof(string));
+    private readonly static MethodInfo anyInfo = typeof(Enumerable).GetMethods().FirstOrDefault(x => x.Name == "Any").MakeGenericMethod(typeof(string));
 
     public override Expression<Func<Car, bool>> GetFilteringExpression()
     {
-        //Expression<Func<Car, bool>> a = obj =>
-        //(BodyTypes.Count == 0 || obj.BodyTypes.All(x => BodyTypes.Contains(x.Name))) &&
-        //(LoadingTypes.Count == 0 || obj.LoadingTypes.All(x => LoadingTypes.Contains(x.Name)));
-
         return ApplyAllFiltering(properties);
     }
 
     protected override Expression? ApplyContainsFiltering(PropertyInfo[] properties)
     {
-        //Expression body = null;
+        Expression body = null;
 
-        //foreach (var property in properties.Where(x => x.PropertyType.GetInterfaces().Contains(typeof(IEnumerable<>))))
-        //{
-        //    var member = Expression.Property(param, property.Name);
-        //    var constant = Expression.Convert(Expression.Constant(property.GetValue(this), property.PropertyType), typeof(IEnumerable<>));
+        foreach (var property in properties)
+        {
+            var member = Expression.Property(param, property.Name);
+            var constant = Expression.Constant(property.GetValue(this));
 
-        //    var zeroCountCheck = Expression.Equal(Expression.Property(constant, "Count"), Expression.Constant(0));
-        //    Expression.
-        //    var equalMemberToProperty = Expression.Call(member, "All", Expression.Lambda<Func<>>);
+            var zeroCheck = Expression.Equal(Expression.Property(constant, "Count"), Expression.Constant(0));
 
-        //    var expression = Expression.OrElse(zeroCountCheck, equalMemberToProperty);
+            var paramForLambda = Expression.Parameter(member.Type.GenericTypeArguments[0], "x");
+            var lambdaForSelect = Expression.Lambda(Expression.Property(paramForLambda, "Name"), paramForLambda);
 
-        //    body = body == null ? expression : Expression.AndAlso(body, expression);
-        //}
+            var genericSelectInfo = selectInfo.MakeGenericMethod(member.Type.GenericTypeArguments[0], typeof(string));
 
-        return null;
+            var selectCallForMember = Expression.Call(genericSelectInfo, member, lambdaForSelect);
+            var leftCheck = CreateExceptCheck(constant, selectCallForMember);
+            var rightCheck = CreateExceptCheck(selectCallForMember, constant);
+            var containsCheck = Expression.Not(Expression.OrElse(leftCheck, rightCheck));
+
+            var expression = Expression.OrElse(zeroCheck, containsCheck);
+
+            body = body == null ? expression : Expression.AndAlso(body, expression);
+        }
+
+        return body;
+    }
+
+    private Expression CreateExceptCheck(Expression firstValue, Expression secondValue)
+    {
+        return Expression.Call(anyInfo, Expression.Call(exceptInfo, firstValue, secondValue));
     }
 }

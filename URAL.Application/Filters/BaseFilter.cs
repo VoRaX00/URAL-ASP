@@ -12,8 +12,10 @@ public abstract class BaseFilter<T> : IExpressionFilter<T>
 
     protected Expression<Func<T, bool>> ApplyAllFiltering(PropertyInfo[] properties)
     {
-        var defaultFiltering = ApplyDefaultFiltering(properties);
-        var containsFiltering = ApplyContainsFiltering(properties);
+        var listClassName = typeof(List<>).Name;
+
+        var defaultFiltering = ApplyDefaultFiltering(properties.Where(x => x.PropertyType.Name != listClassName).ToArray());
+        var containsFiltering = ApplyContainsFiltering(properties.Where(x => x.PropertyType.Name == listClassName).ToArray());
 
         if (containsFiltering == null)
             return Expression.Lambda<Func<T, bool>>(defaultFiltering, param);
@@ -25,7 +27,7 @@ public abstract class BaseFilter<T> : IExpressionFilter<T>
     {
         Expression? body = null;
 
-        foreach (var property in properties.Where(x => x.PropertyType != typeof(IEnumerable<>)))
+        foreach (var property in properties)
         {
             var member = Expression.Convert(Expression.Property(param, property.Name), property.PropertyType);
             var constant = Expression.Constant(property.GetValue(this), property.PropertyType);

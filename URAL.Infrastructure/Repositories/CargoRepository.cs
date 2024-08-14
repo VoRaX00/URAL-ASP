@@ -25,7 +25,7 @@ public class CargoRepository : BaseRepository<Cargo>, ICargoRepository
 
     public IQueryable<Cargo> GetByFilters(IExpressionFilter<Cargo> filter)
     {
-        var a = filter.GetFilteringExpression();
-        return _context.Cargo.Where(a);
+        var filteringExpression = filter.GetFilteringExpression();
+        return _context.Cargo.Where(filteringExpression);
     }
 }

@@ -43,7 +43,8 @@ public class CarRepository : BaseRepository<Car>, ICarRepository
 
     public IQueryable<Car> GetByFilters(IExpressionFilter<Car> filter)
     {
-        return _context.Cars.Where(filter.GetFilteringExpression()).Include(x => x.BodyTypes).Include(x => x.LoadingTypes);
+        var filteringExpression = filter.GetFilteringExpression();
+        return _context.Cars.Where(filteringExpression).Include(x => x.BodyTypes).Include(x => x.LoadingTypes);
     }
     
     public override IQueryable<Car> GetAll()
