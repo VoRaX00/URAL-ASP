@@ -2,6 +2,6 @@ namespace URAL.Application.RequestModels.Chat;
 
 public record ChatToAdd
 {
-    public string Name { get; set; }
-    public long FirstUserId { get; set; }
+    public string Name { get; init; }
+    public long FirstUserId { get; init; }
 }

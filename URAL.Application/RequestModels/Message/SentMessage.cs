@@ -1,6 +1,4 @@
-using URAL.Application.RequestModels.Message;
-
-namespace URAL.Application.RequestModels.Connection;
+namespace URAL.Application.RequestModels.Message;
 
 public record SentMessage()
 {

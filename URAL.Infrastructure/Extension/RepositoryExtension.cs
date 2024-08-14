@@ -14,6 +14,8 @@ public static class RepositoryExtension
         repository.AddScoped<ILoadingTypeRepository, LoadingTypeRepository>();
         repository.AddScoped<INotifyCarRepository, NotifyCarRepository>();
         repository.AddScoped<INotifyCargoRepository, NotifyCargoRepository>();
+        repository.AddScoped<IChatRepository, ChatRepository>();
+        repository.AddScoped<IMessageRepository, MessageRepository>();
         return repository;
     }
 }
