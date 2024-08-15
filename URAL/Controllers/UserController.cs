@@ -114,7 +114,11 @@ public class UserController(
 
         var isSuccess = await userService.UpdateAsync(userToUpdate);
 
-        return isSuccess ? Ok() : NotFound();
+        if (!isSuccess)
+            return NotFound();
+        var newToken = jwtTokenWriter.WriteToken(await userService.GetByEmailFullInfo(userToUpdate.Email));
+
+        return Ok(newToken);
     }
 
     [HttpPut]
