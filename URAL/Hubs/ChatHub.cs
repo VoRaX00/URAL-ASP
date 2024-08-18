@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.SignalR;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.Connection;
 using URAL.Application.RequestModels.Message;
-using URAL.Domain.Entities;
 
 namespace URAL.Hubs;
 

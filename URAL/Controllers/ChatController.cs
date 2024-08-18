@@ -11,10 +11,10 @@ namespace URAL.Controllers;
 [ApiController]
 public class ChatController(IChatService service) : ControllerBase
 {
-    [AllowAnonymous]
     [HttpGet]
-    public async Task<ActionResult<List<ChatToGet>>> Get([FromQuery] string userId)
+    public async Task<ActionResult<List<ChatToGet>>> Get()
     {
+        var userId = User.GetUserIdFromClaim();
         var chats = await service.GetByUserIdAsync(userId);
         return chats;
     }
