@@ -20,43 +20,57 @@ public class NotificationsService(
 
     public PaginatedList<NotificationToGet> GetUserMatchAsync(string userId, int pageNumber)
     {
-        var cargoIdUserMatchs = notifyCargoRepository.GetUserMatch(userId).Select(x => x.CargoId).ToArray();
-        var carIdUserMatchs = notifyCarRepository.GetUserMatch(userId).Select(x => x.CarId).ToArray();
-
-        var result = GetNotifications(cargoIdUserMatchs, carIdUserMatchs);
-        return PaginatedList<NotificationToGet>.Create(result, pageNumber, PageSize);
+        var notifyCargo = notifyCargoRepository.GetUserMatch(userId);
+        var notifyCar = notifyCarRepository.GetUserMatch(userId);
+        return GetNotifications(notifyCargo, notifyCar, pageNumber);
     }
 
     public PaginatedList<NotificationToGet> GetUserNotificationsAsync(string userId, int pageNumber)
     {
-        var cargoIdUserMatchs = notifyCargoRepository.GetUserNotifications(userId).Select(x => x.CargoId).ToArray();
-        var carIdUserMatchs = notifyCarRepository.GetUserNotifications(userId).Select(x => x.CarId).ToArray();
-
-        var result = GetNotifications(cargoIdUserMatchs, carIdUserMatchs);
-        return PaginatedList<NotificationToGet>.Create(result, pageNumber, PageSize);
+        var notifyCargo = notifyCargoRepository.GetUserNotifications(userId);
+        var notifyCar = notifyCarRepository.GetUserNotifications(userId);
+        return GetNotifications(notifyCargo, notifyCar, pageNumber);
     }
 
     public PaginatedList<NotificationToGet> GetUserResponsesAsync(string userId, int pageNumber)
     {
-        var cargoIdUserMatchs = notifyCargoRepository.GetUserResponses(userId).Select(x => x.CargoId).ToArray();
-        var carIdUserMatchs = notifyCarRepository.GetUserResponses(userId).Select(x => x.CarId).ToArray();
+        var notifyCargo = notifyCargoRepository.GetUserResponses(userId);
+        var notifyCar = notifyCarRepository.GetUserResponses(userId);
+        return GetNotifications(notifyCargo, notifyCar, pageNumber);
+    }
 
-        var result = GetNotifications(cargoIdUserMatchs, carIdUserMatchs);
+    private PaginatedList<NotificationToGet> GetNotifications(IQueryable<NotifyCargo> notifyCargos, IQueryable<NotifyCar> notifyCars, int pageNumber)
+    {
+        var cargoIdUserMatchs = notifyCargos.Select(x => new LogisticNotifyId(x.Id, x.CargoId)).ToArray();
+        var carIdUserMatchs = notifyCars.Select(x => new LogisticNotifyId(x.Id, x.CarId)).ToArray();
+
+        var result = GetNotificationLogisticObjects(cargoIdUserMatchs, carIdUserMatchs);
         return PaginatedList<NotificationToGet>.Create(result, pageNumber, PageSize);
     }
 
-    private NotificationToGet[] GetNotifications(IEnumerable<long> cargoNotifyIds, IEnumerable<long> carNotifyIds)
+    private NotificationToGet[] GetNotificationLogisticObjects(IEnumerable<LogisticNotifyId> cargoNotifyIds, IEnumerable<LogisticNotifyId> carNotifyIds)
     {
-        var cargos = cargoNotifyIds.Select(cargoRepository.GetById);
-        var cars = carNotifyIds.Select(carRepository.GetById);
+        var cargos = cargoNotifyIds.Select(x => new { x.Id, LogisticObject = cargoRepository.GetById(x.LogisticObjectId) });
+        var cars = carNotifyIds.Select(x => new { x.Id, LogisticObject = carRepository.GetById(x.LogisticObjectId) });
 
         var notifyCargos = cargos
-            .Select(mapper.Map<Cargo, CargoToGet>)
-            .Select(x => new NotificationToGet { Id=x.Id, Cargo=x});
+            .Select(x => new NotificationToGet { Id = x.Id, Cargo = mapper.Map<Cargo, CargoToGet>(x.LogisticObject) });
         var notifyCars = cars
-            .Select(mapper.Map<Car, CarToGet>)
-            .Select(x => new NotificationToGet { Id=x.Id, Car=x});
+            .Select(x => new NotificationToGet { Id=x.Id, Car = mapper.Map<Car, CarToGet>(x.LogisticObject) });
 
         return notifyCargos.Concat(notifyCars).OrderBy(x => x.Id).ToArray();
+    }
+
+    private class LogisticNotifyId
+    {
+        public LogisticNotifyId(long id, long logisticObjectId)
+        {
+            Id = id;
+            LogisticObjectId = logisticObjectId;
+        }
+
+        public long Id { get; set; }
+
+        public long LogisticObjectId { get; set; }
     }
 }
