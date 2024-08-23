@@ -13,5 +13,7 @@ namespace URAL.Domain.Common
         public User? FirstUser { get; set; }
         public string? SecondUserId { get; set; }
         public User? SecondUser { get; set; }
+
+        public List<Chat> Chats { get; set; } = [];
     }
 }

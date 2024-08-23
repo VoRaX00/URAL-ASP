@@ -1,3 +1,3 @@
 namespace URAL.Application.RequestModels.Chat;
 
-public record MessageDto(long Id);
+public record MessageDto(string Content);

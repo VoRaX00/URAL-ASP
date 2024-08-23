@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using URAL.Domain.Entities;
+using URAL.Infrastructure.Migrations;
 
 namespace URAL.Infrastructure.Configurations;
 
@@ -21,5 +22,13 @@ public class ChatConfiguration : IEntityTypeConfiguration<Chat>
         builder.HasMany(chat => chat.Messages)
             .WithOne(m => m.Chat)
             .HasForeignKey(m => m.ChatId);
+
+        builder.HasOne(chat => chat.NotifyCar)
+            .WithMany(notify => notify.Chats)
+            .HasForeignKey(chat => chat.NotifyCarId);
+
+        builder.HasOne(chat => chat.NotifyCargo)
+            .WithMany(notify => notify.Chats)
+            .HasForeignKey(chat => chat.NotifyCargoId);
     }
 }

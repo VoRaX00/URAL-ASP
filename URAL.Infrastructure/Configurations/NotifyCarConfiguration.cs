@@ -20,5 +20,9 @@ public class NotifyCarConfiguration : IEntityTypeConfiguration<NotifyCar>
         builder.HasOne(notify => notify.SecondUser)
             .WithMany(user => user.SecondNotifyCars)
             .HasForeignKey(notify => notify.SecondUserId);
+
+        builder.HasMany(notify => notify.Chats)
+            .WithOne(chat => chat.NotifyCar)
+            .HasForeignKey(chat => chat.NotifyCarId);
     }
 }

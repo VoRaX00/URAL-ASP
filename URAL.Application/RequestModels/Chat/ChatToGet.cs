@@ -9,4 +9,5 @@ public record ChatToGet
     public List<MessageToGet> Messages { get; init; }
     public string FirstUserId { get; init; }
     public string SecondUserId { get; init; }
+    public long NotifyId { get; init; }
 }

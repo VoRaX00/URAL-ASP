@@ -21,5 +21,9 @@ public class NotifyCargoConfiguration : IEntityTypeConfiguration<NotifyCargo>
         builder.HasOne(notify => notify.SecondUser)
             .WithMany(user => user.SecondNotifyCargo)
             .HasForeignKey(notify => notify.SecondUserId);
+        
+        builder.HasMany(notify => notify.Chats)
+            .WithOne(chat => chat.NotifyCargo)
+            .HasForeignKey(chat => chat.NotifyCargoId);
     }
 }

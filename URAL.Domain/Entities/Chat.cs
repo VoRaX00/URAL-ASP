@@ -10,4 +10,8 @@ public class Chat : BaseEntity
     public User FirstUser { get; set; }
     public string SecondUserId { get; set; }
     public User SecondUser { get; set; }
+    public NotifyCar? NotifyCar { get; set; }
+    public long? NotifyCarId { get; set; }
+    public NotifyCargo? NotifyCargo { get; set; }
+    public long? NotifyCargoId { get; set; }
 }
