@@ -46,6 +46,7 @@ builder.Services.AddCors(options =>
         policy.WithOrigins("http://bscar-go.ru", "http://www.bscar-go.ru", "http://localhost:3000");
         policy.AllowAnyHeader();
         policy.AllowAnyMethod();
+        policy.AllowCredentials();
     });
 } );
 
