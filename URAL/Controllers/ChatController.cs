@@ -18,6 +18,14 @@ public class ChatController(IChatService service) : ControllerBase
         var chats = await service.GetByUserIdAsync(userId);
         return chats;
     }
+    
+    [HttpGet]
+    public async Task<ActionResult<List<ChatToImage>>> GetImages()
+    {
+        var userId = User.GetUserIdFromClaim();
+        var chats = await service.GetImagesByUserIdAsync(userId);
+        return  chats;
+    }
 
     [AllowAnonymous]
     [HttpGet]

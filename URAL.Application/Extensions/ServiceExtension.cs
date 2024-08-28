@@ -19,6 +19,8 @@ public static class ServiceExtension
         services.AddScoped<IMessageEmailService, MessageEmailService>();
         services.AddScoped<IChatService, ChatService>();
         services.AddScoped<IMessageService, MessageService>();
+
+        services.AddSignalR();
         return services;
     }
 }

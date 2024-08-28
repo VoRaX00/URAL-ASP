@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using URAL.Application.IRepositories;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.Chat;
+using URAL.Application.RequestModels.Message;
 using URAL.Domain.Entities;
 
 namespace URAL.Application.Services;
@@ -28,6 +29,25 @@ public class ChatService(IMapper mapper, IChatRepository repository) : IChatServ
         var result = repository.GetAll().Select(x => mapper.Map<Chat, ChatToGet>(x));
         var chats = result.ToListAsync();
         return await chats;
+    }
+
+    public async Task<List<ChatToImage>> GetImagesByUserIdAsync(string userId)
+    {
+        var chats = await repository.GetByUserId(userId).ToListAsync();
+        
+        var result = chats.Select(chat =>
+        {
+            var chatToImage = mapper.Map<Chat, ChatToImage>(chat);
+            var lastMessage = chat.Messages.LastOrDefault();
+
+            if (lastMessage is null)
+                return chatToImage;
+            
+            chatToImage.LastMessage = mapper.Map<MessageToGet>(lastMessage);
+            return chatToImage;
+        }).ToList();
+
+        return result;
     }
 
     public async Task<List<ChatToGet>> GetByUserIdAsync(string userId)

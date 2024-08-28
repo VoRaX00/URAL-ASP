@@ -50,8 +50,6 @@ builder.Services.AddCors(options =>
     });
 } );
 
-builder.Services.AddSignalR();
-
 var app = builder.Build();
 
 app.MapHub<ChatHub>("/chat");
