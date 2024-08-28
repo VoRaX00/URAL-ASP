@@ -16,11 +16,13 @@ public class NotificationsRepository<TNotifyEntity> : BaseRepository<TNotifyEnti
 
     public IQueryable<TNotifyEntity> GetUserNotifications(string userId)
     {
-        return _context.Set<TNotifyEntity>().Where(notify => notify.SecondUserId == userId);
+        return _context.Set<TNotifyEntity>().Where(notify => notify.SecondUserId == userId 
+                                                             && notify.SecondUserStatus == UserStatus.Unknown);
     }
 
     public IQueryable<TNotifyEntity> GetUserResponses(string userId)
     {
-        return _context.Set<TNotifyEntity>().Where(notify => notify.FirstUserId == userId);
+        return _context.Set<TNotifyEntity>().Where(notify => notify.FirstUserId == userId 
+                                                             && notify.SecondUserStatus == UserStatus.Unknown);
     }
 }
