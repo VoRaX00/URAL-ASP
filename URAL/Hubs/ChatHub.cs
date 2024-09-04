@@ -1,4 +1,6 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Caching.Distributed;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.Chat;
 using URAL.Application.RequestModels.Connection;
@@ -9,7 +11,6 @@ namespace URAL.Hubs;
 public class ChatHub : Hub<IChatClient>
 {
     private readonly IMessageService _service;
-
     public ChatHub(IMessageService service)
     {
         _service = service;
@@ -18,9 +19,9 @@ public class ChatHub : Hub<IChatClient>
     {
         var groupName = connection.ChatId.ToString();
         await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-
+        
         var messages = await _service.GetByChatIdAsync(connection.ChatId, 1);
-        await Clients.User(connection.UserId).ReceiveMessages(connection.UserName, messages);
+        await Clients.Caller.ReceiveMessages(connection.UserName, messages);
     }
 
     public async Task SendMessage(SentMessage message)
