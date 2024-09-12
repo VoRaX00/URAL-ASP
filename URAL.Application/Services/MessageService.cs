@@ -1,6 +1,7 @@
 using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
 using URAL.Application.Base;
+using URAL.Application.Hasher;
 using URAL.Application.IRepositories;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.Message;
@@ -8,9 +9,9 @@ using URAL.Domain.Entities;
 
 namespace URAL.Application.Services;
 
-public class MessageService(IMapper mapper, IMessageRepository repository) : IMessageService
+public class MessageService(IMapper mapper, IMessageRepository repository, IHasher hasher) : IMessageService
 {
-    public int PageSize { get; } = 8;
+    private int PageSize { get; } = 8;
     public async Task<PaginatedList<MessageToGet>> GetAllAsync(int pageNumber)
     {
         var result = repository.GetAll().Include(m => m.User).Select(x => new MessageToGet
@@ -19,7 +20,7 @@ public class MessageService(IMapper mapper, IMessageRepository repository) : IMe
             UserId = x.UserId,
             UserName = x.User.UserName,
             ChatId = x.ChatId,
-            Content = x.Content,
+            Content = hasher.Decode(x.Content),
             SentAt = x.SentAt
         });
         var messages = PaginatedList<MessageToGet>.Create(result, pageNumber, PageSize);
@@ -34,7 +35,7 @@ public class MessageService(IMapper mapper, IMessageRepository repository) : IMe
                 UserId = x.UserId,
                 UserName = x.User.UserName,
                 ChatId = x.ChatId,
-                Content = x.Content,
+                Content = hasher.Decode(x.Content),
                 SentAt = x.SentAt
             });
         
@@ -50,7 +51,7 @@ public class MessageService(IMapper mapper, IMessageRepository repository) : IMe
             UserId = x.UserId,
             UserName = x.User.UserName,
             ChatId = x.ChatId,
-            Content = x.Content,
+            Content = hasher.Decode(x.Content),
             SentAt = x.SentAt,
         });
         
@@ -71,7 +72,7 @@ public class MessageService(IMapper mapper, IMessageRepository repository) : IMe
             UserId = entity.UserId,
             UserName = entity.User.UserName,
             ChatId = entity.ChatId,
-            Content = entity.Content,
+            Content = hasher.Decode(entity.Content),
             SentAt = entity.SentAt
         };
         return message;
@@ -82,6 +83,7 @@ public class MessageService(IMapper mapper, IMessageRepository repository) : IMe
         var entity = mapper.Map<MessageToAdd, Message>(message);
         entity.UserId = userId;
         entity.SentAt = DateTime.UtcNow;
+        entity.Content = hasher.Encode(message.Content);
         entity = await repository.AddAsync(entity);
         await repository.SaveChangesAsync();
         return entity.Id;
@@ -90,7 +92,7 @@ public class MessageService(IMapper mapper, IMessageRepository repository) : IMe
     public async Task<bool> UpdateAsync(MessageToUpdate message)
     {
         var entity = repository.GetById(message.Id);
-
+        message.Content = hasher.Encode(message.Content);
         if (entity is null)
             return false;
 

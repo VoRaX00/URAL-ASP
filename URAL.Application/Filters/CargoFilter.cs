@@ -16,7 +16,7 @@ public class CargoFilter : LogisticFilter<Cargo>
     public double? PriceCashNds { get; set; }
     public double? PriceCashWithoutNds { get; set; }
     public bool? RequestPrice { get; set; }
-    private readonly static PropertyInfo[] properties = typeof(CargoFilter).GetProperties();
+    private static readonly PropertyInfo[] properties = typeof(CargoFilter).GetProperties();
 
     public override Expression<Func<Cargo, bool>> GetFilteringExpression()
     {

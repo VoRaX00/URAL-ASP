@@ -15,10 +15,10 @@ public class CarFilter : LogisticFilter<Car>
     public List<string>? BodyTypes { get; set; } = new();
     public List<string>? LoadingTypes { get; set; } = new();
 
-    private readonly static PropertyInfo[] properties = typeof(CarFilter).GetProperties();
-    private readonly static MethodInfo selectInfo = typeof(Enumerable).GetMethods().FirstOrDefault(x => x.Name == "Select");
-    private readonly static MethodInfo exceptInfo = typeof(Enumerable).GetMethods().FirstOrDefault(x => x.Name == "Except").MakeGenericMethod(typeof(string));
-    private readonly static MethodInfo anyInfo = typeof(Enumerable).GetMethods().FirstOrDefault(x => x.Name == "Any").MakeGenericMethod(typeof(string));
+    private static readonly PropertyInfo[] properties = typeof(CarFilter).GetProperties();
+    private static readonly MethodInfo selectInfo = typeof(Enumerable).GetMethods().FirstOrDefault(x => x.Name == "Select");
+    private static readonly MethodInfo exceptInfo = typeof(Enumerable).GetMethods().FirstOrDefault(x => x.Name == "Except").MakeGenericMethod(typeof(string));
+    private static readonly MethodInfo anyInfo = typeof(Enumerable).GetMethods().FirstOrDefault(x => x.Name == "Any").MakeGenericMethod(typeof(string));
 
     public override Expression<Func<Car, bool>> GetFilteringExpression()
     {

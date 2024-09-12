@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using URAL.Application.Hasher;
 using URAL.Application.IServices;
 using URAL.Application.Services;
 
@@ -18,8 +19,8 @@ public static class ServiceExtension
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IMessageEmailService, MessageEmailService>();
         services.AddScoped<IChatService, ChatService>();
-        services.AddScoped<IMessageService, MessageService>();
-
+        services.AddScoped<IHasher, AesHasher>(); 
+        
         services.AddSignalR();
         return services;
     }

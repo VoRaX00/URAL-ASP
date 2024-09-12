@@ -2,5 +2,6 @@
 
 public interface IHasher
 {
-    public string Hash(string value);
+    public string Encode(string value);
+    public string Decode(string value);
 }

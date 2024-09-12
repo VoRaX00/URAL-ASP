@@ -1,7 +1,6 @@
 using URAL.Application.IRepositories;
 using URAL.Domain.Entities;
 using URAL.Infrastructure.Context;
-using URAL.Infrastructure.Migrations;
 
 namespace URAL.Infrastructure.Repositories;
 

@@ -5,10 +5,9 @@ namespace URAL.Application.Filters;
 
 public abstract class BaseFilter<T> : IExpressionFilter<T>
 {
-    protected readonly static ParameterExpression param = Expression.Parameter(typeof(T), "p");
+    protected static readonly ParameterExpression param = Expression.Parameter(typeof(T), "p");
 
     public abstract Expression<Func<T, bool>> GetFilteringExpression();
-
 
     protected Expression<Func<T, bool>> ApplyAllFiltering(PropertyInfo[] properties)
     {
