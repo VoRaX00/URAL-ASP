@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using URAL.Application.Base;
 using URAL.Application.Filters;
+using URAL.Application.FiltersParameters;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.Car;
 using URAL.Extensions;
@@ -38,9 +39,9 @@ public class CarController(ICarService service) : ControllerBase
     [PageNumberFilter]
     [AllowAnonymous]
     [HttpGet]
-    public async Task<PaginatedList<CarToGet>> GetByFilters([FromQuery] CarFilter filters, [FromQuery] int pageNumber)
+    public async Task<PaginatedList<CarToGet>> GetByFilters([FromQuery] CarFilterParameter filterParameter, [FromQuery] int pageNumber)
     {
-        var cars = await service.GetByFiltersAsync(filters, pageNumber);
+        var cars = await service.GetByFiltersAsync(filterParameter, pageNumber);
         return cars;
     }
 

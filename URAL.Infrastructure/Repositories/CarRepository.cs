@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using URAL.Application.Filters;
+using URAL.Application.FiltersParameters;
 using URAL.Application.IRepositories;
 using URAL.Domain.Entities;
 using URAL.Infrastructure.Context;
@@ -8,9 +9,12 @@ namespace URAL.Infrastructure.Repositories;
 
 public class CarRepository : BaseRepository<Car>, ICarRepository
 {
-    public CarRepository(UralDbContext context)
+    private readonly IExpressionFilter<Car, CarFilterParameter> filter;
+
+    public CarRepository(UralDbContext context, IExpressionFilter<Car, CarFilterParameter> filter)
     {
         _context = context;
+        this.filter = filter;
     }
 
     public override async Task<Car> AddAsync(Car entity)
@@ -41,9 +45,9 @@ public class CarRepository : BaseRepository<Car>, ICarRepository
         return _context.Cars.Where(car => car.Id == id).Include(x => x.BodyTypes).Include(x => x.LoadingTypes).FirstOrDefault();
     }
 
-    public IQueryable<Car> GetByFilters(IExpressionFilter<Car> filter)
+    public IQueryable<Car> GetByFilters(CarFilterParameter carFilterParameter)
     {
-        var filteringExpression = filter.GetFilteringExpression();
+        var filteringExpression = filter.GetFilteringExpression(carFilterParameter);
         return _context.Cars.Where(filteringExpression).Include(x => x.BodyTypes).Include(x => x.LoadingTypes);
     }
     

@@ -1,5 +1,6 @@
 ﻿using URAL.Application.Base;
 using URAL.Application.Filters;
+using URAL.Application.FiltersParameters;
 using URAL.Application.RequestModels.Car;
 using URAL.Domain.Entities;
 
@@ -12,6 +13,6 @@ public interface ICarService
     Task<long> AddAsync(CarToAdd carToAdd, string userId);
     Task<bool> UpdateAsync(CarToUpdate carToUpdate);
     Task<bool> DeleteAsync(CarToDelete carToDelete);
-    public Task<PaginatedList<CarToGet>> GetByFiltersAsync(IExpressionFilter<Car> filters, int pageNumber);
+    public Task<PaginatedList<CarToGet>> GetByFiltersAsync(CarFilterParameter filterParameter, int pageNumber);
     public Task<PaginatedList<CarToGet>> GetByUserIdAsync(string id, int pageNumber);
 }

@@ -1,6 +1,7 @@
 ﻿using MapsterMapper;
 using URAL.Application.Base;
 using URAL.Application.Filters;
+using URAL.Application.FiltersParameters;
 using URAL.Application.IRepositories;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.Cargo;
@@ -52,9 +53,9 @@ public class CargoService(IMapper mapper, ICargoRepository repository) : ICargoS
         return mapper.Map<Cargo, CargoToGet>(entity);
     }
 
-    public async Task<PaginatedList<CargoToGet>> GetByFiltersAsync(CargoFilter filters, int pageNumber)
+    public async Task<PaginatedList<CargoToGet>> GetByFiltersAsync(CargoFilterParameter cargoFilterParameter, int pageNumber)
     {
-        var result = repository.GetByFilters(filters).Select(x => mapper.Map<Cargo, CargoToGet>(x));
+        var result = repository.GetByFilters(cargoFilterParameter).Select(x => mapper.Map<Cargo, CargoToGet>(x));
         var cargo = PaginatedList<CargoToGet>.Create(result, pageNumber, PageSize);
         return await cargo;
     }

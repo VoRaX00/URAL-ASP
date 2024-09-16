@@ -1,6 +1,7 @@
 ﻿using MapsterMapper;
 using URAL.Application.Base;
 using URAL.Application.Filters;
+using URAL.Application.FiltersParameters;
 using URAL.Application.IRepositories;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.Car;
@@ -59,9 +60,9 @@ public class CarService(IMapper mapper, ICarRepository repository) : ICarService
         return await cars;
     }
 
-    public async Task<PaginatedList<CarToGet>> GetByFiltersAsync(IExpressionFilter<Car> filters, int pageNumber)
+    public async Task<PaginatedList<CarToGet>> GetByFiltersAsync(CarFilterParameter filterParameter, int pageNumber)
     {
-        var result = repository.GetByFilters(filters).Select(x => mapper.Map<Car, CarToGet>(x));
+        var result = repository.GetByFilters(filterParameter).Select(x => mapper.Map<Car, CarToGet>(x));
         var cars = PaginatedList<CarToGet>.Create(result, pageNumber, PageSize);
         return await cars;
     }

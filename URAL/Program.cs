@@ -33,6 +33,7 @@ builder.Services.AddSingleton(x => builder.Configuration.GetSection("MessageServ
 var authOptions = builder.Configuration.GetSection(AuthOptions.Auth).Get<AuthOptions>();
 builder.Services.AddSingleton(authOptions);
 
+builder.Services.AddExpressionFilters();
 builder.Services.AddRepositories();
 builder.Services.RegisterMapster();
 builder.Services.AddServices();

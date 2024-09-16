@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using URAL.Application.Base;
 using URAL.Application.Filters;
+using URAL.Application.FiltersParameters;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.Cargo;
 using URAL.Extensions;
@@ -46,9 +47,9 @@ public class CargoController(ICargoService service) : ControllerBase
     [PageNumberFilter]
     [AllowAnonymous]
     [HttpGet]
-    public async Task<PaginatedList<CargoToGet>> GetByFilters([FromQuery] CargoFilter filters, [FromQuery] int pageNumber)
+    public async Task<PaginatedList<CargoToGet>> GetByFilters([FromQuery] CargoFilterParameter filterParameter, [FromQuery] int pageNumber)
     {
-        var cargos = await service.GetByFiltersAsync(filters, pageNumber);
+        var cargos = await service.GetByFiltersAsync(filterParameter, pageNumber);
         return cargos;
     }
 
