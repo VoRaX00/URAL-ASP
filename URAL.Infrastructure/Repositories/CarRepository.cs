@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using URAL.Application.Filters;
-using URAL.Application.FiltersParameters;
+using System.Linq.Expressions;
 using URAL.Application.IRepositories;
 using URAL.Domain.Entities;
 using URAL.Infrastructure.Context;
@@ -9,12 +8,9 @@ namespace URAL.Infrastructure.Repositories;
 
 public class CarRepository : BaseRepository<Car>, ICarRepository
 {
-    private readonly IExpressionFilter<Car, CarFilterParameter> filter;
-
-    public CarRepository(UralDbContext context, IExpressionFilter<Car, CarFilterParameter> filter)
+    public CarRepository(UralDbContext context)
     {
         _context = context;
-        this.filter = filter;
     }
 
     public override async Task<Car> AddAsync(Car entity)
@@ -44,15 +40,14 @@ public class CarRepository : BaseRepository<Car>, ICarRepository
     {
         return _context.Cars.Where(car => car.Id == id).Include(x => x.BodyTypes).Include(x => x.LoadingTypes).FirstOrDefault();
     }
-
-    public IQueryable<Car> GetByFilters(CarFilterParameter carFilterParameter)
-    {
-        var filteringExpression = filter.GetFilteringExpression(carFilterParameter);
-        return _context.Cars.Where(filteringExpression).Include(x => x.BodyTypes).Include(x => x.LoadingTypes);
-    }
     
     public override IQueryable<Car> GetAll()
     {
         return _context.Set<Car>().Include(x => x.BodyTypes).Include(x => x.LoadingTypes);
+    }
+
+    public IQueryable<Car> GetByFilters(Expression<Func<Car, bool>> filteringExpression)
+    {
+        return _context.Cars.Where(filteringExpression).Include(x => x.BodyTypes).Include(x => x.LoadingTypes);
     }
 }
