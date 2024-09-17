@@ -1,5 +1,6 @@
 ﻿using URAL.Domain.Entities;
 using URAL.Infrastructure.Repositories;
+using URAL.UnitTests.Base;
 
 namespace URAL.UnitTests.Repositories.BodyTypeRepositoryTests;
 
@@ -15,11 +16,13 @@ public class GetAllTests
             new BodyType {Id = 5, Name = "e" },
             new BodyType {Id = 6, Name = "h" },
         }.AsQueryable();
+    
+    private BaseUralDbContextFactory<BodyType> dbFactory = new BaseUralDbContextFactory<BodyType>();
 
     [Fact]
     public void GetAll_IfCollectionNotEmpty_ReturnCollection()
     {
-        var dbContext = UralDbContextWithBodyTypeSetFactory.Create(bodyTypes);
+        var dbContext = dbFactory.Create(bodyTypes);
         var bodyTypeRepository = new BodyTypeRepository(dbContext);
 
         var actual = bodyTypeRepository.GetAll().ToList();
@@ -33,7 +36,7 @@ public class GetAllTests
     public void GetAll_IfCollectionEmpty_ReturnEmpty()
     {
         var emptyCollection = new List<BodyType>().AsQueryable();
-        var dbContext = UralDbContextWithBodyTypeSetFactory.Create(emptyCollection);
+        var dbContext = dbFactory.Create(emptyCollection);
         var bodyTypeRepository = new BodyTypeRepository(dbContext);
 
         var actual = bodyTypeRepository.GetAll().ToList();

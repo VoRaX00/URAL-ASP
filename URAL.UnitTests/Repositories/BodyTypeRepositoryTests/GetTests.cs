@@ -1,75 +1,68 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using URAL.Domain.Entities;
-using URAL.Infrastructure.Context;
+﻿using URAL.Domain.Entities;
 using URAL.Infrastructure.Repositories;
-using Xunit;
+using URAL.UnitTests.Base;
 
-namespace URAL.UnitTests.Repositories.BodyTypeRepositoryTests
+namespace URAL.UnitTests.Repositories.BodyTypeRepositoryTests;
+
+public class GetTests
 {
-    public class GetTests
+    private IQueryable<BodyType> bodyTypes = new List<BodyType>() 
     {
-        private IQueryable<BodyType> bodyTypes = new List<BodyType>() 
-        {
-            new BodyType {Id = 0, Name = "a" },
-            new BodyType {Id = 1, Name = "h" },
-            new BodyType {Id = 2, Name = "c" },
-            new BodyType {Id = 3, Name = "d" },
-            new BodyType {Id = 4, Name = "a" },
-            new BodyType {Id = 5, Name = "e" },
-            new BodyType {Id = 6, Name = "h" },
-        }.AsQueryable();
+        new BodyType {Id = 0, Name = "a" },
+        new BodyType {Id = 1, Name = "h" },
+        new BodyType {Id = 2, Name = "c" },
+        new BodyType {Id = 3, Name = "d" },
+        new BodyType {Id = 4, Name = "a" },
+        new BodyType {Id = 5, Name = "e" },
+        new BodyType {Id = 6, Name = "h" },
+    }.AsQueryable();
 
-        [Theory]
-        [InlineData(0)]
-        [InlineData(3)]
-        [InlineData(4)]
-        [InlineData(6)]
-        public void Get_WithCorrectId_ReturnEntity(int id)
-        {
-            var dbContext = UralDbContextWithBodyTypeSetFactory.Create(bodyTypes);
-            var bodyTypeRepository = new BodyTypeRepository(dbContext);
+    private BaseUralDbContextFactory<BodyType> dbFactory = new BaseUralDbContextFactory<BodyType>();
 
-            var actual = bodyTypeRepository.GetById(id);
-            var expected = bodyTypes.FirstOrDefault(x => x.Id == id);
+    [Theory]
+    [InlineData(0)]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(6)]
+    public void Get_WithCorrectId_ReturnEntity(int id)
+    {
+        var dbContext = dbFactory.Create(bodyTypes);
+        var bodyTypeRepository = new BodyTypeRepository(dbContext);
 
-            Assert.NotNull(actual);
-            Assert.Equal(expected, actual);
-        }
+        var actual = bodyTypeRepository.GetById(id);
+        var expected = bodyTypes.FirstOrDefault(x => x.Id == id);
 
-        [Theory]
-        [InlineData(-1)]
-        [InlineData(7)]
-        [InlineData(8)]
-        public void Get_WithWrongId_ReturnNull(int id)
-        {
-            var dbContext = UralDbContextWithBodyTypeSetFactory.Create(bodyTypes);
-            var bodyTypeRepository = new BodyTypeRepository(dbContext);
+        Assert.NotNull(actual);
+        Assert.Equal(expected, actual);
+    }
 
-            var actual = bodyTypeRepository.GetById(id);
+    [Theory]
+    [InlineData(-1)]
+    [InlineData(7)]
+    [InlineData(8)]
+    public void Get_WithWrongId_ReturnNull(int id)
+    {
+        var dbContext = dbFactory.Create(bodyTypes);
+        var bodyTypeRepository = new BodyTypeRepository(dbContext);
 
-            Assert.Null(actual);
-        }
+        var actual = bodyTypeRepository.GetById(id);
 
-        [Theory]
-        [InlineData(-1)]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(0)]
-        public void Get_WithEmptySet_ReturnNull(int id)
-        {
-            var emptyCollection = new List<BodyType>().AsQueryable();
-            var dbContext = UralDbContextWithBodyTypeSetFactory.Create(emptyCollection);
-            var bodyTypeRepository = new BodyTypeRepository(dbContext);
+        Assert.Null(actual);
+    }
 
-            var actual = bodyTypeRepository.GetById(id);
+    [Theory]
+    [InlineData(-1)]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(0)]
+    public void Get_WithEmptySet_ReturnNull(int id)
+    {
+        var emptyCollection = new List<BodyType>().AsQueryable();
+        var dbContext = dbFactory.Create(emptyCollection);
+        var bodyTypeRepository = new BodyTypeRepository(dbContext);
 
-            Assert.Null(actual);
-        }
+        var actual = bodyTypeRepository.GetById(id);
+
+        Assert.Null(actual);
     }
 }
