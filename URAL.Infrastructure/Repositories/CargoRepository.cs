@@ -9,12 +9,9 @@ namespace URAL.Infrastructure.Repositories;
 
 public class CargoRepository : BaseRepository<Cargo>, ICargoRepository
 {
-    private readonly IExpressionFilter<Cargo, CargoFilterParameter> filter;
-
-    public CargoRepository(UralDbContext context, IExpressionFilter<Cargo, CargoFilterParameter> filter)
+    public CargoRepository(UralDbContext context)
     {
         _context = context;
-        this.filter = filter;
     }
     
     public IQueryable<Cargo> GetByName(string name)
@@ -27,9 +24,8 @@ public class CargoRepository : BaseRepository<Cargo>, ICargoRepository
         return _context.Cargo.Where(cargo => cargo.UserId == id);
     }
 
-    public IQueryable<Cargo> GetByFilters(CargoFilterParameter cargoFilterParameter)
+    public IQueryable<Cargo> GetByFilters(Expression<Func<Cargo, bool>> filteringExpression)
     {
-        var filteringExpression = filter.GetFilteringExpression(cargoFilterParameter);
         return _context.Cargo.Where(filteringExpression);
     }
 }
