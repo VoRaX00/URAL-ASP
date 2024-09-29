@@ -6,16 +6,16 @@ namespace URAL.Infrastructure.Extension;
 
 public static class RepositoryExtension
 {
-    public static IServiceCollection AddRepositories(this IServiceCollection repository)
+    public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        repository.AddScoped<IBodyTypeRepository, BodyTypeRepository>();
-        repository.AddScoped<ICargoRepository, CargoRepository>();
-        repository.AddScoped<ICarRepository, CarRepository>();
-        repository.AddScoped<ILoadingTypeRepository, LoadingTypeRepository>();
-        repository.AddScoped<INotifyCarRepository, NotifyCarRepository>();
-        repository.AddScoped<INotifyCargoRepository, NotifyCargoRepository>();
-        repository.AddScoped<IChatRepository, ChatRepository>();
-        repository.AddScoped<IMessageRepository, MessageRepository>();
-        return repository;
+        services.AddScoped<IBodyTypeRepository, BodyTypeRepository>();
+        services.AddScoped<ICargoRepository, CargoRepository>();
+        services.AddScoped<ICarRepository, CarRepository>();
+        services.AddScoped<ILoadingTypeRepository, LoadingTypeRepository>();
+        services.AddScoped<INotifyCarRepository, NotifyCarRepository>();
+        services.AddScoped<INotifyCargoRepository, NotifyCargoRepository>();
+        services.AddScoped<IChatRepository, ChatRepository>();
+        services.AddScoped<IMessageRepository, MessageRepository>();
+        return services;
     }
 }

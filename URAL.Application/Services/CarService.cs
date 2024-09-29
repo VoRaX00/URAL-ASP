@@ -1,6 +1,7 @@
 ﻿using MapsterMapper;
 using URAL.Application.Base;
 using URAL.Application.Filters;
+using URAL.Application.FiltersParameters;
 using URAL.Application.IRepositories;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.Car;
@@ -8,7 +9,7 @@ using URAL.Domain.Entities;
 
 namespace URAL.Application.Services;
 
-public class CarService(IMapper mapper, ICarRepository repository) : ICarService
+public class CarService(IMapper mapper, ICarRepository repository, IExpressionFilter<Car, CarFilterParameter> filter) : ICarService
 {
     public int PageSize { get; } = 4;
 
@@ -18,6 +19,7 @@ public class CarService(IMapper mapper, ICarRepository repository) : ICarService
         entity.UserId = userId;
         entity = await repository.AddAsync(entity);
         await repository.SaveChangesAsync();
+
         return entity.Id;
     }
 
@@ -39,6 +41,7 @@ public class CarService(IMapper mapper, ICarRepository repository) : ICarService
         var result = repository.GetAll().Select(x => mapper.Map<Car, CarToGet>(x));
 
         var cars = PaginatedList<CarToGet>.Create(result, pageNumber, PageSize);
+
         return await cars;
     }
 
@@ -56,13 +59,16 @@ public class CarService(IMapper mapper, ICarRepository repository) : ICarService
     {
         var result = repository.GetByUserId(id).Select(x => mapper.Map<Car, CarToGet>(x));
         var cars = PaginatedList<CarToGet>.Create(result, pageNumber, PageSize);
+
         return await cars;
     }
 
-    public async Task<PaginatedList<CarToGet>> GetByFiltersAsync(IExpressionFilter<Car> filters, int pageNumber)
+    public async Task<PaginatedList<CarToGet>> GetByFiltersAsync(CarFilterParameter filterParameter, int pageNumber)
     {
-        var result = repository.GetByFilters(filters).Select(x => mapper.Map<Car, CarToGet>(x));
+        var expression = filter.GetFilteringExpression(filterParameter);
+        var result = repository.GetByFilters(expression).Select(x => mapper.Map<Car, CarToGet>(x));
         var cars = PaginatedList<CarToGet>.Create(result, pageNumber, PageSize);
+
         return await cars;
     }
 

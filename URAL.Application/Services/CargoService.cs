@@ -1,6 +1,7 @@
 ﻿using MapsterMapper;
 using URAL.Application.Base;
 using URAL.Application.Filters;
+using URAL.Application.FiltersParameters;
 using URAL.Application.IRepositories;
 using URAL.Application.IServices;
 using URAL.Application.RequestModels.Cargo;
@@ -8,7 +9,7 @@ using URAL.Domain.Entities;
 
 namespace URAL.Application.Services;
 
-public class CargoService(IMapper mapper, ICargoRepository repository) : ICargoService
+public class CargoService(IMapper mapper, ICargoRepository repository, IExpressionFilter<Cargo, CargoFilterParameter> filter) : ICargoService
 {
     public int PageSize { get; } = 4;
 
@@ -39,6 +40,7 @@ public class CargoService(IMapper mapper, ICargoRepository repository) : ICargoS
         var result = repository.GetAll().Select(x => mapper.Map<Cargo, CargoToGet>(x));
 
         var cargo = PaginatedList<CargoToGet>.Create(result, pageNumber, PageSize);
+
         return await cargo;
     }
 
@@ -52,10 +54,12 @@ public class CargoService(IMapper mapper, ICargoRepository repository) : ICargoS
         return mapper.Map<Cargo, CargoToGet>(entity);
     }
 
-    public async Task<PaginatedList<CargoToGet>> GetByFiltersAsync(CargoFilter filters, int pageNumber)
+    public async Task<PaginatedList<CargoToGet>> GetByFiltersAsync(CargoFilterParameter cargoFilterParameter, int pageNumber)
     {
-        var result = repository.GetByFilters(filters).Select(x => mapper.Map<Cargo, CargoToGet>(x));
+        var expression = filter.GetFilteringExpression(cargoFilterParameter);
+        var result = repository.GetByFilters(expression).Select(x => mapper.Map<Cargo, CargoToGet>(x));
         var cargo = PaginatedList<CargoToGet>.Create(result, pageNumber, PageSize);
+
         return await cargo;
     }
 
@@ -64,6 +68,7 @@ public class CargoService(IMapper mapper, ICargoRepository repository) : ICargoS
         var result = repository.GetByUserId(id).Select(x => mapper.Map<Cargo, CargoToGet>(x));
 
         var cargo = PaginatedList<CargoToGet>.Create(result, pageNumber, PageSize);
+
         return await cargo;
     }
 

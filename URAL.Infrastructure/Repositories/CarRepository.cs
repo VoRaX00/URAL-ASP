@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using URAL.Application.Filters;
+using System.Linq.Expressions;
 using URAL.Application.IRepositories;
 using URAL.Domain.Entities;
 using URAL.Infrastructure.Context;
@@ -40,15 +40,14 @@ public class CarRepository : BaseRepository<Car>, ICarRepository
     {
         return _context.Cars.Where(car => car.Id == id).Include(x => x.BodyTypes).Include(x => x.LoadingTypes).FirstOrDefault();
     }
-
-    public IQueryable<Car> GetByFilters(IExpressionFilter<Car> filter)
-    {
-        var filteringExpression = filter.GetFilteringExpression();
-        return _context.Cars.Where(filteringExpression).Include(x => x.BodyTypes).Include(x => x.LoadingTypes);
-    }
     
     public override IQueryable<Car> GetAll()
     {
         return _context.Set<Car>().Include(x => x.BodyTypes).Include(x => x.LoadingTypes);
+    }
+
+    public IQueryable<Car> GetByFilters(Expression<Func<Car, bool>> filteringExpression)
+    {
+        return _context.Cars.Where(filteringExpression).Include(x => x.BodyTypes).Include(x => x.LoadingTypes);
     }
 }

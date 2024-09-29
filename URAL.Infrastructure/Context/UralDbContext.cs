@@ -6,16 +6,24 @@ using URAL.Infrastructure.Configurations;
 
 namespace URAL.Infrastructure.Context;
 
-public class UralDbContext(DbContextOptions<UralDbContext> options) : IdentityDbContext<User>(options)
+public class UralDbContext : IdentityDbContext<User>
 {
-    public DbSet<BodyType> BodyTypes { get; set; }
-    public DbSet<Car> Cars { get; set; }
-    public DbSet<Cargo> Cargo { get; set; }
-    public DbSet<LoadingType> LoadingTypes { get; set; }
-    public DbSet<NotifyCar> NotifyCars { get; set; }
-    public DbSet<NotifyCargo> NotifyCargo { get; set; }
-    public DbSet<Chat>Chats { get; set; }
-    public DbSet<Message>Messages { get; set; }
+    public virtual DbSet<BodyType> BodyTypes { get; set; }
+    public virtual DbSet<Car> Cars { get; set; }
+    public virtual DbSet<Cargo> Cargo { get; set; }
+    public virtual DbSet<LoadingType> LoadingTypes { get; set; }
+    public virtual DbSet<NotifyCar> NotifyCars { get; set; }
+    public virtual DbSet<NotifyCargo> NotifyCargo { get; set; }
+    public virtual DbSet<Chat>Chats { get; set; }
+    public virtual DbSet<Message>Messages { get; set; }
+
+    public UralDbContext()
+    {
+    }
+
+    public UralDbContext(DbContextOptions<UralDbContext> options) : base(options)
+    {
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

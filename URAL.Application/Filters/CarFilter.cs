@@ -1,38 +1,25 @@
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Metadata;
+using URAL.Application.FiltersParameters;
 using URAL.Domain.Entities;
 
 namespace URAL.Application.Filters;
 
-public class CarFilter : LogisticFilter<Car>
+public class CarFilter : BaseFilter<Car, CarFilterParameter>
 {
-    public double? Capacity { get; set; }
-    public string? WhereFrom { get; set; } 
-    public string? WhereTo { get; set; }
-    public DateOnly? ReadyFrom { get; set; }
-    public DateOnly? ReadyTo { get; set; }
-    public List<string>? BodyTypes { get; set; } = new();
-    public List<string>? LoadingTypes { get; set; } = new();
-
-    private static readonly PropertyInfo[] properties = typeof(CarFilter).GetProperties();
     private static readonly MethodInfo selectInfo = typeof(Enumerable).GetMethods().FirstOrDefault(x => x.Name == "Select");
     private static readonly MethodInfo exceptInfo = typeof(Enumerable).GetMethods().FirstOrDefault(x => x.Name == "Except").MakeGenericMethod(typeof(string));
     private static readonly MethodInfo anyInfo = typeof(Enumerable).GetMethods().FirstOrDefault(x => x.Name == "Any").MakeGenericMethod(typeof(string));
 
-    public override Expression<Func<Car, bool>> GetFilteringExpression()
-    {
-        return ApplyAllFiltering(properties);
-    }
-
-    protected override Expression? ApplyContainsFiltering(PropertyInfo[] properties)
+    protected override Expression? ApplyContainsFiltering(PropertyInfo[] properties, CarFilterParameter filterParameter)
     {
         Expression body = null;
 
         foreach (var property in properties)
         {
             var member = Expression.Property(param, property.Name);
-            var constant = Expression.Constant(property.GetValue(this));
+            var constant = Expression.Constant(property.GetValue(filterParameter));
 
             var zeroCheck = Expression.Equal(Expression.Property(constant, "Count"), Expression.Constant(0));
 
