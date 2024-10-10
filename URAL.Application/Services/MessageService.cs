@@ -23,6 +23,7 @@ public class MessageService(IMapper mapper, IMessageRepository repository, IHash
             Content = hasher.Decode(x.Content),
             SentAt = x.SentAt
         });
+        
         var messages = PaginatedList<MessageToGet>.Create(result, pageNumber, PageSize);
         return await messages;
     }
