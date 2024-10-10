@@ -28,17 +28,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\CarRepository\" />
-    <Folder Include="Repositories\ChatRepository\" />
-    <Folder Include="Repositories\LoadingTypeRepository\" />
-    <Folder Include="Repositories\MessageRepository\" />
-    <Folder Include="Repositories\NotificationsRepository\" />
-    <Folder Include="Repositories\NotifyCarRepository\" />
-    <Folder Include="Repositories\NotifyCargoRepository\" />
+    <ProjectReference Include="..\URAL\URAL.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\URAL\URAL.csproj" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
