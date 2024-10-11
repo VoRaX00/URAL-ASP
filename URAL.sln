@@ -13,9 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "URAL.Application", "URAL.Ap
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{1F258F3E-F561-40E8-A049-7FC732C9BE90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "URAL.UnitTests", "URAL.UnitTests\URAL.UnitTests.csproj", "{9F15560D-4003-4AC0-A405-4C4D82121A88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "URAL.UnitTests", "URAL.UnitTests\URAL.UnitTests.csproj", "{9F15560D-4003-4AC0-A405-4C4D82121A88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "URAL.IntegratedTests", "URAL.IntegratedTests\URAL.IntegratedTests.csproj", "{7006AA12-5111-4D9E-818E-65C19A8F869E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "URAL.IntegratedTests", "URAL.IntegratedTests\URAL.IntegratedTests.csproj", "{7006AA12-5111-4D9E-818E-65C19A8F869E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "URAL.FunctionalTests", "URAL.FunctionalTests\URAL.FunctionalTests.csproj", "{FF6FC57F-2708-47AD-8EDE-6A19ACD72A9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ural.TestHelpers", "Ural.TestHelpers\Ural.TestHelpers.csproj", "{363B99E8-A2AC-43D6-A74C-557A4FE9B6F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +51,14 @@ Global
 		{7006AA12-5111-4D9E-818E-65C19A8F869E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7006AA12-5111-4D9E-818E-65C19A8F869E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7006AA12-5111-4D9E-818E-65C19A8F869E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF6FC57F-2708-47AD-8EDE-6A19ACD72A9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF6FC57F-2708-47AD-8EDE-6A19ACD72A9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF6FC57F-2708-47AD-8EDE-6A19ACD72A9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF6FC57F-2708-47AD-8EDE-6A19ACD72A9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{363B99E8-A2AC-43D6-A74C-557A4FE9B6F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{363B99E8-A2AC-43D6-A74C-557A4FE9B6F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{363B99E8-A2AC-43D6-A74C-557A4FE9B6F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{363B99E8-A2AC-43D6-A74C-557A4FE9B6F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,6 +66,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{9F15560D-4003-4AC0-A405-4C4D82121A88} = {1F258F3E-F561-40E8-A049-7FC732C9BE90}
 		{7006AA12-5111-4D9E-818E-65C19A8F869E} = {1F258F3E-F561-40E8-A049-7FC732C9BE90}
+		{FF6FC57F-2708-47AD-8EDE-6A19ACD72A9B} = {1F258F3E-F561-40E8-A049-7FC732C9BE90}
+		{363B99E8-A2AC-43D6-A74C-557A4FE9B6F4} = {1F258F3E-F561-40E8-A049-7FC732C9BE90}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1D0F0D1A-7C57-47E8-90DA-6D4122913AB6}
