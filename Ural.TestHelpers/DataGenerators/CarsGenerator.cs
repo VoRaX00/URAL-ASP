@@ -6,9 +6,10 @@ namespace Ural.TestHelpers.DataGenerators;
 public class CarsGenerator : IDataGenerator<Car>
 {
     private readonly int count;
+    private readonly int seed;
     private readonly Faker<Car> carFaker;
 
-    public CarsGenerator(int count, List<Guid> userGuids)
+    public CarsGenerator(int count, List<Guid> userGuids, int seed)
     {
         this.count = count;
 
@@ -31,8 +32,27 @@ public class CarsGenerator : IDataGenerator<Car>
             });
     }
 
-    public List<Car> Generate()
+    public List<Car> Generate(Dictionary<string, List<object>>? relationsShipObjects)
     {
-        return carFaker.Generate(count);
+        var result = carFaker.Generate(count);
+        var random = new Random(seed);
+
+        if (relationsShipObjects.ContainsKey("bodyTypes"))
+        {
+            var objects = relationsShipObjects["bodyTypes"].Cast<BodyType>().ToArray();
+
+            foreach (var car in result)
+                car.BodyTypes = random.GetItems(objects, random.Next(1, objects.Length)).ToList();
+        }
+
+        if (relationsShipObjects.ContainsKey("loadingTypes"))
+        {
+            var objects = relationsShipObjects["loadingTypes"].Cast<LoadingType>().ToArray();
+
+            foreach (var car in result)
+                car.LoadingTypes = random.GetItems(objects, random.Next(1, objects.Length)).ToList();
+        }
+
+        return result;
     }
 }

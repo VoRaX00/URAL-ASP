@@ -9,7 +9,7 @@ public class NotifyCarsGenerator : BaseNotifyGenerator<NotifyCar>
         notifyFaker.RuleFor(nc => nc.CarId, f => f.Random.Int(1, carCount));
     }
 
-    public override List<NotifyCar> Generate()
+    public override List<NotifyCar> Generate(Dictionary<string, List<object>>? relationsShipObjects)
     {
         return notifyFaker.Generate(count);
     }

@@ -9,7 +9,7 @@ public class NotifyCargoGenerator : BaseNotifyGenerator<NotifyCargo>
         notifyFaker.RuleFor(nc => nc.CargoId, f => f.Random.Long(1, cargoCount));
     }
 
-    public override List<NotifyCargo> Generate()
+    public override List<NotifyCargo> Generate(Dictionary<string, List<object>>? relationsShipObjects)
     {
         return notifyFaker.Generate(count);
     }

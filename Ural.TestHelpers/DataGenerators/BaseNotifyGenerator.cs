@@ -10,10 +10,10 @@ public abstract class BaseNotifyGenerator<TNotify> : IDataGenerator<TNotify> whe
     protected readonly Faker<TNotify> notifyFaker;
     protected readonly int count;
 
-    public BaseNotifyGenerator(int count, List<Guid> userGuid)
+    public BaseNotifyGenerator(int count, List<Guid> userGuids)
     {
         this.count = count;
-        this.userGuid = userGuid;
+        this.userGuid = userGuids;
         
         var userStatus = new[] { UserStatus.Yes, UserStatus.No, UserStatus.Unknown };
 
@@ -24,10 +24,12 @@ public abstract class BaseNotifyGenerator<TNotify> : IDataGenerator<TNotify> whe
                 n.SecondUserStatus = f.PickRandom(userStatus);
                 n.FirstUserComment = string.Join(' ', f.Random.WordsArray(0, 20));
                 n.SecondUserComment = string.Join(' ', f.Random.WordsArray(0, 20));
-                n.FirstUserId = f.PickRandom(userGuid).ToString();
-                n.SecondUserId = f.PickRandom(userGuid).ToString();
+
+                var firstUserGuid = f.PickRandom(userGuids);
+                n.FirstUserId = firstUserGuid.ToString();
+                n.SecondUserId = f.PickRandom(userGuids.Where(x => x != firstUserGuid).ToString());
             });
     }
 
-    public abstract List<TNotify> Generate();
+    public abstract List<TNotify> Generate(Dictionary<string, List<object>>? relationsShipObjects);
 }

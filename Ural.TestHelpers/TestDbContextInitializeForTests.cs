@@ -31,7 +31,7 @@ public static class TestDbContextInitializeForTests
         bodyTypesGenerator = new BodyTypesGenerator();
         loadingTypesGenerator = new LoadingTypesGenerator();
         cargoGenerator = new CargoGenerator(logisticObjectCount, guids);
-        carsGenerator = new CarsGenerator(logisticObjectCount, guids);
+        carsGenerator = new CarsGenerator(logisticObjectCount, guids, seed);
         notifyCargoGenerator = new NotifyCargoGenerator(logisticObjectCount, notifyObjectCount, guids);
         notifyCarsGenerator = new NotifyCarsGenerator(logisticObjectCount, notifyObjectCount, guids);
     }

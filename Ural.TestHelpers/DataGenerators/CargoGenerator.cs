@@ -51,7 +51,7 @@ public class CargoGenerator : IDataGenerator<Cargo>
             });
     }
 
-    public List<Cargo> Generate()
+    public List<Cargo> Generate(Dictionary<string, List<object>>? relationsShipObjects)
     {
         return cargoFaker.Generate(count);
     }

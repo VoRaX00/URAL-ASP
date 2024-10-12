@@ -25,7 +25,7 @@ public class UserGenerator : IDataGenerator<User>
             });
     }
 
-    public List<User> Generate()
+    public List<User> Generate(Dictionary<string, List<object>>? relationsShipObjects)
     {
         var guidsQueue = new Queue<Guid>(guids);
         var result = userFaker.Generate(guids.Count);
