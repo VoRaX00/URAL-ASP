@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using Org.BouncyCastle.Utilities;
 using URAL.Domain.Entities;
 
 namespace Ural.TestHelpers.DataGenerators;
@@ -9,7 +10,7 @@ public class CarsGenerator : IDataGenerator<Car>
     private readonly int seed;
     private readonly Faker<Car> carFaker;
 
-    public CarsGenerator(int count, List<Guid> userGuids, int seed)
+    public CarsGenerator(List<BodyType> bodyTypes, List<LoadingType> loadingTypes, int count, List<Guid> userGuids)
     {
         this.count = count;
 
@@ -29,30 +30,14 @@ public class CarsGenerator : IDataGenerator<Car>
                 c.Phone = ulong.Parse(f.Phone.PhoneNumber());
                 c.Comment = string.Join(' ', f.Random.WordsArray(0, 20));
                 c.UserId = f.PickRandom(userGuids).ToString();
+
+                c.BodyTypes = f.PickRandom(bodyTypes, f.Random.Int(1, bodyTypes.Count)).ToList();
+                c.LoadingTypes = f.PickRandom(loadingTypes, f.Random.Int(1, loadingTypes.Count)).ToList();
             });
     }
 
-    public List<Car> Generate(Dictionary<string, List<object>>? relationsShipObjects)
+    public List<Car> Generate()
     {
-        var result = carFaker.Generate(count);
-        var random = new Random(seed);
-
-        if (relationsShipObjects.ContainsKey("bodyTypes"))
-        {
-            var objects = relationsShipObjects["bodyTypes"].Cast<BodyType>().ToArray();
-
-            foreach (var car in result)
-                car.BodyTypes = random.GetItems(objects, random.Next(1, objects.Length)).ToList();
-        }
-
-        if (relationsShipObjects.ContainsKey("loadingTypes"))
-        {
-            var objects = relationsShipObjects["loadingTypes"].Cast<LoadingType>().ToArray();
-
-            foreach (var car in result)
-                car.LoadingTypes = random.GetItems(objects, random.Next(1, objects.Length)).ToList();
-        }
-
-        return result;
+        return carFaker.Generate(count);
     }
 }

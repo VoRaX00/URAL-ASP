@@ -26,10 +26,8 @@ public abstract class BaseNotifyGenerator<TNotify> : IDataGenerator<TNotify> whe
                 n.SecondUserComment = string.Join(' ', f.Random.WordsArray(0, 20));
 
                 var firstUserGuid = f.PickRandom(userGuids);
-                n.FirstUserId = firstUserGuid.ToString();
-                n.SecondUserId = f.PickRandom(userGuids.Where(x => x != firstUserGuid).ToString());
             });
     }
 
-    public abstract List<TNotify> Generate(Dictionary<string, List<object>>? relationsShipObjects);
+    public abstract List<TNotify> Generate();
 }

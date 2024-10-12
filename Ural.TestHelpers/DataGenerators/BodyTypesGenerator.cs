@@ -4,7 +4,7 @@ namespace Ural.TestHelpers.DataGenerators;
 
 public class BodyTypesGenerator : IDataGenerator<BodyType>
 {
-    public List<BodyType> Generate(Dictionary<string, List<object>>? relationsShipObjects)
+    public List<BodyType> Generate()
     {
         return
         [

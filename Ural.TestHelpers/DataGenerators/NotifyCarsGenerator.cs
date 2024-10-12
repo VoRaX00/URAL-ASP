@@ -4,12 +4,16 @@ namespace Ural.TestHelpers.DataGenerators;
 
 public class NotifyCarsGenerator : BaseNotifyGenerator<NotifyCar>
 {
-    public NotifyCarsGenerator(int carCount, int count, List<Guid> userGuid) : base(count, userGuid)
+    public NotifyCarsGenerator(List<Car> cars, int count, List<Guid> userGuids) : base(count, userGuids)
     {
-        notifyFaker.RuleFor(nc => nc.CarId, f => f.Random.Int(1, carCount));
+        var carsCount = cars.Count;
+        notifyFaker
+            .RuleFor(nc => nc.CarId, f => f.Random.Int(1, carsCount))
+            .RuleFor(nc => nc.SecondUserId, (f, nc) => cars[(int)nc.CarId - 1].UserId)
+            .RuleFor(nc => nc.FirstUserId, (f, nc) => f.PickRandom(cars.Where(x => x.UserId != nc.SecondUserId).Select(x => x.UserId)));
     }
 
-    public override List<NotifyCar> Generate(Dictionary<string, List<object>>? relationsShipObjects)
+    public override List<NotifyCar> Generate()
     {
         return notifyFaker.Generate(count);
     }

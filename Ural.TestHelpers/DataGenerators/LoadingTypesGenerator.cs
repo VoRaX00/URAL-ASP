@@ -4,7 +4,7 @@ namespace Ural.TestHelpers.DataGenerators;
 
 public class LoadingTypesGenerator : IDataGenerator<LoadingType>
 {
-    public List<LoadingType> Generate(Dictionary<string, List<object>>? relationsShipObjects)
+    public List<LoadingType> Generate()
     {
         return
         [

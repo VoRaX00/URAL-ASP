@@ -9,31 +9,16 @@ public static class TestDbContextInitializeForTests
 {
     private readonly static int seed = 44323232;
 
-    private readonly static int userCount = 5;
-    private readonly static int logisticObjectCount = 10;
-    private readonly static int notifyObjectCount = 20;
+    private readonly static int userCount = 4;
+    private readonly static int logisticObjectCount = 8;
+    private readonly static int notifyObjectCount = 12;
 
     private readonly static List<Guid> guids;
-
-    private readonly static IDataGenerator<BodyType> bodyTypesGenerator;
-    private readonly static IDataGenerator<LoadingType> loadingTypesGenerator;
-    private readonly static IDataGenerator<Cargo> cargoGenerator;
-    private readonly static IDataGenerator<Car> carsGenerator;
-    private readonly static IDataGenerator<NotifyCargo> notifyCargoGenerator;
-    private readonly static IDataGenerator<NotifyCar> notifyCarsGenerator;
-    private readonly static IDataGenerator<User> usersGenerator;
 
     static TestDbContextInitializeForTests()
     {
         Randomizer.Seed = new Random(seed);
         guids = GetGuids(userCount);
-
-        bodyTypesGenerator = new BodyTypesGenerator();
-        loadingTypesGenerator = new LoadingTypesGenerator();
-        cargoGenerator = new CargoGenerator(logisticObjectCount, guids);
-        carsGenerator = new CarsGenerator(logisticObjectCount, guids, seed);
-        notifyCargoGenerator = new NotifyCargoGenerator(logisticObjectCount, notifyObjectCount, guids);
-        notifyCarsGenerator = new NotifyCarsGenerator(logisticObjectCount, notifyObjectCount, guids);
     }
 
     private static List<Guid> GetGuids(int count)
@@ -51,13 +36,28 @@ public static class TestDbContextInitializeForTests
     {
         Randomizer.Seed = new Random(seed);
 
-        db.BodyTypes.AddRange(GetSeedingBodyTypes());
-        db.LoadingTypes.AddRange(GetSeedingLoadingTypes());
-        db.Cargo.AddRange(GetSeedingCargo());
-        db.Cars.AddRange(GetSeedingCars());
-        db.NotifyCargo.AddRange(GetSeedingNotifyCargo());
-        db.NotifyCars.AddRange(GetSeedingNotifyCars());
-        db.Users.AddRange(GetSeedingUsers());
+        var bodyTypesGenerator = new BodyTypesGenerator();
+        var loadingTypesGenerator = new LoadingTypesGenerator();
+        var bodyTypes = bodyTypesGenerator.Generate();
+        var loadingTypes = loadingTypesGenerator.Generate();
+
+        var cargoGenerator = new CargoGenerator(logisticObjectCount, guids);
+        var carsGenerator = new CarsGenerator(bodyTypes, loadingTypes, logisticObjectCount, guids);
+        var cars = carsGenerator.Generate();
+        var cargos = cargoGenerator.Generate();
+
+        var notifyCargoGenerator = new NotifyCargoGenerator(cargos, notifyObjectCount, guids);
+        var notifyCarsGenerator = new NotifyCarsGenerator(cars, notifyObjectCount, guids);
+        var usersGenerator = new UserGenerator(guids);
+
+        db.Users.AddRange(usersGenerator.Generate());
+        db.BodyTypes.AddRange(bodyTypes);
+        db.LoadingTypes.AddRange(loadingTypes);
+        db.Cargo.AddRange(cargos);
+        db.Cars.AddRange(cars);
+        db.NotifyCargo.AddRange(notifyCargoGenerator.Generate());
+        db.NotifyCars.AddRange(notifyCarsGenerator.Generate());
+        
 
         db.SaveChanges();
     }
@@ -73,40 +73,5 @@ public static class TestDbContextInitializeForTests
         db.Users.RemoveRange(db.Users);
 
         InitializeDbForTests(db);
-    }
-
-    private static List<BodyType> GetSeedingBodyTypes()
-    {
-        return bodyTypesGenerator.Generate();
-    }
-
-    private static List<LoadingType> GetSeedingLoadingTypes()
-    {
-        return loadingTypesGenerator.Generate();
-    }
-
-    private static List<Cargo> GetSeedingCargo()
-    {
-        return cargoGenerator.Generate();
-    }
-
-    private static List<Car> GetSeedingCars()
-    {
-        return carsGenerator.Generate();
-    }
-
-    private static List<NotifyCargo> GetSeedingNotifyCargo()
-    {
-        return notifyCargoGenerator.Generate();
-    }
-
-    private static List<NotifyCar> GetSeedingNotifyCars()
-    {
-        return notifyCarsGenerator.Generate();
-    }
-
-    private static List<User> GetSeedingUsers()
-    {
-        return usersGenerator.Generate();
     }
 }
