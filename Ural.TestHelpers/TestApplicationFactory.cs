@@ -17,7 +17,14 @@ public class TestApplicationFactory : WebApplicationFactory<IChatClient>
 
         builder.ConfigureServices(services =>
         {
-            var descriptors = services.Where(d => d.ServiceType == typeof(UralDbContext)).ToList();
+            //var descriptors = services.Where(d => d.ServiceType == typeof(UralDbContext)).ToList();
+
+            //foreach (var descriptor in descriptors)
+            //{
+            //    services.Remove(descriptor);
+            //};
+
+            var descriptors = services.Where(d => d.ServiceType == typeof(DbContextOptions<UralDbContext>)).ToList();
 
             foreach (var descriptor in descriptors)
             {

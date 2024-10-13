@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BodyTypeControllerTests\" />
     <Folder Include="CarControllerTests\" />
     <Folder Include="CargoControllerTests\" />
     <Folder Include="ChatControllerTests\" />
