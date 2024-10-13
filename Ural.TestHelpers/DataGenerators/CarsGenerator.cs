@@ -27,7 +27,7 @@ public class CarsGenerator : IDataGenerator<Car>
                 c.WhereTo = f.Address.FullAddress();
                 c.ReadyFrom = f.Date.BetweenDateOnly(new DateOnly(2020, 1, 1), new DateOnly(2025, 12, 31));
                 c.ReadyTo = f.Date.SoonDateOnly(20, c.ReadyFrom);
-                c.Phone = ulong.Parse(f.Phone.PhoneNumber());
+                c.Phone = ulong.Parse(f.Phone.PhoneNumber("8##########"));
                 c.Comment = string.Join(' ', f.Random.WordsArray(0, 20));
                 c.UserId = f.PickRandom(userGuids).ToString();
 

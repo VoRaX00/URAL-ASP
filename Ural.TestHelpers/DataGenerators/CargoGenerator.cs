@@ -35,7 +35,7 @@ public class CargoGenerator : IDataGenerator<Cargo>
                 c.CountPlace = f.Random.Double(1, 10);
                 c.LoadingDate = f.Date.BetweenDateOnly(new DateOnly(2020, 1, 1), new DateOnly(2025, 12, 31));
                 c.UnloadingDate = f.Date.SoonDateOnly(30, c.LoadingDate);
-                c.Phone = ulong.Parse(f.Phone.PhoneNumber());
+                c.Phone = ulong.Parse(f.Phone.PhoneNumber("8##########"));
                 c.LoadingPlace = f.Address.FullAddress();
                 c.UnloadingPlace = f.Address.FullAddress();
                 c.Cash = f.Random.Bool();

@@ -32,7 +32,7 @@ public static class TestDbContextInitializeForTests
         return result;
     }
 
-    public static void InitializeDbForTests(UralDbContext db)
+    public static void InitializeDbForTests(this UralDbContext db)
     {
         Randomizer.Seed = new Random(seed);
 
@@ -62,7 +62,7 @@ public static class TestDbContextInitializeForTests
         db.SaveChanges();
     }
 
-    public static void ReinitializeDbForTests(UralDbContext db)
+    public static void ReinitializeDbForTests(this UralDbContext db)
     {
         db.BodyTypes.RemoveRange(db.BodyTypes);
         db.LoadingTypes.RemoveRange(db.LoadingTypes);
