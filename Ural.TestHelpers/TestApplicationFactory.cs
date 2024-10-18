@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Data.Common;
 using URAL.Hubs;
 using URAL.Infrastructure.Context;
 
@@ -17,28 +19,28 @@ public class TestApplicationFactory : WebApplicationFactory<IChatClient>
 
         builder.ConfigureServices(services =>
         {
-            //var descriptors = services.Where(d => d.ServiceType == typeof(UralDbContext)).ToList();
+            var descriptors = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<UralDbContext>));
+            services.Remove(descriptors);
 
-            //foreach (var descriptor in descriptors)
-            //{
-            //    services.Remove(descriptor);
-            //};
+            var dbConnection = services.SingleOrDefault(d => d.ServiceType == typeof(DbConnection));
+            services.Remove(dbConnection);
 
-            var descriptors = services.Where(d => d.ServiceType == typeof(DbContextOptions<UralDbContext>)).ToList();
-
-            foreach (var descriptor in descriptors)
+            services.AddSingleton<DbConnection>(container =>
             {
-                services.Remove(descriptor);
-            };
+                var connection = new SqliteConnection("DataSource=:memory:");
+                connection.Open();
 
-            services.AddScoped(sp =>
+                return connection;
+            });
+
+            services.AddDbContext<UralDbContext>((container, options) =>
             {
-                return new DbContextOptionsBuilder<UralDbContext>()
-                    .UseInMemoryDatabase("UralDbContextForTesting")
-                    .UseApplicationServiceProvider(sp)
-                    .Options;
+                var connection = container.GetRequiredService<DbConnection>();
+                options.UseSqlite(connection);
             });
         });
+
+        builder.UseEnvironment(environment);
 
         return base.CreateHost(builder);
     }

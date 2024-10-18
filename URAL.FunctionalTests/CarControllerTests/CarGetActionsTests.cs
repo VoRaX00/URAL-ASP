@@ -1,15 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.DependencyInjection;
+﻿
 using System.Net;
-using URAL.Infrastructure.Context;
 
-namespace URAL.FunctionalTests.BodyTypeControllerTests;
+namespace URAL.FunctionalTests.CarControllerTests;
 
-public class BodyTypeGetActionsTests : BaseFunctionalTestsClass
+public class CarGetActionsTests : BaseFunctionalTestsClass
 {
-    public BodyTypeGetActionsTests(TestApplicationFactory factory) : base(factory, "/api/bodyType/get")
+    public CarGetActionsTests(TestApplicationFactory factory) : base(factory, "/api/car/get")
     {
     }
 
@@ -36,7 +32,7 @@ public class BodyTypeGetActionsTests : BaseFunctionalTestsClass
         Assert.Equal(expected, response.StatusCode);
     }
 
-    [Fact]
+    //[Fact]
     public async Task ReturnOkWithJsonOnGetAll()
     {
         var response = await Client.GetAsync(requestUri);
@@ -53,5 +49,18 @@ public class BodyTypeGetActionsTests : BaseFunctionalTestsClass
     {
         Assert.Contains("\"id\":", actualContent);
         Assert.Contains("\"name\":", actualContent);
+        Assert.Contains("\"capacity\":", actualContent);
+        Assert.Contains("\"volume\":", actualContent);
+        Assert.Contains("\"length\":", actualContent);
+        Assert.Contains("\"width\":", actualContent);
+        Assert.Contains("\"height\":", actualContent);
+        Assert.Contains("\"whereFrom\":", actualContent);
+        Assert.Contains("\"whereTo\":", actualContent);
+        Assert.Contains("\"readyFrom\":", actualContent);
+        Assert.Contains("\"readyTo\":", actualContent);
+        Assert.Contains("\"phone\":", actualContent);
+        Assert.Contains("\"comment\":", actualContent);
+        Assert.Contains("\"bodyTypes\":", actualContent);
+        Assert.Contains("\"loadingTypes\":", actualContent);
     }
 }

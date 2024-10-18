@@ -60,17 +60,20 @@ public static class TestDbContextInitializeForTests
         
 
         db.SaveChanges();
+
+        var bodyTypesSet = db.BodyTypes;
+        var loadingTypesSet = db.LoadingTypes;
+        var cargosSet = db.Cargo;
+        var carsSet = db.Cars;
+        var notifyCargoSet = db.NotifyCargo;
+        var notifyCarsSet = db.NotifyCars;
+        var usersSet = db.Users;
     }
 
     public static void ReinitializeDbForTests(this UralDbContext db)
     {
-        db.BodyTypes.RemoveRange(db.BodyTypes);
-        db.LoadingTypes.RemoveRange(db.LoadingTypes);
-        db.Cargo.RemoveRange(db.Cargo);
-        db.Cars.RemoveRange(db.Cars);
-        db.NotifyCargo.RemoveRange(db.NotifyCargo);
-        db.NotifyCars.RemoveRange(db.NotifyCars);
-        db.Users.RemoveRange(db.Users);
+        db.Database.EnsureDeleted();
+        db.Database.EnsureCreated();
 
         InitializeDbForTests(db);
     }
