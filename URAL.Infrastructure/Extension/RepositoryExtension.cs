@@ -16,6 +16,7 @@ public static class RepositoryExtension
         services.AddScoped<INotifyCargoRepository, NotifyCargoRepository>();
         services.AddScoped<IChatRepository, ChatRepository>();
         services.AddScoped<IMessageRepository, MessageRepository>();
+        services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         return services;
     }
 }
