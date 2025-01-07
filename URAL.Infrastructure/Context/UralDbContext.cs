@@ -16,6 +16,7 @@ public class UralDbContext : IdentityDbContext<User>
     public virtual DbSet<NotifyCargo> NotifyCargo { get; set; }
     public virtual DbSet<Chat>Chats { get; set; }
     public virtual DbSet<Message>Messages { get; set; }
+    public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 
     public UralDbContext()
     {
@@ -42,5 +43,6 @@ public class UralDbContext : IdentityDbContext<User>
         modelBuilder.ApplyConfiguration(new NotifyCargoConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new ChatConfiguration());
+        modelBuilder.ApplyConfiguration(new RefreshTokenConfiguration());
     }
 }
