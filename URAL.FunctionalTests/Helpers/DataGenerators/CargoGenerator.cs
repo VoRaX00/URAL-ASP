@@ -1,7 +1,7 @@
 ﻿using Bogus;
 using URAL.Domain.Entities;
 
-namespace Ural.TestHelpers.DataGenerators;
+namespace URAL.FunctionalTests.Helpers.DataGenerators;
 
 public class CargoGenerator : IDataGenerator<Cargo>
 {

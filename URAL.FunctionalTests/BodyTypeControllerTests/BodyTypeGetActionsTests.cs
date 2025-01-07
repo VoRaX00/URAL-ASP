@@ -1,18 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.DependencyInjection;
-using System.Net;
-using URAL.Infrastructure.Context;
+﻿using System.Net;
+using URAL.FunctionalTests.Helpers;
 
 namespace URAL.FunctionalTests.BodyTypeControllerTests;
 
-public class BodyTypeGetActionsTests : BaseFunctionalTestsClass
+public class BodyTypeGetActionsTests(TestApplicationFactory factory)
+    : BaseFunctionalTestsClass(factory, "/api/bodyType/get")
 {
-    public BodyTypeGetActionsTests(TestApplicationFactory factory) : base(factory, "/api/bodyType/get")
-    {
-    }
-
     [Fact]
     public async Task ReturnOkWithJsonOnGetWithCorrectId()
     {

@@ -1,13 +1,11 @@
 ﻿using Bogus;
-using Org.BouncyCastle.Utilities;
 using URAL.Domain.Entities;
 
-namespace Ural.TestHelpers.DataGenerators;
+namespace URAL.FunctionalTests.Helpers.DataGenerators;
 
 public class CarsGenerator : IDataGenerator<Car>
 {
     private readonly int count;
-    private readonly int seed;
     private readonly Faker<Car> carFaker;
 
     public CarsGenerator(List<BodyType> bodyTypes, List<LoadingType> loadingTypes, int count, List<Guid> userGuids)

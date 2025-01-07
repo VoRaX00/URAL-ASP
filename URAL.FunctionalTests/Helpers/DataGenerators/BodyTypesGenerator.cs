@@ -1,6 +1,6 @@
 ﻿using URAL.Domain.Entities;
 
-namespace Ural.TestHelpers.DataGenerators;
+namespace URAL.FunctionalTests.Helpers.DataGenerators;
 
 public class BodyTypesGenerator : IDataGenerator<BodyType>
 {

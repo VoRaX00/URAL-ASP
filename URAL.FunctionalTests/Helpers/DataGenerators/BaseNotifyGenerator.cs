@@ -2,19 +2,17 @@
 using URAL.Domain.Common;
 using URAL.Domain.Enums;
 
-namespace Ural.TestHelpers.DataGenerators;
+namespace URAL.FunctionalTests.Helpers.DataGenerators;
 
-public abstract class BaseNotifyGenerator<TNotify> : IDataGenerator<TNotify> where TNotify : NotifyEntity 
+public abstract class BaseNotifyGenerator<TNotify> : IDataGenerator<TNotify> where TNotify : NotifyEntity
 {
-    private readonly List<Guid> userGuid;
     protected readonly Faker<TNotify> notifyFaker;
     protected readonly int count;
 
-    public BaseNotifyGenerator(int count, List<Guid> userGuids)
+    protected BaseNotifyGenerator(int count)
     {
         this.count = count;
-        this.userGuid = userGuids;
-        
+
         var userStatus = new[] { UserStatus.Yes, UserStatus.No, UserStatus.Unknown };
 
         notifyFaker = new Faker<TNotify>()
@@ -24,8 +22,6 @@ public abstract class BaseNotifyGenerator<TNotify> : IDataGenerator<TNotify> whe
                 n.SecondUserStatus = f.PickRandom(userStatus);
                 n.FirstUserComment = string.Join(' ', f.Random.WordsArray(0, 20));
                 n.SecondUserComment = string.Join(' ', f.Random.WordsArray(0, 20));
-
-                var firstUserGuid = f.PickRandom(userGuids);
             });
     }
 

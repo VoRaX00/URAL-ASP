@@ -1,4 +1,4 @@
-﻿namespace Ural.TestHelpers.DataGenerators;
+﻿namespace URAL.FunctionalTests.Helpers.DataGenerators;
 
 public interface IDataGenerator<T>
 {

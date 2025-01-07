@@ -1,7 +1,7 @@
 ﻿using Bogus;
 using URAL.Domain.Entities;
 
-namespace Ural.TestHelpers.DataGenerators;
+namespace URAL.FunctionalTests.Helpers.DataGenerators;
 
 public class UserGenerator : IDataGenerator<User>
 {
@@ -18,7 +18,7 @@ public class UserGenerator : IDataGenerator<User>
                 u.UserName = f.Person.FullName;
                 u.AboutMe = string.Join(' ', f.Random.WordsArray(0, 20));
                 u.IsStaff = f.Random.Bool();
-                u.DateJoined = f.Date.Between(new DateTime(2020, 1, 1), new DateTime(2024, 12, 31));
+                u.DateJoined = f.Date.Between(new DateTime(2020, 1, 1), new DateTime(2024, 12, 31)).ToUniversalTime();
                 u.Email = f.Internet.Email(u.UserName);
                 u.PasswordHash = f.Internet.Password();
                 u.PhoneNumber = f.Person.Phone;

@@ -1,5 +1,5 @@
-﻿
-using System.Net;
+﻿using System.Net;
+using URAL.FunctionalTests.Helpers;
 
 namespace URAL.FunctionalTests.CarControllerTests;
 
