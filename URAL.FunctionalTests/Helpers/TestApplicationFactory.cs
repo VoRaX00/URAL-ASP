@@ -13,7 +13,7 @@ namespace URAL.FunctionalTests.Helpers;
 // ReSharper disable once ClassNeverInstantiated.Global
 public class TestApplicationFactory : WebApplicationFactory<IChatClient>
 {
-    private readonly string environment = "Development";
+    private const string Environment = "Development";
     private static readonly IConfiguration Configuration = new ConfigurationBuilder()
         .AddJsonFile("test_settings.json")
         .Build();
@@ -29,7 +29,7 @@ public class TestApplicationFactory : WebApplicationFactory<IChatClient>
             services.AddDbContext<UralDbContext>(options => options.UseNpgsql(ConnectionString));
         });
 
-        builder.UseEnvironment(environment);
+        builder.UseEnvironment(Environment);
     }
 
     protected override IHost CreateHost(IHostBuilder builder)
